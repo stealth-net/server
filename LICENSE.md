@@ -1,4 +1,5 @@
-MIT License with Additional Terms
+<!-- MIT License with Additional Terms -->
+MIT License
 
 The MIT License (MIT)
 
@@ -22,7 +23,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-Additional Terms:
+<!-- Additional Terms:
 
 1. The above copyright notice and this permission notice shall be included in all
    copies or substantial portions of the Software.
@@ -31,4 +32,4 @@ Additional Terms:
    the author's permission.
 
 3. Any modifications or derivatives of the software may only be distributed with
-   the explicit consent of the author.
+   the explicit consent of the author. -->
