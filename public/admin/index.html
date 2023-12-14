@@ -1,0 +1,63 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="description" content="StealthNet is the ultimate messenger application designed to safeguard your privacy and security. Unlike other messaging apps, StealthNet is entirely free from invasive tracking and telemetry, ensuring that your conversations remain confidential and your data is not harvested for any purpose.">
+    <meta name="keywords" content="stealthnet, anonymous, social network, messenger">
+    <meta property="og:image" content="/images/logo_transparent.png">
+    <link href="/admin/css/main.css" rel="stylesheet">
+    <link rel="icon" href="/mainpage/favicon.png" type="image/png">
+    <title>StealthNet Admin portal</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+</head>
+
+<body>
+    <div class="sidemenu">
+        <div class="centered">
+            <label style="color: #9EA4D6; font-size: 32px;">StealthNet</label>
+            <label style="color: #9EA4D6; font-size: 20px; margin-left: 8%;">Admin portal</label>
+        </div>
+        <div tab="dashboard" class="lside-button" state="active"><label>Dashboard</button></div>
+        <div tab="usermanagement" class="lside-button"><label>User Management</button></div>
+        <div tab="messagemanagement" class="lside-button"><label>Message Management</button></div>
+        <div tab="servermanagement" class="lside-button"><label>Server Management</button></div>
+        <div tab="systemlogs" class="lside-button"><label>System Logs</button></div>
+    </div>
+    <div id="menu-mid" style="overflow: hidden">
+        <div class="midtab-dashboard">
+            <div class="centered">
+                <label>Dashboard</label>
+            </div>
+            <hr>
+            <div class="chartlist">
+                <div name="Messages" apiname="messages"></div>
+                <div name="API Usage" apiname="apiusage"></div>
+                <div name="Popularity" apiname="popularity"></div>
+            </div>
+            <div class="centered">
+                <label>System Usage</label>
+            </div>
+            <hr>
+            <div class="chartlist">
+                <div name="RAM"></div>
+                <div name="Hardware"></div>
+                <div name="CPU"></div>
+            </div>
+        </div>
+        <div class="midtab-usermanagement" hidden></div>
+        <div class="midtab-messagemanagement" hidden></div>
+        <div class="midtab-servermanagement" hidden></div>
+        <div class="midtab-systemlogs" hidden>
+            <textarea style="margin-bottom: 5px; width: 100%; height: calc(100% - 45px); cursor: default;"></textarea>
+            <input style="width: 95%; border-radius: 0px;" placeholder="Enter command"></input>
+            <button style="width: 4.7%; /* lol */">Send</button>
+        </div>
+    </div>
+</body>
+
+<script src="/admin/js/frontend.js"></script>
+<script src="/mainpage/js/frontend-shared.js"></script>
+<script src="/admin/js/getDashboard.js"></script>
+
+</html>

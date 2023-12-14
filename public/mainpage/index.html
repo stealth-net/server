@@ -1,0 +1,75 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="description" content="StealthNet is the ultimate messenger application designed to safeguard your privacy and security. Unlike other messaging apps, StealthNet is entirely free from invasive tracking and telemetry, ensuring that your conversations remain confidential and your data is not harvested for any purpose.">
+    <meta name="keywords" content="stealthnet, anonymous, social network, messenger">
+    <meta property="og:image" content="/images/logo_transparent.png">
+    <link href="/mainpage/css/main.css" rel="stylesheet">
+    <link rel="icon" href="/mainpage/favicon.png" type="image/png">
+    <title>StealthNet</title>
+</head>
+
+<body>
+    <div class="guildlist-cont">
+        <img class="guildlist-logo" src="/mainpage/images/logo_transparent.png">
+        <hr>
+        <div id="guild-list"></div>
+    </div>
+    <div class="sidemenu">
+        <div tab="home" class="lside-button" state="active"><label>Home</button></div>
+        <div tab="settings" class="lside-button"><label>Settings</button></div>
+        <div class="menu-separator">
+            <label>Direct Messages</label>
+        </div>
+        <div id="dm-list"></div>
+    </div>
+    <div id="menu-mid">
+        <div class="midtab-home">
+            <div class="mid-tablist">
+                <button class="mid-tabbutton" tab="friends" state="active">Friends</button>
+                <button class="mid-tabbutton" tab="pending">Pending requests</button>
+                <button class="mid-tabbutton" tab="servers">Servers</button>
+            </div>
+            <div class="midsubtab-friends">
+                <label>Online: 0</label>
+                <div id="friend-list"></div>
+            </div>
+            <div class="midsubtab-pending" hidden>
+                <div>
+                    <input id="friend-username" style="width: 91.5%; margin-bottom: 10px;" placeholder="Search"></input>
+                    <button id="friend-add" class="medium-size">Add</button>
+                    <div id="pending-list"></div>
+                </div>
+            </div>
+            <div class="midsubtab-servers" hidden>
+                <label>Servers</label>
+            </div>
+        </div>
+        <div class="midtab-settings" hidden></div>
+    </div>
+    <div id="side-profile" class="sidemenu" style="width: 350px;">
+        <div class="menu-separator">
+            <label>username</label>
+        </div>
+        <hr>
+        <div class="centered">
+            <img width="128" height="128"></img>
+            <br>
+            <label>StealthNet member since:</label>
+            <br>
+            <label>[0000-00-00] 00:00:00</label>
+            <hr>
+            <button
+                onclick="document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/'; location.reload();"
+                id="profile-logout" style="width: 80%;">Log Out</button>
+        </div>
+    </div>
+</body>
+
+<script src="/mainpage/js/getMe.js"></script>
+<script src="/mainpage/js/frontend.js"></script>
+<script src="/mainpage/js/frontend-shared.js"></script>
+
+</html>
