@@ -1,8 +1,8 @@
-# StealthNet server
+# StealthNet
 StealthNet is a secure chat application designed to safeguard your privacy and security. Unlike other messaging apps, StealthNet is entirely free from invasive tracking and telemetry, ensuring that your conversations remain confidential and your data is not harvested for any purpose.
 
 ## Tech Stack
-StealthNet is built using Node.js and Express.js for the backend, and vanilla JavaScript for the frontend. It uses cryptedjsondb for secure data storage.
+StealthNet is built using Node.js and Express.js for the backend, and vanilla JavaScript for the frontend. It uses [cryptedjsondb](https://www.npmjs.com/package/cryptedjsondb) for secure data storage.
 
 ## Codebase Overview
 The codebase is organized into several directories and files:
@@ -10,10 +10,9 @@ The codebase is organized into several directories and files:
 - [user-api](https://github.com/stealth-net/server/tree/main/user-api): Contains the routes and logic for user-related operations such as authentication, friend management, and messaging.
 - [utils](https://github.com/stealth-net/server/tree/main/utils): Contains utility functions for user and message management, analytics, and logging.
 - [public](https://github.com/stealth-net/server/tree/main/public): Contains the frontend code for the application, including HTML, CSS, and JavaScript files.
-- components: Contains the User and Message classes.
+- [components](https://github.com/stealth-net/server/tree/main/components): Contains essential classes that play a crucial role in the functionality of StealthNet. These classes are responsible for managing and organizing core elements of the application.
 
 ## Getting Started
-
 To run StealthNet locally, you need to have Node.js installed. Then, follow these steps:
 
 1. Clone the repository.
@@ -22,7 +21,6 @@ To run StealthNet locally, you need to have Node.js installed. Then, follow thes
 4. Run node server.js to start the server.
 
 ## Contributing
-
 Contributions are welcome! Please read the contributing guidelines before making any changes.
 
 ## Logo
