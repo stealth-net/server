@@ -13,4 +13,8 @@ function validate_directories() {
     });
 };
 
+if(stealth.databaseKey == '' || typeof stealth.databaseKey == "undefined") {
+    log("The database key was not found. Please ensure that the correct key is provided.", "WARN");
+};
+
 module.exports = validate_directories;
