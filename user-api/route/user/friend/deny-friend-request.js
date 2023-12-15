@@ -1,4 +1,4 @@
-const { user_search, queue_search, save } = require("../../../../utils/users.js");
+const { queue_search, save } = require("../../../../utils/users.js");
 
 module.exports = (req, res) => {
     if(!req.cookies.token) {
@@ -7,7 +7,7 @@ module.exports = (req, res) => {
     };
 
     const sender = queue_search(req.cookies.token, "token");
-    const targetUser = user_search(req.body.username);
+    const targetUser = user_search(req.body.username, "username");
 
     if(typeof targetUser == "undefined" || sender.id == targetUser.id) {
         res.sendStatus(400);

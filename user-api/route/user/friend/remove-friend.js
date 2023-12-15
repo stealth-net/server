@@ -1,4 +1,4 @@
-const { user_search, queue_search, save } = require("../../../../utils/users.js");
+const { queue_search, save } = require("../../../../utils/users.js");
 
 function post(req, res) {
     if(!req.cookies.token) {
@@ -7,7 +7,7 @@ function post(req, res) {
     };
 
     const sender = queue_search(req.cookies.token, "token");
-    const targetUser = user_search(req.body.username);
+    const targetUser = user_search(req.body.username, "username");
 
     if(!sender.friends.includes(targetUser.username)) {
         res.sendStatus(403);
