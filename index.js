@@ -19,8 +19,6 @@ const io = socketIO(server);
 
 const config = require("./config.json");
 
-require("./utils/file_validation.js")();
-
 global.stealth = {
     events: new EventEmitter(),
     app,
@@ -29,8 +27,11 @@ global.stealth = {
     config,
     id_manager: new (require("./utils/id_manager.js"))("./database/last_id.txt"),
     database: {},
-    databaseKey: process.env.databaseKey
+    databaseKey: process.env.databaseKey,
+    log
 };
+
+require("./utils/file_validation.js")();
 
 if(config.collectAnalytics) require("./utils/analytics.js");
 

@@ -1,10 +1,5 @@
 const chalk = require('chalk');
 
-const LEVELS = {
-    "INFO": "blue",
-    "WARN": "orange"
-};
-
 Date.prototype.today = function () { 
     return ((this.getDate() < 10)?"0":"") + this.getDate() +"-"+(((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) +"-"+ this.getFullYear();
 };
@@ -17,9 +12,7 @@ function log(...message) {
     message.pop();
     message = message.join(" ");
 
-    const color = LEVELS[type];
-
-    msg = chalk[color]('[' + new Date().timeNow() + ` ${type}]: `) + chalk.white(message);
+    msg = chalk.blue('[' + new Date().timeNow() + ` ${type}]: `) + chalk.white(message);
 
 	console.log(msg);
 };
