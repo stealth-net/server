@@ -6,6 +6,7 @@ const socketIO = require("socket.io");
 const { EventEmitter } = require("events");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+const CryptedJSONdb = require("cryptedjsondb");
 require('dotenv').config({ path: "./.env" });
 
 const log = require("./utils/log.js");
@@ -27,7 +28,13 @@ global.stealth = {
     io,
     config,
     id_manager: new (require("./utils/id_manager.js"))("./database/last_id.txt"),
-    database: {},
+    database: {
+        "users": new CryptedJSONdb("./database/users.json", {
+            encryption: config.encryptDatabase,
+            key: process.env.databaseKey,
+            minify: process.env.minifyDatabase
+        })
+    },
     env: process.env,
     log
 };

@@ -1,13 +1,4 @@
-const CryptedJSONdb = require("cryptedjsondb");
-
-const class_to_json = require("./class_to_json.js");
-const User = require("../components/User.js");
-
-const database = new CryptedJSONdb("./database/users.json", {
-    encryption: stealth.config.encryptDatabase,
-    key: stealth.env.databaseKey,
-    minify: stealth.env.minifyDatabase
-});
+const database = stealth.database.users;
 
 function queue_search(queue, key) {
     const userIds = Object.keys(database.data);
