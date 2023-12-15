@@ -14,7 +14,7 @@ function validate_directories() {
     });
 };
 
-if(stealth.databaseKey == '' || typeof stealth.databaseKey == "undefined") {
+if(stealth.env.databaseKey == '' || typeof stealth.env.databaseKey == "undefined") {
     stealth.log("The database key was not found. Please ensure that the correct key is provided.", "WARN");
 };
 

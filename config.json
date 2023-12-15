@@ -1,4 +1,6 @@
 {
     "port": 443,
+    "minifyDatabase": false,
+    "encryptDatabase": false,
     "collectAnalytics": false
 }

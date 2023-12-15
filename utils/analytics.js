@@ -2,9 +2,9 @@ const CryptedJSONdb = require("cryptedjsondb");
 const schedule = require("node-schedule");
 
 const database = new CryptedJSONdb("./utils/analytics.json", {
-    encryption: false,
+    encryption: stealth.config.encryptDatabase,
     key: stealth.env.databaseKey,
-    minify: false
+    minify: stealth.env.minifyDatabase
 });
 
 const maxLength = 14;

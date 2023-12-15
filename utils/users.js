@@ -4,9 +4,9 @@ const class_to_json = require("./class_to_json.js");
 const User = require("../components/User.js");
 
 const database = new CryptedJSONdb("./database/users.json", {
-    encryption: false,
+    encryption: stealth.config.encryptDatabase,
     key: stealth.env.databaseKey,
-    minify: false
+    minify: stealth.env.minifyDatabase
 });
 
 function queue_search(queue, key) {
