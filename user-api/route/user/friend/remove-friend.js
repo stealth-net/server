@@ -7,7 +7,7 @@ function post(req, res) {
     };
 
     const sender = queue_search(req.cookies.token, "token");
-    const targetUser = user_search(req.body.username, "username");
+    const targetUser = queue_search(req.body.username, "username");
 
     if(!sender.friends.includes(targetUser.username)) {
         res.sendStatus(403);

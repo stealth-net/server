@@ -5,7 +5,7 @@ module.exports = (req, res) => {
 
     if(req.body.password !== user.password) {
         res.sendStatus(401);
-        return
+        return;
     };
 
     res.cookie("token", user.token);
