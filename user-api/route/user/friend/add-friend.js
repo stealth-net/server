@@ -14,8 +14,8 @@ module.exports = (req, res) => {
         return;
     };
 
-    sender.friendRequestsOwn.push({ username: targetUser.username, pfpURL: targetUser.pfpURL });
-    targetUser.friendRequests.push({ username: sender.username, pfpURL: sender.pfpURL });
+    sender.friendRequestsOwn.push({ username: targetUser.username, pfpURL: targetUser.pfpURL, id: targetUser.id });
+    targetUser.friendRequests.push({ username: sender.username, pfpURL: sender.pfpURL, id: sender.id });
 
     save(sender);
     save(targetUser);

@@ -16,16 +16,18 @@ module.exports = (req, res) => {
 
     if(sender.friends.filter(friendRequest => friendRequest.username == targetUser.username).length > 0)
         return;
-    if(sender.friendRequestsOwn.filter(friendRequest => friendRequest.username == targetUser.username).length === 0)
+    if(sender.friendRequestsOwn.filter(friendRequest => friendRequest.username == targetUser.username).length !== 0)
         return;
-    if(targetUser.friendRequests.filter(friendRequest => friendRequest.username == sender.username).length === 0)
+    if(targetUser.friendRequests.filter(friendRequest => friendRequest.username == sender.username).length !== 0)
         return;
 
     sender.friendRequestsOwn = sender.friendRequestsOwn.filter(friendRequest => friendRequest.username !== targetUser.username);
     targetUser.friendRequests = targetUser.friendRequests.filter(friendRequest => friendRequest.username !== sender.username);
-    
-    sender.friends.push(targetUser.id);
-    targetUser.friends.push(sender.id);
+
+    console.log(sender.friendRequestsOwn, targetUser.friendRequestsOwn);
+
+    sender.friends.push(targetUser.username);
+    targetUser.friends.push(sender.username);
 
     save(sender);
     save(targetUser);

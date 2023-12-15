@@ -313,10 +313,10 @@ async function updateProfile() {
 
     document.querySelector("#side-profile img").src = user.pfpURL;
 
-    window.user.friends.forEach(async ID => {
-        const userData = await postData("/user-api/v1/get-friend", { id: ID }, "POST");
+    window.user.friends.forEach(async username => {
+        const userData = await postData("/user-api/v1/get-friend", { username }, "POST");
 
-        addFriend(userData.username, userData.pfpURL, "offline", false);
+        addFriend(userData.username, userData.pfpURL, userData.status);
     });
 
     window.user.friendRequests.forEach(userData => {

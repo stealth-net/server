@@ -7,13 +7,15 @@ function post(req, res) {
     };
 
     const user = queue_search(req.cookies.token, "token");
+    const targetUser = queue_search(req.body.username, "username");
 
-    if(user.friends.indexOf(req.body.id) === -1) {
-        res.sendStatus(403);
+    if(user.friends.filter(friendUsername => {
+        const friendData = queue_search(friendUsername, "username");
+        return friendData.id === targetUser.id;
+    }).length === 0) {
+        res.sendStatus(400);
         return;
     };
-
-    const targetUser = queue_search(req.body.id, "id");
 
     res.send({
         username: targetUser.username,

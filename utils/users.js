@@ -38,21 +38,8 @@ function user_search(queue) {
 };
 
 function save(userData) {
-    var user = userData;
-
-    if(userData instanceof User) user = class_to_json(user);
-
-    for(const key in user) {
-        if(typeof user[key] == "object") {
-            for(const key2 in user[key]) {
-                if(!isNaN(key)) continue;
-                database.setValue(user[key][key2], user.id, key, key2);
-                continue;
-            };
-        };
-
-        database.setValue(user[key], user.id, key);
-    };
+    database.data[userData.id] = userData;
+    database.save();
 };
 
 module.exports = { queue_search, user_search, save };

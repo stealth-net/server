@@ -14,13 +14,8 @@ module.exports = (req, res) => {
         return;
     };
 
-    if(sender.friendRequestsOwn.filter(friendRequest => friendRequest.username == targetUser.username).length === 0)
-        return;
-    if(targetUser.friendRequests.filter(friendRequest => friendRequest.username == sender.username).length === 0)
-        return;
-
-    sender.friendRequestsOwn = sender.friendRequestsOwn.filter(friendRequest => friendRequest.username !== targetUser.username);
-    targetUser.friendRequests = targetUser.friendRequests.filter(friendRequest => friendRequest.username !== sender.username);
+    sender.friendRequests = sender.friendRequestsOwn.filter(friendRequest => friendRequest.username !== targetUser.username);
+    targetUser.friendRequestsOwn = targetUser.friendRequests.filter(friendRequest => friendRequest.username !== sender.username);
 
     save(sender);
     save(targetUser);
