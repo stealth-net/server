@@ -1,12 +1,11 @@
 const CryptedJSONdb = require("cryptedjsondb");
-require('dotenv').config({ path: "./.env" });
 
 const class_to_json = require("./class_to_json.js");
 const User = require("../components/User.js");
 
 const database = new CryptedJSONdb("./database/users.json", {
     encryption: false,
-    key: process.env.databaseKey,
+    key: stealth.env.databaseKey,
     minify: false
 });
 

@@ -1,10 +1,9 @@
 const CryptedJSONdb = require("cryptedjsondb");
 const schedule = require("node-schedule");
-require('dotenv').config({ path: "./.env" });
 
 const database = new CryptedJSONdb("./utils/analytics.json", {
     encryption: false,
-    key: process.env.databaseKey,
+    key: stealth.env.databaseKey,
     minify: false
 });
 
