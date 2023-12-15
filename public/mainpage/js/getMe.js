@@ -247,7 +247,7 @@ function addPendingRequest(username, pfpURL, ownRequest) {
     friendContainer.appendChild(label);
     friendContainer.appendChild(requestActions);
 
-    if(ownRequest) {
+    if(!ownRequest) {
         // checkmark
         const button1 = document.createElement("button");
         button1.addEventListener("click", () => {
