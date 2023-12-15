@@ -7,11 +7,7 @@ Date.prototype.timeNow = function () {
     return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +":"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
 };
 
-function log(...message) {
-    const type = message[message.length - 1];
-    message.pop();
-    message = message.join(" ");
-
+function log(message, type) {
     msg = chalk.blue('[' + new Date().timeNow() + ` ${type}]: `) + chalk.white(message);
 
 	console.log(msg);
