@@ -19,6 +19,8 @@ const io = socketIO(server);
 
 const config = require("./config.json");
 
+require("./utils/file_validation.js")();
+
 global.stealth = {
     events: new EventEmitter(),
     app,
@@ -60,7 +62,7 @@ fs.readdirSync(publicDir).forEach((fileOrFolder) => {
     } else {
         app.get(`/${fileOrFolder}`, (req, res) => {
             res.sendFile(filePath);
-            // console.log(`Successfully routed file: ${fileOrFolder}`);
+            // log(`Successfully routed file: ${fileOrFolder}`, "INFO");
         });
     };
 });
