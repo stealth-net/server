@@ -14,17 +14,16 @@ module.exports = (req, res) => {
         return;
     };
 
-    if(sender.friends.filter(friendRequest => friendRequest.username == targetUser.username).length > 0)
+    if(sender.friends.includes(targetUser.username) ||
+    sender.friendRequestsOwn.filter(friendRequest => friendRequest.id === sender.id).length > 0 ||
+    sender.friendRequests.filter(friendRequest => friendRequest.id === sender.id).length > 0
+    ) {
+        res.sendStatus(409);
         return;
-    if(sender.friendRequestsOwn.filter(friendRequest => friendRequest.username == targetUser.username).length !== 0)
-        return;
-    if(targetUser.friendRequests.filter(friendRequest => friendRequest.username == sender.username).length !== 0)
-        return;
+    };
 
-    sender.friendRequestsOwn = sender.friendRequestsOwn.filter(friendRequest => friendRequest.username !== targetUser.username);
-    targetUser.friendRequests = targetUser.friendRequests.filter(friendRequest => friendRequest.username !== sender.username);
-
-    console.log(sender.friendRequestsOwn, targetUser.friendRequestsOwn);
+    sender.friendRequests = sender.friendRequestsOwn.filter(friendRequest => friendRequest.id !== targetUser.id);
+    targetUser.friendRequestsOwn = targetUser.friendRequests.filter(friendRequest => friendRequest.id !== sender.id);
 
     sender.friends.push(targetUser.username);
     targetUser.friends.push(sender.username);

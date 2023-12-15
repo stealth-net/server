@@ -9,6 +9,11 @@ function post(req, res) {
     const sender = queue_search(req.cookies.token, "token");
     const targetUser = user_search(req.body.username);
 
+    if(!sender.friends.includes(targetUser.username)) {
+        res.sendStatus(403);
+        return;
+    };
+
     sender.friends = sender.friendRequestsOwn.filter(friendRequest => friendRequest.id !== targetUser.id);
     targetUser.friends = targetUser.friendRequests.filter(friendRequest => friendRequest.id !== sender.id);
 

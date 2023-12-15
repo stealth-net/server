@@ -14,6 +14,11 @@ module.exports = (req, res) => {
         return;
     };
 
+    if(sender.friendRequestsOwn.filter(friendRequest => friendRequest.id === targetUser.id).length === 0) {
+        res.sendStatus(403);
+        return;
+    };
+
     sender.friendRequests = sender.friendRequestsOwn.filter(friendRequest => friendRequest.username !== targetUser.username);
     targetUser.friendRequestsOwn = targetUser.friendRequests.filter(friendRequest => friendRequest.username !== sender.username);
 

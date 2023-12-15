@@ -190,7 +190,8 @@ function addFriend(username, pfpURL, status) {
     document.getElementById("friend-list").appendChild(friendContainer);
 };
 
-function addPendingRequest(username, pfpURL, status, ownRequest) {
+function addPendingRequest(username, pfpURL, ownRequest) {
+    console.log(ownRequest);
     const friendContainer = document.createElement("div");
     friendContainer.className = "friend-container";
 
@@ -198,13 +199,6 @@ function addPendingRequest(username, pfpURL, status, ownRequest) {
     img.width = 64;
     img.height = 64;
     img.src = pfpURL;
-
-    const friendStatus = document.createElement("div");
-    friendStatus.className = "friend-status";
-    friendStatus.setAttribute("state", status);
-    friendStatus.style.margin = "25px 0px 0px 3px";
-
-    if(status == "offline") friendStatus.hidden = true;
 
     const label = document.createElement("label");
     label.style.margin = "21px 0px 0px 3px";
@@ -250,11 +244,10 @@ function addPendingRequest(username, pfpURL, status, ownRequest) {
     button2.appendChild(svg2);
 
     friendContainer.appendChild(img);
-    friendContainer.appendChild(friendStatus);
     friendContainer.appendChild(label);
     friendContainer.appendChild(requestActions);
 
-    if(!ownRequest) {
+    if(ownRequest) {
         // checkmark
         const button1 = document.createElement("button");
         button1.addEventListener("click", () => {
@@ -320,12 +313,12 @@ async function updateProfile() {
     });
 
     window.user.friendRequests.forEach(userData => {
-        addPendingRequest(userData.username, userData.pfpURL, "offline", false);
+        addPendingRequest(userData.username, userData.pfpURL, false);
     });
     
     window.user.friendRequestsOwn.forEach(userData => {
-        addPendingRequest(userData.username, userData.pfpURL, "offline", true);
+        addPendingRequest(userData.username, userData.pfpURL, true);
     });
 };
 
-updateProfile();
+updateProfile();    
