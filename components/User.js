@@ -6,28 +6,28 @@ class User {
         if(options.token) {
             const userData = queue_search(options.token, "token");
             
-            this.id = userData.id;
-            this.token = userData.token;
-        } else {
+            for(let key in userData) {
+                this[key] = userData[key];
+            };
+        } else if(!options.token && options.username && options.email && options.password) {
             this.id = stealth.id_manager.getNextID();
             this.token = options.token || gen_token(this.id);
-        };
 
-        this.badges = [];
-        this.friends = [];
-        this.friendRequests = [];
-        this.friendRequestsOwn = [];
-        this.guilds = [];
-        this.status = "online";
-        this.pfpURL = "/mainpage/images/logo_transparent.png";
-        this.creationTime = Date.now();
-        
-        this.username = options.username;
-        this.email = options.email;
-        this.password = options.password;
-    };
-    register() {
-        this.save();
+            this.badges = [];
+            this.friends = [];
+            this.friendRequests = [];
+            this.friendRequestsOwn = [];
+            this.guilds = [];
+            this.status = "online";
+            this.pfpURL = "/mainpage/images/logo_transparent.png";
+            this.creationTime = Date.now();
+            
+            this.username = options.username;
+            this.email = options.email;
+            this.password = options.password;
+            
+            this.save();
+        };
     };
     save() {
         save(this);

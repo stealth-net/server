@@ -6,7 +6,6 @@ module.exports = (req, res) => {
         email: req.body.email,
         password: req.body.password
     });
-    user.register();
 
     res.cookie("token", user.token);
     res.sendStatus(200);
