@@ -100,13 +100,11 @@ io.on('connection', (socket) => {
     };
     stealth.sockets[user.id] = socket;
 
-    user.status = "online";
-    // user.save();
+    user.set("status", "online");
 
     socket.on("disconnect", () => {
         delete stealth.sockets[user.id];
-        user.status = "offline";
-        // user.save();
+        user.set("status", "offline");
     });
 });
 

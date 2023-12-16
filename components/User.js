@@ -60,6 +60,9 @@ class User {
         database.data[this.id] = class_to_json(this);
         database.save();
     };
+    set(key, value) {
+        database.setValue(value, this.id, key);
+    };
 };
 
 module.exports = { User, queue_search };
