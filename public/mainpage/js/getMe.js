@@ -105,14 +105,15 @@ function addDM(username, pfpURL, status) {
     document.getElementById("dm-list").appendChild(friendContainer);
 };
 
-function addFriend(username, pfpURL, status) {
+function addFriend(userData) {
     const friendContainer = document.createElement("div");
+    friendContainer.id = "friend-" + userData.id;
     friendContainer.className = "friend-container";
 
     const img = document.createElement("img");
     img.setAttribute("width", "64");
     img.setAttribute("height", "64");
-    img.setAttribute("src", pfpURL);
+    img.setAttribute("src", userData.pfpURL);
 
     const friendStatus = document.createElement("div");
     friendStatus.className = "friend-status";
@@ -121,7 +122,7 @@ function addFriend(username, pfpURL, status) {
 
     const label = document.createElement("label");
     label.style.margin = "calc((50px - 8px) / 2) 0 0 3";
-    label.textContent = username;
+    label.textContent = userData.username;
 
     const requestActions = document.createElement("div");
     requestActions.className = "request-actions";
@@ -129,13 +130,13 @@ function addFriend(username, pfpURL, status) {
     // cross
     const button2 = document.createElement("button");
     button2.addEventListener("click", () => {
-        postData("/user-api/v1/remove-friend", { username }, "POST");
+        postData("/user-api/v1/remove-friend", { id: userData.id }, "POST");
         friendContainer.remove();
     });
 
     const button1 = document.createElement("button");
     button1.addEventListener("click", () => {
-        addDM(username, pfpURL, status);
+        addDM(userData.username, userData.pfpURL, status);
     });
 
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -190,18 +191,19 @@ function addFriend(username, pfpURL, status) {
     document.getElementById("friend-list").appendChild(friendContainer);
 };
 
-function addPendingRequest(username, pfpURL, ownRequest) {
+function addPendingRequest(userData, ownRequest) {
     const friendContainer = document.createElement("div");
+    friendContainer.id = "request-" + userData.id;
     friendContainer.className = "friend-container";
 
     const img = document.createElement("img");
     img.width = 64;
     img.height = 64;
-    img.src = pfpURL;
+    img.src = userData.pfpURL;
 
     const label = document.createElement("label");
     label.style.margin = "21px 0px 0px 3px";
-    label.textContent = username;
+    label.textContent = userData.username;
 
     const requestActions = document.createElement("div");
     requestActions.className = "request-actions";
@@ -210,9 +212,9 @@ function addPendingRequest(username, pfpURL, ownRequest) {
     const button2 = document.createElement("button");
     button2.addEventListener("click", () => {
         if(ownRequest)
-            postData("/user-api/v1/cancel-friend-request", { username }, "POST");
+            postData("/user-api/v1/cancel-friend-request", { id: userData.id }, "POST");
         else
-            postData("/user-api/v1/deny-friend-request", { username }, "POST");
+            postData("/user-api/v1/deny-friend-request", { id: userData.id }, "POST");
         
         friendContainer.remove();
     });
@@ -250,7 +252,7 @@ function addPendingRequest(username, pfpURL, ownRequest) {
         // checkmark
         const button1 = document.createElement("button");
         button1.addEventListener("click", () => {
-            postData("/user-api/v1/accept-friend-request", { username }, "POST");
+            postData("/user-api/v1/accept-friend-request", { id: userData.id }, "POST");
             friendContainer.remove();
         });
 
@@ -286,15 +288,15 @@ function addPendingRequest(username, pfpURL, ownRequest) {
     document.getElementById("pending-list").appendChild(friendContainer);
 };
 
-function removeFriend(username) {
-    document.querySelectorAll("#friend-list > div > label").forEach(element => {
-        if(element.innerText == username) element.parentNode.remove();
+function removeFriend(id) {
+    document.querySelectorAll("#friend-list > div").forEach(friend => {
+        if(element.id == "friend-" + id) friend.remove();
     });
 };
 
-function removeFriendRequest(username) {
-    document.querySelectorAll("#pending-list > div > label").forEach(element => {
-        if(element.innerText == username) element.parentNode.remove();
+function removeFriendRequest(id) {
+    document.querySelectorAll("#pending-list > div").forEach(request => {
+        if(request.id == "request-" + id) request.remove();
     });
 };
 
@@ -316,18 +318,16 @@ async function updateProfile() {
 
     document.querySelector("#side-profile img").src = user.pfpURL;
 
-    window.user.friends.forEach(async username => {
-        const userData = await postData("/user-api/v1/get-friend", { username }, "POST");
-
-        addFriend(userData.username, userData.pfpURL, userData.status);
+    window.user.friends.forEach(async userData => {
+        addFriend(userData);
     });
 
     window.user.friendRequests.forEach(userData => {
-        addPendingRequest(userData.username, userData.pfpURL, false);
+        addPendingRequest(userData, false);
     });
     
     window.user.friendRequestsOwn.forEach(userData => {
-        addPendingRequest(userData.username, userData.pfpURL, true);
+        addPendingRequest(userData, true);
     });
 };
 

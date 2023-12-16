@@ -7,7 +7,7 @@ module.exports = (req, res) => {
     };
 
     const sender = new User({ token: req.cookies.token });
-    const target = new User({ token: queue_search(req.body.username, "username").token });
+    const target = new User({ token: queue_search(req.body.id, "id").token });
 
     if(typeof target == "undefined" || sender.id == target.id) {
         res.sendStatus(400);

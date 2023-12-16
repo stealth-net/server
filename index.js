@@ -104,16 +104,16 @@ io.on('connection', (socket) => {
 
     user.friends.forEach(friend => {
         const friendUser = new User({token: queue_search(friend, "id").token });
-        friendUser.send("statusChanged", user.username, user.status);
+        friendUser.send("statusChanged", user.id, user.status);
     });
 
     socket.on("disconnect", () => {
         delete stealth.sockets[user.id];
-        user.setStatus("status", "offline");
+        user.setStatus("offline");
 
         user.friends.forEach(friend => {
             const friendUser = new User({token: queue_search(friend, "id").token });
-            friendUser.send("statusChanged", user.username, user.status);
+            friendUser.send("statusChanged", user.id, user.status);
         });
     });
 });

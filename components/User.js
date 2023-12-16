@@ -25,7 +25,8 @@ function fetch_users(ids, safe) {
         if(safe) data = {
             username: user.username,
             pfpURL: user.pfpURL,
-            status: user.status
+            status: user.status,
+            id: user.id
         };
 
         return data;
@@ -72,6 +73,7 @@ class User {
         return stealth.sockets[this.id] || null;
     };
     setStatus(type) {
+        this.status = type;
         this.set("status", type);
     };
     set(key, value) {

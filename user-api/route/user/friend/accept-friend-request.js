@@ -7,16 +7,16 @@ module.exports = (req, res) => {
     };
 
     const sender = new User({ token: req.cookies.token });
-    const target = new User({ token: queue_search(req.body.username, "username").token });
+    const target = new User({ token: queue_search(req.body.id, "id").token });
 
     if(typeof target == "undefined" || sender.id == target.id) {
         res.sendStatus(400);
         return;
     };
 
-    if(sender.friends.includes(target.username) ||
-    sender.friendRequestsOwn.filter(id => id === sender.id).length > 0 ||
-    sender.friendRequests.filter(id => id === sender.id).length > 0
+    if(sender.friends.includes(target.id) ||
+        sender.friendRequestsOwn.filter(id => id === sender.id).length > 0 ||
+        sender.friendRequests.filter(id => id === sender.id).length > 0
     ) {
         res.sendStatus(409);
         return;
@@ -28,8 +28,8 @@ module.exports = (req, res) => {
     sender.friends.push(target.id);
     target.friends.push(sender.id);
 
-    sender.send("friendRequestAccept", { username: target.username, pfpURL: target.pfpURL, status: target.status });
-    target.send("friendRequestAccept", { username: sender.username, pfpURL: sender.pfpURL, status: sender.status });
+    sender.send("friendRequestAccept", { username: target.username, pfpURL: target.pfpURL, status: target.status, id: target.id });
+    target.send("friendRequestAccept", { username: sender.username, pfpURL: sender.pfpURL, status: sender.status, id: sender.id });
 
     sender.save();
     target.save();

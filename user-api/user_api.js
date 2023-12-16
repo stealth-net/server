@@ -7,7 +7,6 @@ const routes = {
         "/user-api/v1/accept-friend-request": "./route/user/friend/accept-friend-request.js",
         "/user-api/v1/cancel-friend-request": "./route/user/friend/cancel-friend-request.js",
         "/user-api/v1/deny-friend-request": "./route/user/friend/deny-friend-request.js",
-        "/user-api/v1/get-friend": "./route/user/get-friend.js",
 
         "/user-api/v1/send-message": "./route/user/send-message.js"
     },
