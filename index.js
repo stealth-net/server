@@ -48,7 +48,7 @@ require("./user-api/auth_api.js")(app);
 require("./user-api/user_api.js")(app);
 require("./user-api/admin_api.js")(app);
 
-const { User, queue_search } = require("./components/User.js");
+const { User, queue_search, fetch_users } = require("./components/User.js");
 
 app.get('/', (req, res) => {
     if(!req.cookies.token) {
@@ -102,18 +102,16 @@ io.on('connection', (socket) => {
 
     user.setStatus("online");
 
-    user.friends.forEach(friend => {
-        const friendUser = new User({token: queue_search(friend, "id").token });
-        friendUser.send("statusChanged", user.id, user.status);
+    fetch_users(user.friends).forEach(friend => {
+        friend.send("statusChanged", user.id, user.status);
     });
 
     socket.on("disconnect", () => {
         delete stealth.sockets[user.id];
         user.setStatus("offline");
 
-        user.friends.forEach(friend => {
-            const friendUser = new User({token: queue_search(friend, "id").token });
-            friendUser.send("statusChanged", user.id, user.status);
+        fetch_users(user.friends).forEach(friend => {
+            friend.send("statusChanged", user.id, user.status);
         });
     });
 });

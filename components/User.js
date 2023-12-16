@@ -17,17 +17,21 @@ function queue_search(queue, key) {
     return result;
 };
 
+function safe_user(user) {
+    return {
+        username: user.username,
+        pfpURL: user.pfpURL,
+        status: user.status,
+        id: user.id
+    };
+};
+
 function fetch_users(ids, safe) {
     return ids.map(id => {
         const user = new User({ token: queue_search(id, "id").token });
+        
         var data = user;
-
-        if(safe) data = {
-            username: user.username,
-            pfpURL: user.pfpURL,
-            status: user.status,
-            id: user.id
-        };
+        if(safe) data = safe_user(user);
 
         return data;
     });
@@ -85,4 +89,4 @@ class User {
     };
 };
 
-module.exports = { User, queue_search, fetch_users };
+module.exports = { User, queue_search, fetch_users, safe_user };

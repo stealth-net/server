@@ -118,7 +118,7 @@ function addFriend(userData) {
     const friendStatus = document.createElement("div");
     friendStatus.className = "friend-status";
     friendStatus.style.margin = "calc(50px / 2) 0 0 3";
-    friendStatus.setAttribute("state", status);
+    friendStatus.setAttribute("state", userData.status);
 
     const label = document.createElement("label");
     label.style.margin = "calc((50px - 8px) / 2) 0 0 3";
@@ -136,7 +136,7 @@ function addFriend(userData) {
 
     const button1 = document.createElement("button");
     button1.addEventListener("click", () => {
-        addDM(userData.username, userData.pfpURL, status);
+        addDM(userData.username, userData.pfpURL, userData.status);
     });
 
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -289,15 +289,11 @@ function addPendingRequest(userData, ownRequest) {
 };
 
 function removeFriend(id) {
-    document.querySelectorAll("#friend-list > div").forEach(friend => {
-        if(element.id == "friend-" + id) friend.remove();
-    });
+    document.getElementById("friend-" + id).remove();
 };
 
 function removeFriendRequest(id) {
-    document.querySelectorAll("#pending-list > div").forEach(request => {
-        if(request.id == "request-" + id) request.remove();
-    });
+    document.getElementById("request-" + id).remove();
 };
 
 function addGuild(GuildID) {
