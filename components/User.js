@@ -56,12 +56,15 @@ class User {
     getSocket() {
         return stealth.sockets[this.id] || null;
     };
-    save() {
-        database.data[this.id] = class_to_json(this);
-        database.save();
+    setStatus(type) {
+        this.set("status", type);
     };
     set(key, value) {
         database.setValue(value, this.id, key);
+    };
+    save() {
+        database.data[this.id] = class_to_json(this);
+        database.save();
     };
 };
 
