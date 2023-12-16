@@ -94,10 +94,10 @@ io.on('connection', (socket) => {
         token: socket.token
     });
 
-    if(stealth.sockets[user.id]) { // only 1 connection allowed
+    if(stealth.sockets[user.id]) {
         socket.disconnect();
+        return;
     };
-
     stealth.sockets[user.id] = socket;
 
     socket.on("disconnect", () => {
