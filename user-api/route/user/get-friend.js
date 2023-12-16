@@ -6,21 +6,21 @@ function post(req, res) {
         return;
     };
 
-    const user = queue_search(req.cookies.token, "token");
-    const targetUser = queue_search(req.body.username, "username");
+    const user = new User({ token: req.cookies.token });
+    const target = queue_search(req.body.username, "username");
 
     if(user.friends.filter(friendUsername => {
         const friendData = queue_search(friendUsername, "username");
-        return friendData.id === targetUser.id;
+        return friendData.id === target.id;
     }).length === 0) {
         res.sendStatus(400);
         return;
     };
 
     res.send({
-        username: targetUser.username,
-        pfpURL: targetUser.pfpURL,
-        status: targetUser.status
+        username: target.username,
+        pfpURL: target.pfpURL,
+        status: target.status
     });
 };
 

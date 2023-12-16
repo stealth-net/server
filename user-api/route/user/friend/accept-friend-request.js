@@ -6,15 +6,15 @@ module.exports = (req, res) => {
         return;
     };
 
-    const sender = queue_search(req.cookies.token, "token");
-    const targetUser = queue_search(req.body.username, "username");
+    const sender = new User({ token: req.cookies.token });
+    const target = queue_search(req.body.username, "username");
 
-    if(typeof targetUser == "undefined" || sender.id == targetUser.id) {
+    if(typeof target == "undefined" || sender.id == target.id) {
         res.sendStatus(400);
         return;
     };
 
-    if(sender.friends.includes(targetUser.username) ||
+    if(sender.friends.includes(target.username) ||
     sender.friendRequestsOwn.filter(friendRequest => friendRequest.id === sender.id).length > 0 ||
     sender.friendRequests.filter(friendRequest => friendRequest.id === sender.id).length > 0
     ) {
@@ -22,14 +22,14 @@ module.exports = (req, res) => {
         return;
     };
 
-    sender.friendRequests = sender.friendRequestsOwn.filter(friendRequest => friendRequest.id !== targetUser.id);
-    targetUser.friendRequestsOwn = targetUser.friendRequests.filter(friendRequest => friendRequest.id !== sender.id);
+    sender.friendRequests = sender.friendRequestsOwn.filter(friendRequest => friendRequest.id !== target.id);
+    target.friendRequestsOwn = target.friendRequests.filter(friendRequest => friendRequest.id !== sender.id);
 
-    sender.friends.push(targetUser.username);
-    targetUser.friends.push(sender.username);
+    sender.friends.push(target.username);
+    target.friends.push(sender.username);
 
     save(sender);
-    save(targetUser);
+    save(target);
 
     res.sendStatus(200);
 };

@@ -191,7 +191,6 @@ function addFriend(username, pfpURL, status) {
 };
 
 function addPendingRequest(username, pfpURL, ownRequest) {
-    console.log(ownRequest);
     const friendContainer = document.createElement("div");
     friendContainer.className = "friend-container";
 

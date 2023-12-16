@@ -1,4 +1,4 @@
-const { queue_search } = require("../../../utils/users.js");
+const { queue_search } = require("../../../components/User.js");
 
 function get(req, res) {
     if(!req.cookies.token) {
@@ -6,7 +6,7 @@ function get(req, res) {
         return;
     };
 
-    const user = queue_search(req.cookies.token, "token");
+    const user = new User({ token: req.cookies.token });
     if(!user) {
         res.sendStatus(404);
         return;

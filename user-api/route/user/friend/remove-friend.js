@@ -6,21 +6,21 @@ function post(req, res) {
         return;
     };
 
-    const sender = queue_search(req.cookies.token, "token");
-    const targetUser = queue_search(req.body.username, "username");
+    const sender = new User({ token: req.cookies.token });
+    const target = queue_search(req.body.username, "username");
 
-    if(!sender.friends.includes(targetUser.username)) {
+    if(!sender.friends.includes(target.username)) {
         res.sendStatus(403);
         return;
     };
 
-    sender.friends = sender.friendRequestsOwn.filter(friendRequest => friendRequest.id !== targetUser.id);
-    targetUser.friends = targetUser.friendRequests.filter(friendRequest => friendRequest.id !== sender.id);
+    sender.friends = sender.friendRequestsOwn.filter(friendRequest => friendRequest.id !== target.id);
+    target.friends = target.friendRequests.filter(friendRequest => friendRequest.id !== sender.id);
 
     save(sender);
-    save(targetUser);
+    save(target);
 
-    res.send(targetUser);
+    res.send(target);
 };
 
 module.exports = post;

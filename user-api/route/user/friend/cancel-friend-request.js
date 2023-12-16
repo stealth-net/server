@@ -1,4 +1,4 @@
-const { queue_search, save } = require("../../../../utils/users.js");
+const { User, queue_search } = require("../../../../components/User.js");
 
 module.exports = (req, res) => {
     if(!req.cookies.token) {
@@ -6,24 +6,26 @@ module.exports = (req, res) => {
         return;
     };
 
-    const sender = queue_search(req.cookies.token, "token");
-    const targetUser = queue_search(req.body.username, "username");
+    const sender = new User({ token: req.cookies.token });
+    const target = new User({ token: queue_search(req.body.username, "username").token });
 
-    if(typeof targetUser == "undefined" || sender.id == targetUser.id) {
+    if(typeof target == "undefined" || sender.id == target.id) {
         res.sendStatus(400);
         return;
     };
 
-    if(sender.friendRequestsOwn.filter(friendRequest => friendRequest.id === targetUser.id).length === 0) {
+    if(sender.friendRequestsOwn.filter(friendRequest => friendRequest.id === target.id).length === 0) {
         res.sendStatus(403);
         return;
     };
 
-    sender.friendRequestsOwn = sender.friendRequestsOwn.filter(friendRequest => friendRequest.username !== targetUser.username);
-    targetUser.friendRequests = targetUser.friendRequests.filter(friendRequest => friendRequest.username !== sender.username);
+    sender.friendRequestsOwn = sender.friendRequestsOwn.filter(friendRequest => friendRequest.username !== target.username);
+    target.friendRequests = target.friendRequests.filter(friendRequest => friendRequest.username !== sender.username);
 
-    save(sender);
-    save(targetUser);
+    target.send("friendRequestCancel", sender.username);
+
+    sender.save();
+    target.save();
 
     res.sendStatus(200);
 };

@@ -36,7 +36,8 @@ global.stealth = {
         })
     },
     env: process.env,
-    log
+    log,
+    sockets: {}
 };
 
 require("./utils/file_validation.js")();
@@ -46,6 +47,8 @@ if(config.collectAnalytics) require("./utils/analytics.js");
 require("./user-api/auth_api.js")(app);
 require("./user-api/user_api.js")(app);
 require("./user-api/admin_api.js")(app);
+
+const { User } = require("./components/User.js");
 
 app.get('/', (req, res) => {
     if(!req.cookies.token) {
@@ -77,7 +80,29 @@ fs.readdirSync(publicDir).forEach((fileOrFolder) => {
 });
 
 io.on('connection', (socket) => {
+    const token = decodeURIComponent(socket.request.headers.cookie.replace("token=", ''));
+
+    if (/^[A-Za-z0-9_\-]+=*\.[A-Za-z0-9_\-]+=*\.[A-Za-z0-9_\-]+=*$/.test(token)) {
+        socket.token = token;
+        socket.authorized = true;
+    } else {
+        socket.authorized = false;
+        socket.disconnect();
+    };
     
+    const user = new User({
+        token: socket.token
+    });
+
+    if(stealth.sockets[user.id]) { // only 1 connection allowed
+        socket.disconnect();
+    };
+
+    stealth.sockets[user.id] = socket;
+
+    socket.on("disconnect", () => {
+        delete stealth.sockets[user.id];
+    });
 });
 
 server.listen(config.port, () => {

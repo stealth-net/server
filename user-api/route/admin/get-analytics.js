@@ -1,4 +1,4 @@
-const { queue_search } = require("../../../utils/users.js");
+const { queue_search } = require("../../../components/User.js");
 const { get_analytics } = require("../../../utils/analytics.js");
 
 module.exports = (req, res) => {
@@ -7,7 +7,7 @@ module.exports = (req, res) => {
         return;
     };
 
-    const user = queue_search(req.cookies.token, "token");
+    const user = new User({ token: req.cookies.token });
 
     if(!user) {
         res.sendStatus(404);

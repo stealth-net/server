@@ -1,4 +1,4 @@
-const { user_search, save } = require("../utils/users.js");
+const { queue_search } = require("./User.js");
 
 class Badge {
     constructor(options) {
@@ -17,7 +17,7 @@ const Badges = {
 };
 
 function promote_badge(queue, badgeID) {
-    const user = user_search(queue);
+    const user = queue_search(queue);
 
     if(user.badges.indexOf(badgeID) === -1)
         user.badges.push(badgeID);
@@ -26,7 +26,7 @@ function promote_badge(queue, badgeID) {
 };
 
 function demote_badge(queue, badgeID) {
-    const user = user_search(queue);
+    const user = queue_search(queue);
 
     user.badges = user.badges.filter(badge => badge.id !== badgeID);
 

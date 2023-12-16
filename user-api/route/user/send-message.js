@@ -1,4 +1,4 @@
-const { queue_search } = require("../../../../utils/users.js");
+const { queue_search } = require("../../../components/User.js");
 const { save } = require("../../../../utils/messages.js");
 const Message = require("../../../components/Message.js");
 
@@ -8,7 +8,7 @@ module.exports = (req, res) => {
         return;
     };
 
-    const author = queue_search(req.cookies.token, "token");
+    const author = new User({ token: req.cookies.token });
     if(!author) {
         res.sendStatus(404);
         return;

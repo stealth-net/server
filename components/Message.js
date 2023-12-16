@@ -1,5 +1,5 @@
 const User = require("./User.js");
-const { user_search } = require("../utils/users.js");
+const { queue_search } = require("./User.js");
 
 class Message {
     constructor(author, content) {
@@ -9,7 +9,7 @@ class Message {
         if(author instanceof User) {
             this.author = author;
         } else if(!isNaN(author)) { // user id given
-            this.author = user_search(author);
+            this.author = queue_search(author);
         };
     };
 };
