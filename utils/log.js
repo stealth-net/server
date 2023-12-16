@@ -8,7 +8,9 @@ Date.prototype.timeNow = function () {
 };
 
 function log(message, type) {
-    message = chalk.blue('[' + new Date().timeNow() + ` ${type}]: `) + chalk.white(message);
+    const date = new Date();
+
+    message = `${chalk.blue(`[${date.timeNow()} ${type}]:`)} ${chalk.white(message)}`;
 
 	console.log(message);
 };
