@@ -15,15 +15,15 @@ module.exports = (req, res) => {
     };
 
     if(sender.friends.includes(target.username) ||
-        sender.friendRequestsOwn.filter(friendRequest => friendRequest.id === sender.id).length > 0 ||
-        sender.friendRequests.filter(friendRequest => friendRequest.id === sender.id).length > 0
+        sender.friendRequestsOwn.filter(id => id === sender.id).length > 0 ||
+        sender.friendRequests.filter(id => id === sender.id).length > 0
     ) {
         res.sendStatus(409);
         return;
     };
 
-    sender.friendRequestsOwn.push({ username: target.username, pfpURL: target.pfpURL, id: target.id });
-    target.friendRequests.push({ username: sender.username, pfpURL: sender.pfpURL, id: sender.id });
+    sender.friendRequestsOwn.push(target.id);
+    target.friendRequests.push(sender.id);
 
     target.send("friendRequest", { username: sender.username, pfpURL: sender.pfpURL, id: sender.id });
 

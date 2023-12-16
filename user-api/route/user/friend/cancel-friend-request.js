@@ -14,15 +14,15 @@ module.exports = (req, res) => {
         return;
     };
 
-    if(sender.friendRequestsOwn.filter(friendRequest => friendRequest.id === target.id).length === 0) {
+    if(sender.friendRequestsOwn.filter(id => id === target.id).length === 0) {
         res.sendStatus(403);
         return;
     };
 
-    sender.friendRequestsOwn = sender.friendRequestsOwn.filter(friendRequest => friendRequest.username !== target.username);
-    target.friendRequests = target.friendRequests.filter(friendRequest => friendRequest.username !== sender.username);
+    sender.friendRequestsOwn = sender.friendRequestsOwn.filter(id => id !== target.id);
+    target.friendRequests = target.friendRequests.filter(id => id !== sender.id);
 
-    target.send("friendRequestCancel", sender.username);
+    target.send("friendRequestCancel", sender.id);
 
     sender.save();
     target.save();

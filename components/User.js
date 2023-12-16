@@ -17,6 +17,21 @@ function queue_search(queue, key) {
     return result;
 };
 
+function fetch_users(ids, safe) {
+    return ids.map(id => {
+        const user = new User({ token: queue_search(id, "id").token });
+        var data = user;
+
+        if(safe) data = {
+            username: user.username,
+            pfpURL: user.pfpURL,
+            status: user.status
+        };
+
+        return data;
+    });
+};
+
 class User {
     constructor(options = {}) {
         if(options.token) {
@@ -68,4 +83,4 @@ class User {
     };
 };
 
-module.exports = { User, queue_search };
+module.exports = { User, queue_search, fetch_users };

@@ -14,13 +14,13 @@ module.exports = (req, res) => {
         return;
     };
 
-    if(sender.friendRequests.filter(friendRequest => friendRequest.id === target.id).length === 0) {
+    if(sender.friendRequests.filter(id => id === target.id).length === 0) {
         res.sendStatus(403);
         return;
     };
 
-    sender.friendRequests = sender.friendRequestsOwn.filter(friendRequest => friendRequest.username !== target.username);
-    target.friendRequestsOwn = target.friendRequests.filter(friendRequest => friendRequest.username !== sender.username);
+    sender.friendRequests = sender.friendRequestsOwn.filter(id => id !== target.id);
+    target.friendRequestsOwn = target.friendRequests.filter(id => id !== sender.id);
 
     sender.save();
     target.save();

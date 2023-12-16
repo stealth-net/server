@@ -14,10 +14,10 @@ function post(req, res) {
         return;
     };
 
-    sender.friends = sender.friendRequestsOwn.filter(friendRequest => friendRequest.id !== target.id);
-    target.friends = target.friendRequests.filter(friendRequest => friendRequest.id !== sender.id);
+    sender.friends = sender.friendRequestsOwn.filter(id => id !== target.id);
+    target.friends = target.friendRequests.filter(id => id !== sender.id);
 
-    target.send("friendRemove", sender.username);
+    target.send("friendRemove", sender.id);
 
     sender.save();
     target.save();
