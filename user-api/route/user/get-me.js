@@ -12,8 +12,6 @@ function get(req, res) {
         return;
     };
 
-    stealth.events.emit("apireq");
-
     res.send(user);
 };
 

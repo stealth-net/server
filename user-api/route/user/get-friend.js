@@ -1,4 +1,4 @@
-const { queue_search } = require("../../../utils/users.js");
+const { User, queue_search } = require("../../../components/User.js");
 
 function post(req, res) {
     if(!req.cookies.token) {

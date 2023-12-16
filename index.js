@@ -101,12 +101,12 @@ io.on('connection', (socket) => {
     stealth.sockets[user.id] = socket;
 
     user.status = "online";
-    user.save();
+    // user.save();
 
     socket.on("disconnect", () => {
         delete stealth.sockets[user.id];
         user.status = "offline";
-        user.save();
+        // user.save();
     });
 });
 

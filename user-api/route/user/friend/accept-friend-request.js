@@ -1,4 +1,4 @@
-const { queue_search, save } = require("../../../../utils/users.js");
+const { User, queue_search } = require("../../../../components/User.js");
 
 module.exports = (req, res) => {
     if(!req.cookies.token) {
@@ -7,7 +7,7 @@ module.exports = (req, res) => {
     };
 
     const sender = new User({ token: req.cookies.token });
-    const target = queue_search(req.body.username, "username");
+    const target = new User({ token: queue_search(req.body.username, "username").token });
 
     if(typeof target == "undefined" || sender.id == target.id) {
         res.sendStatus(400);
@@ -28,8 +28,11 @@ module.exports = (req, res) => {
     sender.friends.push(target.username);
     target.friends.push(sender.username);
 
-    save(sender);
-    save(target);
+    sender.send("friendRequestAccept", { username: target.username, pfpURL: target.pfpURL, status: target.status });
+    target.send("friendRequestAccept", { username: sender.username, pfpURL: sender.pfpURL, status: sender.status });
+
+    sender.save();
+    target.save();
 
     res.sendStatus(200);
 };

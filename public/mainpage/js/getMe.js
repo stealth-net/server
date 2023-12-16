@@ -251,7 +251,6 @@ function addPendingRequest(username, pfpURL, ownRequest) {
         const button1 = document.createElement("button");
         button1.addEventListener("click", () => {
             postData("/user-api/v1/accept-friend-request", { username }, "POST");
-            addFriend(username, pfpURL, status);
             friendContainer.remove();
         });
 
@@ -285,6 +284,18 @@ function addPendingRequest(username, pfpURL, ownRequest) {
     requestActions.appendChild(button2);
 
     document.getElementById("pending-list").appendChild(friendContainer);
+};
+
+function removeFriend(username) {
+    document.querySelectorAll("#friend-list > div > label").forEach(element => {
+        if(element.innerText == username) element.parentNode.remove();
+    });
+};
+
+function removeFriendRequest(username) {
+    document.querySelectorAll("#pending-list > div > label").forEach(element => {
+        if(element.innerText == username) element.parentNode.remove();
+    });
 };
 
 function addGuild(GuildID) {

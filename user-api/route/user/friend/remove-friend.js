@@ -1,4 +1,4 @@
-const { queue_search, save } = require("../../../../utils/users.js");
+const { User, queue_search } = require("../../../../components/User.js");
 
 function post(req, res) {
     if(!req.cookies.token) {
@@ -7,7 +7,7 @@ function post(req, res) {
     };
 
     const sender = new User({ token: req.cookies.token });
-    const target = queue_search(req.body.username, "username");
+    const target = new User({ token: queue_search(req.body.username, "username").token });
 
     if(!sender.friends.includes(target.username)) {
         res.sendStatus(403);
@@ -17,10 +17,12 @@ function post(req, res) {
     sender.friends = sender.friendRequestsOwn.filter(friendRequest => friendRequest.id !== target.id);
     target.friends = target.friendRequests.filter(friendRequest => friendRequest.id !== sender.id);
 
-    save(sender);
-    save(target);
+    target.send("friendRemove", sender.username);
 
-    res.send(target);
+    sender.save();
+    target.save();
+
+    res.send();
 };
 
 module.exports = post;

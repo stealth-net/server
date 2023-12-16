@@ -1,4 +1,5 @@
 const gen_token = require("../utils/gen_token.js");
+const class_to_json = require("../utils/class_to_json.js");
 const database = stealth.database.users;
 
 function queue_search(queue, key) {
@@ -56,7 +57,7 @@ class User {
         return stealth.sockets[this.id] || null;
     };
     save() {
-        database.data[this.id] = this;
+        database.data[this.id] = class_to_json(this);
         database.save();
     };
 };
