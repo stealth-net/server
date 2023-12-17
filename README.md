@@ -7,7 +7,7 @@ StealthNet is built using Node.js and Express.js for the backend, and vanilla Ja
 ## Codebase Overview
 The codebase is organized into several directories and files:
 
-- [user-api](https://github.com/stealth-net/server/tree/main/user-api): Contains the routes and logic for user-related operations such as authentication, friend management, and messaging.
+- [api](https://github.com/stealth-net/server/tree/main/api): Contains the routes and logic for user-related operations such as authentication, friend management, and messaging.
 - [utils](https://github.com/stealth-net/server/tree/main/utils): Contains utility functions for user and message management, analytics, and logging.
 - [public](https://github.com/stealth-net/server/tree/main/public): Contains the frontend code for the application, including HTML, CSS, and JavaScript files.
 - [components](https://github.com/stealth-net/server/tree/main/components): Contains essential classes that play a crucial role in the functionality of StealthNet. These classes are responsible for managing and organizing core elements of the application.
@@ -38,7 +38,7 @@ Replace yourSecretKey with a strong and secure key for database encryption.
 ### Start the Server
 Run the following command to start the StealthNet server:
 ```bash
-node server.js
+node index.js
 ```
 
 ### Access StealthNet Locally
