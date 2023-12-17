@@ -81,6 +81,10 @@ fs.readdirSync(publicDir).forEach((fileOrFolder) => {
 
 io.on('connection', (socket) => {
     const token = decodeURIComponent(socket.request.headers.cookie.replace("token=", ''));
+    if(!token) {
+        socket.disconnect();
+        return;
+    };
 
     if (/^[A-Za-z0-9_\-]+=*\.[A-Za-z0-9_\-]+=*\.[A-Za-z0-9_\-]+=*$/.test(token)) {
         socket.token = token;
@@ -94,25 +98,28 @@ io.on('connection', (socket) => {
         token: socket.token
     });
 
-    if(stealth.sockets[user.id]) {
+    if(typeof user == "undefined" || stealth.sockets[user.id]) {
         socket.disconnect();
         return;
     };
+
     stealth.sockets[user.id] = socket;
 
     user.setStatus("online");
 
-    fetch_users(user.friends).forEach(friend => {
-        friend.send("statusChanged", user.id, user.status);
-    });
+    if(user.friends.length > 0)
+        fetch_users(user.friends).forEach(friend => {
+            friend.send("statusChanged", user.id, user.status);
+        });
 
     socket.on("disconnect", () => {
         delete stealth.sockets[user.id];
         user.setStatus("offline");
 
-        fetch_users(user.friends).forEach(friend => {
-            friend.send("statusChanged", user.id, user.status);
-        });
+        if(user.friends.length > 0)
+            fetch_users(user.friends).forEach(friend => {
+                friend.send("statusChanged", user.id, user.status);
+            });
     });
 });
 
