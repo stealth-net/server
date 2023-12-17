@@ -27,7 +27,7 @@ async function processDirectory(directoryPath, result) {
             if (file !== "node_modules" && file !== "database") {
                 await processDirectory(filePath, result);
             };
-        } else if (path.extname(filePath) === ".js") {
+        } else if (path.extname(filePath) === ".js" && !filePath.endsWith("socket-io.js")) {
             const lineCount = await countLines(filePath);
             result[filePath] = lineCount;
         };
