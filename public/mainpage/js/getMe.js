@@ -117,11 +117,9 @@ function addFriend(userData) {
 
     const friendStatus = document.createElement("div");
     friendStatus.className = "friend-status";
-    friendStatus.style.margin = "calc(50px / 2) 0 0 3";
     friendStatus.setAttribute("state", userData.status);
 
     const label = document.createElement("label");
-    label.style.margin = "calc((50px - 8px) / 2) 0 0 3";
     label.textContent = userData.username;
 
     const requestActions = document.createElement("div");
@@ -186,6 +184,7 @@ function addFriend(userData) {
     friendContainer.appendChild(label);
     friendContainer.appendChild(requestActions);
     
+    requestActions.appendChild(button1);
     requestActions.appendChild(button2);
 
     document.getElementById("friend-list").appendChild(friendContainer);
