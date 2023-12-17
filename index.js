@@ -44,9 +44,9 @@ require("./utils/file_validation.js")();
 
 if(config.collectAnalytics) require("./utils/analytics.js");
 
-require("./user-api/auth_api.js")(app);
-require("./user-api/user_api.js")(app);
-require("./user-api/admin_api.js")(app);
+require("./api/auth_api.js")(app);
+require("./api/user_api.js")(app);
+require("./api/admin_api.js")(app);
 
 const { User, queue_search, fetch_users } = require("./components/User.js");
 
