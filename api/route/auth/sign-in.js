@@ -1,7 +1,8 @@
 const { queue_search } = require("../../../components/User.js");
 
 module.exports = (req, res) => {
-    const user = queue_search(req.body.username, "username");
+    const user = queue_search(req.body.email, "email");
+    console.log(req.body);
 
     if(!user) {
         res.sendStatus(404);
