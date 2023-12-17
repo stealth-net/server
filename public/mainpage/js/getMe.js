@@ -125,13 +125,7 @@ function addFriend(userData) {
     const requestActions = document.createElement("div");
     requestActions.className = "request-actions";
 
-    // cross
-    const button2 = document.createElement("button");
-    button2.addEventListener("click", () => {
-        postData("/user-api/v1/remove-friend", { id: userData.id }, "POST");
-        friendContainer.remove();
-    });
-
+    // message
     const button1 = document.createElement("button");
     button1.addEventListener("click", () => {
         addDM(userData.username, userData.pfpURL, userData.status);
@@ -153,6 +147,13 @@ function addFriend(userData) {
     svg.appendChild(path);
 
     button1.appendChild(svg);
+
+    // cross
+    const button2 = document.createElement("button");
+    button2.addEventListener("click", () => {
+        postData("/user-api/v1/remove-friend", { id: userData.id }, "POST");
+        friendContainer.remove();
+    });
 
     const svg2 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg2.setAttribute("width", "24");
