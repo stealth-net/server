@@ -1,5 +1,5 @@
 const subTabContents = document.querySelectorAll('[class^="midsubtab-"]');
-const tabContents = document.querySelectorAll('[class^="midtab-"]');
+const tabContents = document.querySelectorAll('#menu-mid > div');
 const tabButtons = document.querySelectorAll(".mid-tabbutton");
 const lsideButtons = document.querySelectorAll(".lside-button");
 
@@ -28,6 +28,10 @@ lsideButtons.forEach(lsideButton => {
 
         lsideButtons.forEach(_button => {
             _button.removeAttribute("state");
+        });
+
+        document.querySelectorAll("#dm-list > div").forEach(_dm => {
+            _dm.removeAttribute("state");
         });
 
         lsideButton.setAttribute("state", "active");

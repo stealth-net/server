@@ -8,8 +8,8 @@
     <meta property="og:image" content="/images/logo_transparent.png">
     <link href="/mainpage/css/main.css" rel="stylesheet">
     <link rel="icon" href="/mainpage/favicon.png" type="image/png">
+    <script src="/mainpage/js/eventemitter.js"></script>
     <script src="/mainpage/js/socket-io.js"></script>
-    <script src="/mainpage/js/client.js"></script>
     <title>StealthNet</title>
 </head>
 
@@ -50,6 +50,24 @@
             </div>
         </div>
         <div class="midtab-settings" hidden></div>
+        <div class="dm-user" hidden>
+            <div id="dm-messages">
+
+            </div>
+            <div class="dm-bottombar">
+                <button id="dm-attachfile" class="action">
+                    <svg width="27" height="31" viewBox="0 0 27 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13.5 1H21L26 5.57895C26 6.9762 26 14.7368 26 14.7368M13.5 1H1V30H26V14.7368M13.5 1L21 9.39474L26 14.7368M4.33333 5.57895H12.6667M4.33333 10.1579H17.6667M4.33333 13.2105H14.3333M4.33333 16.2632H19.3333" stroke="#51567C" stroke-width="2"/>
+                    </svg>
+                </button>
+                <textarea id="user-message-content" class="message-content" placeholder="..."></textarea>
+                <button id="dm-sendmessage" class="action">
+                    <svg width="32" height="26" viewBox="0 0 32 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.75 13H29M29 13L3 3L9.5 13L3 23L29 13Z" stroke="#51567C" stroke-width="2"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
     </div>
     <div id="side-profile" class="sidemenu" style="width: 350px;">
         <div class="menu-separator">
@@ -70,8 +88,6 @@
     </div>
 </body>
 
-<script src="/mainpage/js/getMe.js"></script>
-<script src="/mainpage/js/frontend.js"></script>
-<script src="/mainpage/js/frontend-shared.js"></script>
+<script src="/mainpage/app.js"></script>
 
 </html>
