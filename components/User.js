@@ -2,6 +2,7 @@ const gen_token = require("../utils/gen_token.js");
 const class_to_json = require("../utils/class_to_json.js");
 // require('dotenv').config({ path: "./.env" });
 const db = stealth.database.users;
+
 // const sqlcipher = require("@journeyapps/sqlcipher").verbose();
 
 // sqlcipher.cached.Database.prototype.open = function open(cfg, filename, mode, cb) {

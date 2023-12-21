@@ -7,6 +7,7 @@ const { EventEmitter } = require("events");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const CryptedJSONdb = require("cryptedjsondb");
+// const { Database } = require("@journeyapps/sqlcipher");
 require('dotenv').config({ path: "./.env" });
 
 if (!process.env.databaseKey) {
@@ -34,10 +35,10 @@ global.stealth = {
     config,
     id_manager: new (require("./utils/id_manager.js"))("./database/last_id.txt"),
     database: {
-        "users": new CryptedJSONdb("./database/users.json", {
-            encryption: config.encryptDatabase,
+        users: new CryptedJSONdb("./database/users.db", {
             key: process.env.databaseKey,
-            minify: process.env.minifyDatabase
+            minify: false,
+            encryption: false
         })
     },
     env: process.env,
