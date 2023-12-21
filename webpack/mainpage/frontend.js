@@ -275,6 +275,48 @@ export function addGuild(GuildID) {
     document.getElementById("guild-list").appendChild(imgElement);
 };
 
+export function addMessage(messageData) {
+    postData("/user-api/v1/send-message", { content: document.getElementById("user-message-content").value }, "POST").then(response => {
+        console.log(response);
+    });
+    
+    var messageContainer = document.createElement("div");
+    messageContainer.className = "message-container";
+
+    var img = document.createElement("img");
+    img.src = messageData.author.pfpURL;
+    img.width = 45;
+    img.height = 45;
+
+    var authorDiv = document.createElement("div");
+    authorDiv.className = "message-author";
+
+    var developerLabel = document.createElement("label");
+    developerLabel.textContent = messageData.author.username;
+
+    var timestampLabel = document.createElement("label");
+    timestampLabel.textContent = messageData.creationTime;
+
+    var messageGroupDiv = document.createElement("div");
+    messageGroupDiv.className = "message-group";
+
+    authorDiv.appendChild(developerLabel);
+    authorDiv.appendChild(timestampLabel);
+
+    if(messageData.content) {
+        var messageLabel = document.createElement("label");
+        messageLabel.textContent = messageData.content;
+
+        messageGroupDiv.appendChild(messageLabel);
+    };
+
+    messageContainer.appendChild(img);
+    messageContainer.appendChild(authorDiv);
+    messageContainer.appendChild(messageGroupDiv);
+
+    document.getElementById("dm-messages").appendChild(messageContainer);
+};
+
 export function updateProfile() {
     const profile = document.querySelectorAll("#side-profile label");
 
@@ -338,6 +380,8 @@ lsideButtons.forEach(lsideButton => {
         document.querySelectorAll("#dm-list > div").forEach(_dm => {
             _dm.removeAttribute("state");
         });
+
+        document.getElementById("dm-messages").innerHTML = '';
 
         lsideButton.setAttribute("state", "active");
 

@@ -1,17 +1,46 @@
 const gen_token = require("../utils/gen_token.js");
 const class_to_json = require("../utils/class_to_json.js");
-const database = stealth.database.users;
+// require('dotenv').config({ path: "./.env" });
+const db = stealth.database.users;
+// const sqlcipher = require("@journeyapps/sqlcipher").verbose();
+
+// sqlcipher.cached.Database.prototype.open = function open(cfg, filename, mode, cb) {
+//     this.constructor.prototype.open.call(this, cfg, filename, mode, cb);
+//     this.run(`PRAGMA key = '${process.env.databaseKey}'`);
+// };
+
+// const db = new sqlcipher.Database("./database/users.db");
+
+// db.run(`
+//     CREATE TABLE IF NOT EXISTS user (
+//         id INTEGER PRIMARY KEY,
+//         token TEXT,
+//         badges BLOB, -- assuming badges is an array of integers
+//         friends BLOB, -- assuming friends is an array of integers
+//         friendRequests BLOB, -- assuming friendRequests is an array of integers
+//         friendRequestsOwn BLOB, -- assuming friendRequestsOwn is an array of integers
+//         guilds BLOB, -- assuming guilds is an array of integers
+//         messages BLOB, -- assuming messages is an array of integers
+//         status TEXT,
+//         pfpURL TEXT,
+//         creationTime INTEGER,
+//         username TEXT,
+//         display_name TEXT,
+//         email TEXT,
+//         password TEXT
+//     )
+// `);
 
 function queue_search(queue, key) {
-    const userIds = Object.keys(database.data);
+    const userIds = Object.keys(db.data);
     
     var result = null;
 
     userIds.forEach(ID => {
-        const value = database.getValue(ID, key);
+        const value = db.getValue(ID, key);
 
         if(value == queue)
-            result = database.getValue(ID);
+            result = db.getValue(ID);
     });
 
     return result;
@@ -45,7 +74,7 @@ class User {
             for(let key in userData) {
                 this[key] = userData[key];
             };
-        } else if(!options.token && options.username && options.email && options.password) {
+        } else if(options.password) {
             this.id = stealth.id_manager.getNextID();
             this.token = options.token || gen_token(this.id);
 
@@ -54,11 +83,13 @@ class User {
             this.friendRequests = [];
             this.friendRequestsOwn = [];
             this.guilds = [];
+            this.messages = [];
             this.status = "online";
             this.pfpURL = "/mainpage/images/logo_transparent.png";
             this.creationTime = Date.now();
             
             this.username = options.username;
+            this.display_name = options.username;
             this.email = options.email;
             this.password = options.password;
             
@@ -81,11 +112,11 @@ class User {
         this.set("status", type);
     };
     set(key, value) {
-        database.setValue(value, this.id, key);
+        db.setValue(value, this.id, key);
     };
     save() {
-        database.data[this.id] = class_to_json(this);
-        database.save();
+        db.data[this.id] = class_to_json(this);
+        db.save();
     };
 };
 

@@ -1,16 +1,39 @@
-const User = require("./User.js");
-const { queue_search } = require("./User.js");
+const sanitize_xss = require("../utils/sanitize_xss.js");
+const database = stealth.database.messages;
+
+function queue_search(queue, key) {
+    const messageIds = Object.keys(database.data);
+    
+    var result = null;
+
+    messageIds.forEach(ID => {
+        const value = database.getValue(ID, key);
+
+        if(value == queue)
+            result = database.getValue(ID);
+    });
+
+    return result;
+};
 
 class Message {
-    constructor(author, content) {
-        this.id = stealth.id_manager.getNextID();
-        this.content = content;
-
-        if(author instanceof User) {
-            this.author = author;
-        } else if(!isNaN(author)) { // user id given
-            this.author = queue_search(author);
+    constructor(options = {}) { // author, receiver, content
+        if(options.author && options.receiver && options.content) {
+            this.id = stealth.id_manager.getNextID();
+            this.author = options.author;
+            this.receiver = options.receiver;
+            this.content = sanitize_xss(options.content);
+        } else if(options.id) {
+            const messageData = queue_search(options.id, "id");
+            
+            for(let key in messageData) {
+                this[key] = messageData[key];
+            };
         };
+    };
+    save() {
+        database.data[this.id] = class_to_json(this);
+        database.save();
     };
 };
 

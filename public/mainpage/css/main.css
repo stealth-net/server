@@ -236,3 +236,19 @@ div[class^="midsubtab-"] > label {
     width: -webkit-fill-available;
     height: 45px;
 }
+.message-container {
+    height: 45px;
+}
+.message-container:hover {
+    background-color: #1D1D30;
+}
+.message-container > img {
+    margin-left: 20px;
+    float: left;
+}
+.message-author > label:first-child, .message-group > * {
+    margin-left: 5px;
+}
+.message-author > label:nth-child(2) {
+    color: #40446A;
+}

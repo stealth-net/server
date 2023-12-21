@@ -1,7 +1,7 @@
 const { queue_search } = require("../../../components/User.js");
 
-module.exports = (req, res) => {
-    const user = queue_search(req.body.email, "email");
+module.exports = async (req, res) => {
+    const user = await queue_search(req.body.email, "email");
 
     if(!user) {
         res.sendStatus(404);

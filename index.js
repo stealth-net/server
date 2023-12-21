@@ -9,6 +9,11 @@ const bodyParser = require("body-parser");
 const CryptedJSONdb = require("cryptedjsondb");
 require('dotenv').config({ path: "./.env" });
 
+if (!process.env.databaseKey) {
+    console.error("Error: Please provide a database key using process.env.databaseKey");
+    process.exit(1);
+};
+
 const log = require("./utils/log.js");
 
 const app = express();
@@ -40,7 +45,8 @@ global.stealth = {
     sockets: {}
 };
 
-require("./utils/file_validation.js")();
+// not sure if it's necessary
+// require("./utils/file_validation.js")();
 
 if(config.collectAnalytics) require("./utils/analytics.js");
 
@@ -48,7 +54,7 @@ require("./api/auth_api.js")(app);
 require("./api/user_api.js")(app);
 require("./api/admin_api.js")(app);
 
-const { User, queue_search, fetch_users } = require("./components/User.js");
+const { User, fetch_users } = require("./components/User.js");
 
 app.get('/', (req, res) => {
     if(!req.cookies.token) {

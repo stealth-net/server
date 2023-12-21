@@ -3,8 +3,7 @@ const fs = require("fs");
 
 function validate_directories() {
     Object.entries({
-        "./database/last_id.txt": "1000000000000000",
-        "./database/users.json": "{}"
+        "./database/last_id.txt": "1000000000000000"
     }).forEach(([filePath, defaultContent]) => {
         const absolutePath = path.resolve(filePath);
         const directory = path.dirname(absolutePath);

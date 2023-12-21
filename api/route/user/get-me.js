@@ -12,9 +12,9 @@ function get(req, res) {
         return;
     };
 
-    user.friendRequests = fetch_users(user.friendRequests, true);
-    user.friendRequestsOwn = fetch_users(user.friendRequestsOwn, true);
-    user.friends = fetch_users(user.friends, true);
+    user.friendRequests = fetch_users(user.friendRequests);
+    user.friendRequestsOwn = fetch_users(user.friendRequestsOwn);
+    user.friends = fetch_users(user.friends);
 
     res.send(user);
 };

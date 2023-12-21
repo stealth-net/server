@@ -12,10 +12,6 @@ export class Connection extends EventEmitter {
         });
 
         this.net = {
-            /**
-            * The Socket.IO client instance for handling real-time communication.
-            * @type {WebSocket}
-            */
             socket: io()
         };
     };
