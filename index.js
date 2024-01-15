@@ -11,7 +11,7 @@ const CryptedJSONdb = require("cryptedjsondb");
 require('dotenv').config({ path: "./.env" });
 
 if (!process.env.databaseKey) {
-    console.error("Error: Please provide a database key using process.env.databaseKey");
+    console.error("Error: Please provide a database key in the .env");
     process.exit(1);
 };
 
