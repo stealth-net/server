@@ -118,20 +118,29 @@ io.on('connection', async (socket) => {
 
     user.setStatus("online");
 
-    // if(user.friends.length > 0)
-    //     fetch_users(user.friends).forEach(friend => {
-    //         friend.send("statusChanged", user.id, user.status);
-    //     });
+    const friendsList = user.get('friends');
+    if(friendsList.length > 0) {
+        const friendsToSend = await fetch_users(friendsList);
+        friendsToSend.forEach(async (friend) => {
+            const friendUser = new User();
+            await friendUser.initWithToken(friend.token);
+            
+            await friendUser.send("statusChanged", user.id, user.status);
+        });
 
-    // socket.on("disconnect", () => {
-    //     delete stealth.sockets[user.id];
-    //     user.setStatus("offline");
+        socket.on("disconnect", async () => {
+            delete stealth.sockets[user.id];
+            user.setStatus("offline");
 
-    //     if(user.friends.length > 0)
-    //         fetch_users(user.friends).forEach(friend => {
-    //             friend.send("statusChanged", user.id, user.status);
-    //         });
-    // });
+            const newFriendsToSend = await fetch_users(friendsList);
+            newFriendsToSend.forEach(async (newFriend) => {
+                const newFriendUser = new User();
+                await newFriendUser.initWithToken(newFriend.token);
+                
+                await newFriendUser.send("statusChanged", user.id, user.status);
+            });
+        });
+    }
 });
 
 server.listen(config.port, () => {
