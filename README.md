@@ -63,6 +63,7 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
     - [ ] Edit user details
     - [ ] Delete user
     - [ ] Promote badge
+    - [ ] Demote badge
   - [ ] Message management
     - [ ] Search message by ID
     - [ ] View message attachments
