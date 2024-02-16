@@ -1,4 +1,4 @@
-const { query_search } = require("./User.js");
+const { User, query_search } = require("./User.js");
 
 class Badge {
     constructor(options) {
@@ -12,25 +12,30 @@ let I = 1;
 const Badges = {
     "Developer badge": {
         id: I++,
-        name: "Developer badge"
+        name: "Developer"
     }
 }
 
-function promote_badge(queue, badgeID) {
-    const user = query_search(queue);
+async function promote_badge(queue, badgeID) {
+    const userProperties = await query_search(queue, "id");
+    const user = new User();
+    await user.initWithToken(userProperties.token);
 
-    if(user.badges.indexOf(badgeID) === -1)
-        user.badges.push(badgeID);
-
-    save(user);
+    let badges = user.get('badges');
+    if(!badges.includes(badgeID)) {
+        badges.push(badgeID);
+        user.set('badges', badges);
+    }
 }
 
-function demote_badge(queue, badgeID) {
-    const user = query_search(queue);
+async function demote_badge(queue, badgeID) {
+    const userProperties = await query_search(queue, "id");
+    const user = new User();
+    await user.initWithToken(userProperties.token);
 
-    user.badges = user.badges.filter(badge => badge.id !== badgeID);
-
-    save(user);
+    let badges = user.get('badges');
+    badges = badges.filter(badge => badge !== badgeID);
+    user.set('badges', badges);
 }
 
 module.exports = {

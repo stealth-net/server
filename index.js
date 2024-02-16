@@ -106,8 +106,8 @@ io.on('connection', async (socket) => {
         socket.disconnect();
     }
     
-    const user = new User({ token: userProperties.token });
-    await user.init({ token: userProperties.token });
+    const user = new User();
+    await user.initWithToken(userProperties.token);
 
     if(typeof user == "undefined" || stealth.sockets[user.id] || JSON.stringify(user) == '{}') {
         socket.disconnect();
