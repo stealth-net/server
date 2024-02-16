@@ -6,7 +6,7 @@ module.exports = (input) => {
         '"': '&quot;',
         "'": '&#x27;',
         '/': '&#x2F;'
-    };
+    }
   
     return input.replace(/[&<>"'/]/g, (char) => escapeMap[char]);
-};
+}

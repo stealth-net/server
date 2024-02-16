@@ -5,4 +5,4 @@ module.exports = (req, res) => {
         promote_badge(req.body.user, req.body.badge);
 
     res.sendStatus(200);
-};
+}

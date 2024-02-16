@@ -6,7 +6,7 @@ const routes = {
     GET: {
         "/admin-api/v1/get-analytics": "./route/admin/get-analytics.js"
     }
-};
+}
 
 function initRequests(app) {
     for(const method in routes) {
@@ -14,8 +14,8 @@ function initRequests(app) {
             app[method.toLowerCase()](path, (req, res) => {
                 require(`${routes[method][path]}`)(req, res);
             });
-        };
-    };
-};
+        }
+    }
+}
 
 module.exports = initRequests;

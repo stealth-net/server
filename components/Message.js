@@ -1,7 +1,7 @@
 const sanitize_xss = require("../utils/sanitize_xss.js");
 const database = stealth.database.messages;
 
-function queue_search(queue, key) {
+function query_search(queue, key) {
     const messageIds = Object.keys(database.data);
     
     var result = null;
@@ -14,7 +14,7 @@ function queue_search(queue, key) {
     });
 
     return result;
-};
+}
 
 class Message {
     constructor(options = {}) { // author, receiver, content
@@ -24,17 +24,17 @@ class Message {
             this.receiver = options.receiver;
             this.content = sanitize_xss(options.content);
         } else if(options.id) {
-            const messageData = queue_search(options.id, "id");
+            const messageData = query_search(options.id, "id");
             
             for(let key in messageData) {
                 this[key] = messageData[key];
-            };
-        };
-    };
+            }
+        }
+    }
     save() {
         database.data[this.id] = class_to_json(this);
         database.save();
-    };
-};
+    }
+}
 
 module.exports = Message;

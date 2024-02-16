@@ -5,7 +5,7 @@ module.exports = (req, res) => {
     if(!req.cookies.token) {
         res.sendStatus(401);
         return;
-    };
+    }
 
     const author = new User({ token: req.cookies.token });
 
@@ -14,4 +14,4 @@ module.exports = (req, res) => {
     message.save();
 
     res.status(200);
-};
+}

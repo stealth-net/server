@@ -5,7 +5,7 @@ const express = require("express");
 const POST = {
     "/auth-api/v1/sign-up": "./route/auth/sign-up.js",
     "/auth-api/v1/sign-in": "./route/auth/sign-in.js"
-};
+}
 
 const GET = [
     "/sign-up",
@@ -18,7 +18,7 @@ function initPages(app) {
             if(req.cookies.token) {
                 res.redirect("/");
                 return;
-            };
+            }
 
             res.sendFile("./public" + GET[route] + "/index.html", {
                 root: '.'
@@ -38,10 +38,10 @@ function initPages(app) {
                 app.get(`/${fileOrFolder}`, (req, res) => {
                     res.sendFile(filePath);
                 });
-            };
+            }
         });
-    };
-};
+    }
+}
 
 function initRequests(app) {
     initPages(app);
@@ -50,7 +50,7 @@ function initRequests(app) {
         app.post(path, (req, res) => {
             require(POST[path])(req, res);
         });
-    };
-};
+    }
+}
 
 module.exports = initRequests;

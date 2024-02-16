@@ -17,5 +17,5 @@ StealthNet.connection.net.socket.on("friendRequestAccept", userData => {
     addFriend(userData);
     removeFriendRequest(userData.id);
 });
-StealthNet.conneciton.net.socket.on("message", messageData => addMessage(messageData));
+StealthNet.connection.net.socket.on("message", messageData => addMessage(messageData));
 StealthNet.connection.net.socket.on("statusChanged", (id, type) => document.getElementById("friend-" + id).querySelector('div.friend-status').setAttribute("state", type));

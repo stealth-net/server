@@ -6,14 +6,13 @@ const socketIO = require("socket.io");
 const { EventEmitter } = require("events");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-const CryptedJSONdb = require("cryptedjsondb");
-// const { Database } = require("@journeyapps/sqlcipher");
+const sqlite3 = require("sqlite3").verbose();
 require('dotenv').config({ path: "./.env" });
 
-if (!process.env.databaseKey) {
+if(!process.env.databaseKey) {
     console.error("Error: Please provide a database key in the .env");
     process.exit(1);
-};
+}
 
 const log = require("./utils/log.js");
 
@@ -27,6 +26,17 @@ const io = socketIO(server);
 
 const config = require("./config.json");
 
+const dbFilePath = "./database/data.db";
+
+if (!fs.existsSync(dbFilePath)) fs.writeFileSync(dbFilePath, "");
+let db = new sqlite3.Database(dbFilePath, sqlite3.OPEN_READWRITE, (err) => {
+    if(err) {
+        console.error(err.message);
+        throw err;
+    }
+    log('Connected to the SQLite database.', "INFO");
+});
+
 global.stealth = {
     events: new EventEmitter(),
     app,
@@ -34,20 +44,11 @@ global.stealth = {
     io,
     config,
     id_manager: new (require("./utils/id_manager.js"))("./database/last_id.txt"),
-    database: {
-        users: new CryptedJSONdb("./database/users.db", {
-            key: process.env.databaseKey,
-            minify: false,
-            encryption: false
-        })
-    },
+    database: db,
     env: process.env,
     log,
     sockets: {}
-};
-
-// not sure if it's necessary
-// require("./utils/file_validation.js")();
+}
 
 if(config.collectAnalytics) require("./utils/analytics.js");
 
@@ -55,13 +56,13 @@ require("./api/auth_api.js")(app);
 require("./api/user_api.js")(app);
 require("./api/admin_api.js")(app);
 
-const { User, fetch_users } = require("./components/User.js");
+const { User, fetch_users, query_search } = require("./components/User.js");
 
 app.get('/', (req, res) => {
     if(!req.cookies.token) {
         res.redirect("/sign-up");
         return;
-    };
+    }
 
     res.sendFile(path.join(publicDir, "/mainpage/index.html"));
 });
@@ -77,57 +78,60 @@ fs.readdirSync(publicDir).forEach((fileOrFolder) => {
 
     if(fs.statSync(filePath).isDirectory()) {
         app.use(`/${fileOrFolder}`, express.static(filePath));
-        // log(`Successfully routed folder "${fileOrFolder}"`, "INFO");
     } else {
         app.get(`/${fileOrFolder}`, (req, res) => {
             res.sendFile(filePath);
-            // log(`Successfully routed file: ${fileOrFolder}`, "INFO");
         });
-    };
+    }
 });
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
     const token = decodeURIComponent(socket.request.headers.cookie.replace("token=", ''));
     if(!token) {
         socket.disconnect();
         return;
-    };
+    }
 
-    if (/^[A-Za-z0-9_\-]+=*\.[A-Za-z0-9_\-]+=*\.[A-Za-z0-9_\-]+=*$/.test(token)) {
+    const userProperties = await query_search(token, "token");
+    if(!userProperties) {
+        socket.disconnect();
+        return;
+    }
+
+    if(/^[A-Za-z0-9_\-]+=*\.[A-Za-z0-9_\-]+=*\.[A-Za-z0-9_\-]+=*$/.test(token)) {
         socket.token = token;
         socket.authorized = true;
     } else {
         socket.authorized = false;
         socket.disconnect();
-    };
+    }
     
-    const user = new User({
-        token: socket.token
-    });
+    const user = new User({ token: userProperties.token });
+    await user.init({ token: userProperties.token });
 
-    if(typeof user == "undefined" || stealth.sockets[user.id]) {
+    if(typeof user == "undefined" || stealth.sockets[user.id] || JSON.stringify(user) == '{}') {
         socket.disconnect();
         return;
-    };
+    }
 
     stealth.sockets[user.id] = socket;
 
     user.setStatus("online");
 
-    if(user.friends.length > 0)
-        fetch_users(user.friends).forEach(friend => {
-            friend.send("statusChanged", user.id, user.status);
-        });
+    // if(user.friends.length > 0)
+    //     fetch_users(user.friends).forEach(friend => {
+    //         friend.send("statusChanged", user.id, user.status);
+    //     });
 
-    socket.on("disconnect", () => {
-        delete stealth.sockets[user.id];
-        user.setStatus("offline");
+    // socket.on("disconnect", () => {
+    //     delete stealth.sockets[user.id];
+    //     user.setStatus("offline");
 
-        if(user.friends.length > 0)
-            fetch_users(user.friends).forEach(friend => {
-                friend.send("statusChanged", user.id, user.status);
-            });
-    });
+    //     if(user.friends.length > 0)
+    //         fetch_users(user.friends).forEach(friend => {
+    //             friend.send("statusChanged", user.id, user.status);
+    //         });
+    // });
 });
 
 server.listen(config.port, () => {

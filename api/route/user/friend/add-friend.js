@@ -1,34 +1,55 @@
-const { User, queue_search, safe_user } = require("../../../../components/User.js");
+const { User, query_search, safe_user } = require("../../../../components/User.js");
 
 module.exports = async (req, res) => {
     if(!req.cookies.token) {
+        console.log("No token provided");
         res.sendStatus(401);
         return;
-    };
+    }
 
-    const sender = new User({ token: req.cookies.token });
-    const target = new User({ token: await queue_search(req.body.username, "username").token });
-
-    if(typeof target == "undefined" || sender.id == target.id) {
+    const senderProperties = await query_search(req.cookies.token, "token");
+    if(!senderProperties) {
+        console.log("Sender properties not found");
         res.sendStatus(404);
         return;
-    };
+    }
+    const sender = new User();
+    await sender.initWithToken(senderProperties.token);
 
-    if(sender.friends.includes(target.id) ||
-        sender.friendRequestsOwn.filter(id => id === sender.id).length > 0 ||
-        sender.friendRequests.filter(id => id === sender.id).length > 0
+    const targetProperties = await query_search(req.body.username, "username");
+    if(!targetProperties) {
+        console.log("Target properties not found");
+        res.sendStatus(404);
+        return;
+    }
+    const target = new User();
+    await target.initWithToken(targetProperties.token);
+
+    if(typeof target == "undefined" || sender.id == target.id) {
+        console.log("Invalid target or sender");
+        res.sendStatus(404);
+        return;
+    }
+
+    let senderFriends = sender.get("friends");
+    let senderFriendRequestsOwn = sender.get("friendRequestsOwn");
+    let targetFriendRequests = target.get("friendRequests");
+
+    if(senderFriends.includes(target.id) ||
+        senderFriendRequestsOwn.includes(sender.id) ||
+        targetFriendRequests.includes(sender.id)
     ) {
+        console.log("Friend request already exists");
         res.sendStatus(409);
         return;
-    };
+    }
 
-    sender.friendRequestsOwn.push(target.id);
-    target.friendRequests.push(sender.id);
+    senderFriendRequestsOwn.push(target.id);
+    targetFriendRequests.push(sender.id);
 
+    sender.set('friendRequestsOwn', senderFriendRequestsOwn);
+    target.set('friendRequests', targetFriendRequests);
     target.send("friendRequest", { username: sender.username, pfpURL: sender.pfpURL, id: sender.id });
 
-    sender.save();
-    target.save();
-
     res.send(safe_user(target));
-};
+}

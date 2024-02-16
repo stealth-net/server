@@ -122,6 +122,7 @@ export function addFriend(userData) {
     // cross
     const button2 = document.createElement("button");
     button2.addEventListener("click", () => {
+        console.log(userData);
         postData("/user-api/v1/remove-friend", { id: userData.id }, "POST");
         friendContainer.remove();
     });

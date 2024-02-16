@@ -7,7 +7,7 @@ dashboardCharts.forEach(async chartElement => {
     const chartData = {
         xData: getFormattedDates(response),
         yData: getScore(response)
-    };
+    }
 
     chart.setOption({
         title: {

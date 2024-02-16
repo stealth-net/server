@@ -5,7 +5,7 @@ class Guild {
         this.creatorID = creatorID;
 
         this.members = [];
-    };
-};
+    }
+}
 
 module.exports = Guild;

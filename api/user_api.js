@@ -13,7 +13,7 @@ const routes = {
     GET: {
         "/user-api/v1/get-me": "./route/user/get-me.js"
     }
-};
+}
 
 function initRequests(app) {
     for(const method in routes) {
@@ -21,8 +21,8 @@ function initRequests(app) {
             app[method.toLowerCase()](path, (req, res) => {
                 require(`${routes[method][path]}`)(req, res);
             });
-        };
-    };
-};
+        }
+    }
+}
 
 module.exports = initRequests;

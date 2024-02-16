@@ -1,10 +1,10 @@
-const { queue_search } = require("../../../components/User.js");
+const { User, query_search } = require("../../../components/User.js");
 
 module.exports = (req, res) => {
     if(!req.cookies.token) {
         res.sendStatus(401);
         return;
-    };
+    }
 
     const user = new User({ token: req.cookies.token });
 
@@ -13,4 +13,4 @@ module.exports = (req, res) => {
     save(user);
 
     res.send(user);
-};
+}

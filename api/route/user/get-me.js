@@ -1,22 +1,21 @@
-const { User, fetch_users } = require("../../../components/User.js");
+const { User, query_search } = require("../../../components/User.js");
 
-function get(req, res) {
+module.exports = async (req, res) => {
     if(!req.cookies.token) {
         res.sendStatus(401);
         return;
-    };
+    }
 
-    const user = new User({ token: req.cookies.token });
-    if(!user) {
+    const userProperties = await query_search(req.cookies.token, "token");
+    if(!userProperties) {
         res.sendStatus(404);
         return;
-    };
+    }
 
-    user.friendRequests = fetch_users(user.friendRequests);
-    user.friendRequestsOwn = fetch_users(user.friendRequestsOwn);
-    user.friends = fetch_users(user.friends);
+    const user = new User();
+    await user.initWithToken(userProperties.token);
 
-    res.send(user);
-};
+    user.save();
 
-module.exports = get;
+    res.send(await user.getAllProperties());
+}

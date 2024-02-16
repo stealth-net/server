@@ -1,16 +1,22 @@
-const { queue_search } = require("../../../components/User.js");
+const { User, query_search } = require("../../../components/User.js");
 
 module.exports = async (req, res) => {
-    const user = await queue_search(req.body.email, "email");
+    const userProperties = await query_search(req.body.email, "email");
 
-    if(!user) {
+    if(!userProperties) {
         res.sendStatus(404);
         return;
-    } else if(user.password !== req.body.password) {
+    }
+
+    const user = new User();
+    await user.init({ token: userProperties.token });
+    user.save();
+
+    if(user.password !== req.body.password) {
         res.sendStatus(401);
         return;
-    };
+    }
 
     res.cookie("token", user.token);
     res.sendStatus(200);
-};
+}
