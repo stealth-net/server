@@ -1,9 +1,15 @@
 const { User, query_search } = require("../../../components/User.js");
 
 module.exports = async (req, res) => {
-    const existingUser = await query_search(req.body.username, "username");
-    if(existingUser) {
-        res.sendStatus(409);
+    const existingUsername = await query_search(req.body.username, "username");
+    if(existingUsername) {
+        res.status(409).send("Username already registered");
+        return;
+    }
+
+    const existingEmail = await query_search(req.body.email, "email");
+    if(existingEmail) {
+        res.status(409).send("Email already registered");
         return;
     }
 
