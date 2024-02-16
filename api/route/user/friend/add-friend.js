@@ -9,7 +9,6 @@ module.exports = async (req, res) => {
 
     const senderProperties = await query_search(req.cookies.token, "token");
     if(!senderProperties) {
-        console.log("Sender properties not found");
         res.sendStatus(404);
         return;
     }
@@ -18,7 +17,6 @@ module.exports = async (req, res) => {
 
     const targetProperties = await query_search(req.body.username, "username");
     if(!targetProperties) {
-        console.log("Target properties not found");
         res.sendStatus(404);
         return;
     }
@@ -26,7 +24,6 @@ module.exports = async (req, res) => {
     await target.initWithToken(targetProperties.token);
 
     if(typeof target == "undefined" || sender.id == target.id) {
-        console.log("Invalid target or sender");
         res.sendStatus(404);
         return;
     }
@@ -39,7 +36,6 @@ module.exports = async (req, res) => {
         senderFriendRequestsOwn.includes(sender.id) ||
         targetFriendRequests.includes(sender.id)
     ) {
-        console.log("Friend request already exists");
         res.sendStatus(409);
         return;
     }

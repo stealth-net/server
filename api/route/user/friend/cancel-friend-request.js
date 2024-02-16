@@ -2,7 +2,6 @@ const { User, query_search } = require("../../../../components/User.js");
 
 module.exports = async (req, res) => {
     if(!req.cookies.token) {
-        console.log("No token provided");
         res.sendStatus(401);
         return;
     }
@@ -12,15 +11,13 @@ module.exports = async (req, res) => {
 
     const targetData = await query_search(req.body.id, "id");
     if (!targetData) {
-        console.log("Target data not found");
         res.sendStatus(400);
         return;
     }
     const target = new User();
     await target.initWithToken(targetData.token);
 
-    if(sender.get('id') == target.get('id')) {
-        console.log("Sender and target are the same user");
+    if(sender.id == target.id) {
         res.sendStatus(400);
         return;
     }

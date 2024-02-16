@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
         return;
     }
     const sender = new User();
-    await sender.init({ token: senderProperties.token });
+    await sender.initWithToken(senderProperties.token);
 
     const targetProperties = await query_search(req.body.id, "id");
     if(!targetProperties) {
@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
         return;
     }
     const target = new User();
-    await target.init({ token: targetProperties.token });
+    await target.initWithToken(targetProperties.token);
 
     const senderFriends = sender.get('friends');
     const targetFriends = target.get('friends');
@@ -30,13 +30,10 @@ module.exports = async (req, res) => {
         return;
     }
 
-    sender.set('friends', JSON.stringify(senderFriends.filter(id => id !== target.id)));
-    target.set('friends', JSON.stringify(targetFriends.filter(id => id !== sender.id)));
+    sender.set('friends', senderFriends.filter(id => id !== target.id));
+    target.set('friends', targetFriends.filter(id => id !== sender.id));
 
     target.send("friendRemove", sender.id);
-
-    sender.save();
-    target.save();
 
     res.sendStatus(200);
 }

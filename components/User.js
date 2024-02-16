@@ -52,13 +52,12 @@ async function fetch_users(ids, safe) {
     const users = [];
     for (let id of ids) {
         try {
-            const userRow = await query_search(id, "id");
+            const userRow = await query_search(id.toString(), "id");
             if(userRow) {
                 const user = new User();
-                await user.initWithToken({ token: userRow.token });
-                console.log(user);
+                await user.initWithToken(userRow.token);
 
-                users.push(safe ? safe_user(user) : user);
+                users.push(safe ? safe_user(user) : await user.getAllProperties());
             }
         } catch (error) {
             console.error("Failed to fetch user:", error.message);
@@ -135,12 +134,16 @@ class User {
 
     async getAllProperties() {
         const properties = {};
+
         for (const key in this) {
             if(this.hasOwnProperty(key)) {
                 const value = this.get(key);
                 properties[key] = value instanceof Promise ? await value : value;
             }
         }
+
+        properties.friends = await fetch_users(JSON.parse(this.friends), true);
+
         return properties;
     }
 

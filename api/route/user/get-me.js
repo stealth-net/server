@@ -15,7 +15,5 @@ module.exports = async (req, res) => {
     const user = new User();
     await user.initWithToken(userProperties.token);
 
-    user.save();
-
     res.send(await user.getAllProperties());
 }
