@@ -1,6 +1,13 @@
 {
     "port": 443,
-    "minifyDatabase": false,
     "encryptDatabase": false,
-    "collectAnalytics": false
+    "collectAnalytics": false,
+    "logging": {
+        "info": true,
+        "warn": true,
+        "auth": true,
+        "users": true,
+        "error": true,
+        "debug": true
+    }
 }

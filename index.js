@@ -118,6 +118,8 @@ io.on('connection', async (socket) => {
 
     user.setStatus("online");
 
+    log(`User ${user.id} connected`, "USERS");
+
     const friendsList = user.get('friends');
     if(friendsList.length > 0) {
         const friendsToSend = await fetch_users(friendsList);
@@ -125,7 +127,7 @@ io.on('connection', async (socket) => {
             const friendUser = new User();
             await friendUser.initWithToken(friend.token);
             
-            await friendUser.send("statusChanged", user.id, user.status);
+            friendUser.send("statusChanged", user.id, user.status);
         });
 
         socket.on("disconnect", async () => {
@@ -137,7 +139,7 @@ io.on('connection', async (socket) => {
                 const newFriendUser = new User();
                 await newFriendUser.initWithToken(newFriend.token);
                 
-                await newFriendUser.send("statusChanged", user.id, user.status);
+                newFriendUser.send("statusChanged", user.id, user.status);
             });
         });
     }
