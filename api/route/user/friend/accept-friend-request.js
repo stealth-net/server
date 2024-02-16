@@ -51,8 +51,8 @@ module.exports = async (req, res) => {
     sender.set('friends', senderFriends);
     target.set('friends', targetFriends);
 
-    sender.set('friendRequestsOwn', JSON.stringify(senderFriendRequestsOwn.filter(id => id !== target.id)));
-    target.set('friendRequests', JSON.stringify(targetFriendRequests.filter(id => id !== sender.id)));
+    sender.set('friendRequests', JSON.stringify(targetFriendRequests.filter(id => id !== sender.id)));
+    target.set('friendRequestsOwn', JSON.stringify(senderFriendRequestsOwn.filter(id => id !== target.id)));
 
     target.get("friendRequestAccept", { username: sender.get("username"), pfpURL: sender.get("pfpURL"), id: sender.get("id") });
 
