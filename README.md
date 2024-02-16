@@ -57,6 +57,7 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
 ## Todo List for StealthNet Development
 - [ ] Finish message sending
 - [ ] Admin portal
+  - [ ] Analytics
   - [ ] User management
     - [ ] View all users
     - [ ] View user details
@@ -69,7 +70,14 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
     - [ ] View message attachments
     - [ ] View message details
     - [ ] Delete message
-  - [ ] Analytics
+  - [ ] Server management
+    - [ ] View server details
+    - [ ] Edit server details
+    - [ ] View members
+  - [ ] System Logs
+    - [ ] View logs
+    - [ ] Clear logs
+    - [ ] Run command
 
 ## Logo
 #### Currently we are using a logo similar to the old [Linkin Park](https://en.wikipedia.org/wiki/Linkin_Park) logo. If you are a member of the rock band, please contact us by mail with a request to change the logo: scar17off@gmail.com
