@@ -131,7 +131,7 @@ class User {
                 Object.assign(this, userData);
             }
         } catch (err) {
-            console.error("Error fetching user data with token:", err.message);
+            log("ERROR", "Failed to fetch user data with token:", err.message);
         }
     }
 
@@ -152,7 +152,7 @@ class User {
         this.friendRequestsOwn = JSON.stringify([]);
         this.guilds = JSON.stringify([]);
         this.messages = JSON.stringify([]);
-        this.status = "online";
+        this.status = "offline";
         this.pfpURL = "/mainpage/images/logo_transparent.png";
         this.creationTime = Date.now();
         
