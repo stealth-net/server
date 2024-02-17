@@ -26,10 +26,8 @@ const io = socketIO(server);
 
 const config = require("./config.json");
 
-const dbFilePath = "./database/data.db";
-
-if (!fs.existsSync(dbFilePath)) fs.writeFileSync(dbFilePath, "");
-let db = new sqlite3.Database(dbFilePath, sqlite3.OPEN_READWRITE, (err) => {
+if (!fs.existsSync(config.databasePath)) fs.writeFileSync(config.databasePath, "");
+let db = new sqlite3.Database(config.databasePath, sqlite3.OPEN_READWRITE, (err) => {
     if(err) {
         console.error(err.message);
         throw err;
