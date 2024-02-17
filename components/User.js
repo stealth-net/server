@@ -162,6 +162,11 @@ class User {
         this.password = options.password;
     }
 
+    /**
+     * Get the value of a property by key.
+     * @param {string} key - The key of the property to retrieve.
+     * @returns {*} The value of the property.
+     */
     get(key) {
         const value = this[key];
         if(typeof value === 'string') {
@@ -177,7 +182,13 @@ class User {
         return value;
     }
 
+    /**
+     * Set the value of a property by key.
+     * @param {string} key - The key of the property to set.
+     * @param {*} value - The value to set for the property.
+     */
     set(key, value) {
+        Object.assign(this, { [key]: value });
         let query = `UPDATE users SET ${key} = ? WHERE id = ?`;
         db.run(query, [typeof value === 'object' ? JSON.stringify(value) : value, this.id], function(err) {
             if(err) {
@@ -186,6 +197,10 @@ class User {
         });
     }
 
+    /**
+     * Get all properties of the user.
+     * @returns {Object} All properties of the user.
+     */
     async getAllProperties() {
         const properties = {};
 
@@ -201,6 +216,12 @@ class User {
         return properties;
     }
 
+    /**
+     * Send data to the user's socket.
+     * @param {string} type - The type of data to send.
+     * @param {...*} data - The data to send.
+     * @returns {boolean} True if data is sent successfully, false otherwise.
+     */
     send(type, ...data) {
         const socket = this.getSocket();
         if(!socket) return false;
