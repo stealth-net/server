@@ -9,12 +9,12 @@ const bodyParser = require("body-parser");
 const sqlite3 = require("sqlite3").verbose();
 require('dotenv').config({ path: "./.env" });
 
+const log = require("./utils/log.js");
+
 if(!process.env.databaseKey) {
-    console.error("Error: Please provide a database key in the .env");
+    log("WARN", "Please provide a database key in the .env");
     process.exit(1);
 }
-
-const log = require("./utils/log.js");
 
 const app = express();
 app.use(cookieParser());
@@ -38,6 +38,7 @@ let db = new sqlite3.Database(dbFilePath, sqlite3.OPEN_READWRITE, (err) => {
 });
 
 /**
+ * @global
  * @typedef {Object} StealthObject
  * @property {EventEmitter} events - EventEmitter instance
  * @property {express.Application} app - Express application instance
