@@ -2,7 +2,6 @@ const { User, query_search, safe_user } = require("../../../../components/User.j
 
 module.exports = async (req, res) => {
     if(!req.cookies.token) {
-        console.log("No token provided");
         res.sendStatus(401);
         return;
     }

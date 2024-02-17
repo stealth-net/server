@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
     const user = new User();
     await user.initWithToken(userProperties.token);
 
-    log(`User ${user.id} signed in`, "AUTH");
+    log("AUTH", `User ${user.id} signed in`);
 
     if(user.password !== req.body.password) {
         res.sendStatus(401);

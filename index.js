@@ -34,7 +34,7 @@ let db = new sqlite3.Database(dbFilePath, sqlite3.OPEN_READWRITE, (err) => {
         console.error(err.message);
         throw err;
     }
-    log('Connected to the SQLite database.', "INFO");
+    log("INFO", 'Connected to the SQLite database.');
 });
 
 /**
@@ -136,7 +136,7 @@ io.on('connection', async (socket) => {
 
     user.setStatus("online");
 
-    log(`User ${user.id} connected`, "USERS");
+    log("USERS", `User ${user.id} connected`);
 
     const friendsList = user.get('friends');
     if(friendsList.length > 0) {
@@ -164,5 +164,5 @@ io.on('connection', async (socket) => {
 });
 
 server.listen(config.port, () => {
-    log("Server is running on *:" + config.port, "INFO");
+    log("INFO", "Server is running on *:" + config.port);
 });

@@ -8,11 +8,11 @@ Date.prototype.timeNow = function () {
 }
 
 /**
- * Logs a message with a specified type.
- * @param {string} message - The message to log.
+ * Logs messages with a specified type.
  * @param {string} type - The type of the log (INFO, WARN, ERROR, DEBUG, AUTH, USERS).
+ * @param {...string} message - The messages to log.
  */
-function log(message, type) {
+function log(type, ...message) {
     type = type.toUpperCase();
     if(!stealth.config.logging[type.toLowerCase()]) return;
 
@@ -42,9 +42,10 @@ function log(message, type) {
             break;
     }
 
-    message = `${typeColor(`[${date.timeNow()} ${type}]:`)} ${chalk.white(message)}`;
+    const formattedMessage = message.join(' ');
+    const logMessage = `${typeColor(`[${date.timeNow()} ${type}]:`)} ${chalk.white(formattedMessage)}`;
 
-    console.log(message);
+    console.log(logMessage);
 }
 
 module.exports = log;

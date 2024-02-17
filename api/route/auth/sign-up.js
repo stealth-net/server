@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
     });
     user.save();
 
-    log(`User ${user.id} signed up`, "AUTH");
+    log("AUTH", `User ${user.id} signed up`);
 
     res.cookie("token", user.token);
     res.sendStatus(200);
