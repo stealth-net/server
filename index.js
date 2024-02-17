@@ -7,6 +7,7 @@ const { EventEmitter } = require("events");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const sqlite3 = require("sqlite3").verbose();
+const readline = require("readline");
 require('dotenv').config({ path: "./.env" });
 
 const config = require("./config.json");
@@ -161,6 +162,17 @@ io.on('connection', async (socket) => {
         });
     }
 });
+
+const Command = require('./utils/commands.js');
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+rl.on("line", (input) => {
+    new Command(input);
+})
 
 process.on('SIGINT', async () => {
     db.run("UPDATE users SET status = 'offline'", function(err) {
