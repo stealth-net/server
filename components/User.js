@@ -5,20 +5,19 @@ const db = stealth.database;
 const query = `
 CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,
+    username TEXT,
+    email TEXT,
+    password TEXT,
     token TEXT,
     badges TEXT,
     friends TEXT,
     friendRequests TEXT,
     friendRequestsOwn TEXT,
     guilds TEXT,
-    messages TEXT,
     status TEXT,
     pfpURL TEXT,
-    creationTime INTEGER,
-    username TEXT,
     display_name TEXT,
-    email TEXT,
-    password TEXT
+    creationTime INTEGER
 )`;
 db.run(query, function(err) {
     if(err) {
@@ -95,7 +94,6 @@ class User {
      * @property {string} friendRequests - Array of user friend requests.
      * @property {string} friendRequestsOwn - Array of friend requests sent by the user.
      * @property {string} guilds - Array of user guilds.
-     * @property {string} messages - Array of user messages.
      * @property {string} status - The online status of the user.
      * @property {string} pfpURL - The profile picture URL of the user.
      * @property {number} creationTime - The timestamp of user creation.
@@ -151,7 +149,6 @@ class User {
         this.friendRequests = JSON.stringify([]);
         this.friendRequestsOwn = JSON.stringify([]);
         this.guilds = JSON.stringify([]);
-        this.messages = JSON.stringify([]);
         this.status = "offline";
         this.pfpURL = "/mainpage/images/logo_transparent.png";
         this.creationTime = Date.now();
@@ -241,8 +238,11 @@ class User {
     }
 
     save() {
-        let query = `INSERT OR REPLACE INTO users (id, token, badges, friends, friendRequests, friendRequestsOwn, guilds, messages, status, pfpURL, creationTime, username, display_name, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-        db.run(query, [this.id, this.token, this.badges, this.friends, this.friendRequests, this.friendRequestsOwn, this.guilds, this.messages, this.status, this.pfpURL, this.creationTime, this.username, this.display_name, this.email, this.password], function(err) {
+        let query = `
+            INSERT OR REPLACE INTO users (id, token, badges, friends, friendRequests, friendRequestsOwn, guilds, status, pfpURL, creationTime, username, display_name, email, password) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+        db.run(query, [this.id, this.token, this.badges, this.friends, this.friendRequests, this.friendRequestsOwn, this.guilds, this.status, this.pfpURL, this.creationTime, this.username, this.display_name, this.email, this.password], function(err) {
             if(err) {
                 console.error("Failed to save user:", err.message);
             }
