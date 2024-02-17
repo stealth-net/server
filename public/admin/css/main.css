@@ -38,6 +38,11 @@ input, textarea {
 input::placeholder, textarea::placeholder {
     color: #40446a;
 }
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+    background-color: #11111a !important;
+}
 hr {
     background-color: #40446a;
     border-radius: 1px;
