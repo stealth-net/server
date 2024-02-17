@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS users (
 )`;
 db.run(query, function(err) {
     if(err) {
-        log("ERROR", "Failed to create users table: " + err.message);
+        log("ERROR", "Failed to create users table:", err.message);
     }
 });
 
