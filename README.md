@@ -2,7 +2,7 @@
 StealthNet is a secure chat application designed to safeguard your privacy and security. Unlike other messaging apps, StealthNet is entirely free from invasive tracking and telemetry, ensuring that your conversations remain confidential and your data is not harvested for any purpose.  
 
 ## Tech Stack
-StealthNet is built using Node.js and Express.js for the backend, and vanilla JavaScript for the frontend. It uses [cryptedjsondb](https://www.npmjs.com/package/cryptedjsondb) for secure data storage.
+StealthNet is built using Node.js and Express.js for the backend, and vanilla JavaScript for the frontend. It uses [sqlite3](https://www.sqlite.org/index.html) for secure data storage.
 
 ## Codebase Overview
 The codebase is organized into several directories and files:
