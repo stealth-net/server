@@ -78,6 +78,7 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
     - [ ] View logs
     - [ ] Clear logs
     - [ ] Run command
+  - [ ] Remove XSS vulnerabilities
 
 ## Logo
 #### Currently we are using a logo similar to the old [Linkin Park](https://en.wikipedia.org/wiki/Linkin_Park) logo. If you are a member of the rock band, please contact us by mail with a request to change the logo: scar17off@gmail.com
