@@ -37,6 +37,24 @@ let db = new sqlite3.Database(dbFilePath, sqlite3.OPEN_READWRITE, (err) => {
     log('Connected to the SQLite database.', "INFO");
 });
 
+/**
+ * @typedef {Object} StealthObject
+ * @property {EventEmitter} events - EventEmitter instance
+ * @property {express.Application} app - Express application instance
+ * @property {http.Server} server - HTTP server instance
+ * @property {socketIO.Server} io - Socket.IO server instance
+ * @property {Object} config - Configuration object
+ * @property {Object} id_manager - ID manager object
+ * @property {sqlite3.Database} database - SQLite database instance
+ * @property {Object} env - Process environment variables
+ * @property {Function} log - Logging function
+ * @property {Object} sockets - Object to store sockets
+ */
+
+/**
+ * Global object for StealthNet application.
+ * @type {StealthObject}
+ */
 global.stealth = {
     events: new EventEmitter(),
     app,
@@ -107,7 +125,7 @@ io.on('connection', async (socket) => {
     }
     
     const user = new User();
-    await user.initWithToken(userProperties.token);
+    await user.initWithToken(socket.token);
 
     if(typeof user == "undefined" || stealth.sockets[user.id] || JSON.stringify(user) == '{}') {
         socket.disconnect();

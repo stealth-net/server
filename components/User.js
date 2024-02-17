@@ -26,6 +26,12 @@ db.run(query, function(err) {
     }
 });
 
+/**
+ * Searches for a user in the database based on a specific key.
+ * @param {string} queue - The value to search for in the database.
+ * @param {string} key - The key to search for in the database.
+ * @returns {Promise<Object>} A promise that resolves with the user row if found, or rejects with an error.
+ */
 function query_search(queue, key) {
     return new Promise((resolve, reject) => {
         let query = `SELECT * FROM users WHERE ${key} = ?`;
@@ -39,6 +45,11 @@ function query_search(queue, key) {
     });
 }
 
+/**
+ * Creates a safe user object with limited properties.
+ * @param {Object} user - The user object to make safe.
+ * @returns {Object} A safe user object with limited properties.
+ */
 function safe_user(user) {
     return {
         username: user.username,
@@ -48,6 +59,12 @@ function safe_user(user) {
     }
 }
 
+/**
+ * Fetches users based on their IDs.
+ * @param {Array} ids - The array of user IDs to fetch.
+ * @param {boolean} safe - A flag to determine if fetching should be safe.
+ * @returns {Array} An array of fetched users.
+ */
 async function fetch_users(ids, safe) {
     const users = [];
     for (let id of ids) {
@@ -66,9 +83,35 @@ async function fetch_users(ids, safe) {
     return users;
 }
 
+/**
+ * Represents a user in the system.
+ */
 class User {
+    /**
+     * @property {string} id - The unique identifier of the user.
+     * @property {string} token - The authentication token of the user.
+     * @property {string} badges - Array of user badges.
+     * @property {string} friends - Array of user friends.
+     * @property {string} friendRequests - Array of user friend requests.
+     * @property {string} friendRequestsOwn - Array of friend requests sent by the user.
+     * @property {string} guilds - Array of user guilds.
+     * @property {string} messages - Array of user messages.
+     * @property {string} status - The online status of the user.
+     * @property {string} pfpURL - The profile picture URL of the user.
+     * @property {number} creationTime - The timestamp of user creation.
+     * @property {string} username - The username of the user.
+     * @property {string} display_name - The display name of the user.
+     * @property {string} email - The email address of the user.
+     * @property {string} password - The password of the user.
+     */
     constructor() {}
 
+    /**
+     * Initialize user with options.
+     * @param {Object} options - The options for user initialization.
+     * @param {string} options.token - The token for user initialization.
+     * @param {string} options.password - The password for user initialization.
+     */
     async init(options) {
         if(options.token) {
             await this.initWithToken(options.token);
@@ -77,6 +120,10 @@ class User {
         }
     }
 
+    /**
+     * Initialize user with token.
+     * @param {string} token - The token for user initialization.
+     */
     async initWithToken(token) {
         try {
             const userData = await query_search(token, "token");
@@ -88,6 +135,13 @@ class User {
         }
     }
 
+    /**
+     * Initialize user credentials.
+     * @param {Object} options - The options for user credentials.
+     * @param {string} options.username - The username of the user.
+     * @param {string} options.email - The email of the user.
+     * @param {string} options.password - The password of the user.
+     */
     initWithCredentials(options) {
         this.id = stealth.id_manager.getNextID();
         this.token = options.token || gen_token(this.id);

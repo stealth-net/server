@@ -7,6 +7,11 @@ Date.prototype.timeNow = function () {
     return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +":"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
 }
 
+/**
+ * Logs a message with a specified type.
+ * @param {string} message - The message to log.
+ * @param {string} type - The type of the log (INFO, WARN, ERROR, DEBUG, AUTH, USERS).
+ */
 function log(message, type) {
     type = type.toUpperCase();
     if(!stealth.config.logging[type.toLowerCase()]) return;
