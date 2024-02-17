@@ -163,6 +163,15 @@ io.on('connection', async (socket) => {
     }
 });
 
+process.on('SIGINT', async () => {
+    db.run("UPDATE users SET status = 'offline'", function(err) {
+        if (err) {
+            log("ERROR", "Error updating user status to offline:", err);
+        }
+        process.exit(0);
+    });
+});
+
 server.listen(config.port, () => {
     log("INFO", "Server is running on *:" + config.port);
 });
