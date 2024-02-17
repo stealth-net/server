@@ -7,9 +7,11 @@ module.exports = async (req, res) => {
         return;
     }
 
-    const author = await new User().initWithToken(req.cookies.token);
+    const author = new User();
+    await author.initWithToken(req.cookies.token);
     const receiverProperties = await query_search(req.body.receiver, "id");
-    const receiver = await new User().initWithToken(receiverProperties.token);
+    const receiver = new User();
+    await receiver.initWithToken(receiverProperties.token);
     const message = new Message(author.id, receiver.id, req.body.content);
     message.save();
 
