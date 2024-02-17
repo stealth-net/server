@@ -11,5 +11,5 @@
         "debug": true
     },
     "databasePath": "./database/data.db",
-    "publicDirectory": "./public"
+    "publicDirectory": "public"
 }

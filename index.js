@@ -9,6 +9,8 @@ const bodyParser = require("body-parser");
 const sqlite3 = require("sqlite3").verbose();
 require('dotenv').config({ path: "./.env" });
 
+const config = require("./config.json");
+
 const log = require("./utils/log.js");
 
 if(!process.env.databaseKey) {
@@ -20,11 +22,9 @@ const app = express();
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const publicDir = path.join(__dirname, "public");
+const publicDir = path.join(__dirname, config.publicDirectory);
 const server = http.createServer(app);
 const io = socketIO(server);
-
-const config = require("./config.json");
 
 if (!fs.existsSync(config.databasePath)) fs.writeFileSync(config.databasePath, "");
 let db = new sqlite3.Database(config.databasePath, sqlite3.OPEN_READWRITE, (err) => {
