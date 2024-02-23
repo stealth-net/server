@@ -4,12 +4,14 @@ class IDManager {
     constructor(filePath) {
         this.filePath = filePath;
     }
+    
     getNextID() {
         let currentID = this.readCurrentID();
         currentID++;
         this.writeCurrentID(currentID);
         return currentID;
     }
+
     readCurrentID() {
         try {
             const data = fs.readFileSync(this.filePath, 'utf8');
@@ -19,6 +21,7 @@ class IDManager {
             throw error;
         }
     }
+
     writeCurrentID(id) {
         try {
             fs.writeFileSync(this.filePath, id.toString(), 'utf8');

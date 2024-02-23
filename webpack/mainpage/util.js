@@ -10,7 +10,7 @@ export function parseCookies() {
     });
 
     return cookieObject;
-};
+}
 
 export function formatTimestamp(timestamp) {
     const date = new Date(timestamp);
@@ -24,7 +24,7 @@ export function formatTimestamp(timestamp) {
     const seconds = String(date.getSeconds()).padStart(2, '0');
   
     return `[${year}-${month}-${day}] ${hours}:${minutes}:${seconds}`;
-};
+}
 
 export async function getData(url) {
     return new Promise((resolve, reject) => {
@@ -41,21 +41,21 @@ export async function getData(url) {
                 } catch(error) {
                     resolve(xhr.responseText);
                     return;
-                };
+                }
 
                 resolve(jsonResponse);
             } else {
                 reject(new Error(`HTTP Error: ${xhr.status}`));
-            };
-        };
+            }
+        }
 
         xhr.onerror = () => {
             reject(new Error('Network request failed'));
-        };
+        }
 
         xhr.send();
     });
-};
+}
 
 export async function postData(url, data, method) {
     return new Promise((resolve, reject) => {
@@ -72,17 +72,17 @@ export async function postData(url, data, method) {
                 } catch(error) {
                     resolve(xhr.responseText);
                     return;
-                };
+                }
 
                 resolve(jsonResponse);
             } else {
                 reject(new Error(`HTTP Error: ${xhr.status}`));
-            };
-        };
+            }
+        }
 
         xhr.onerror = () => {
             reject(new Error('Network request failed'));
-        };
+        }
 
         const requestData = typeof data === 'object' ? JSON.stringify(data) : data;
 
@@ -93,4 +93,4 @@ export async function postData(url, data, method) {
 
         xhr.send(requestData);
     });
-};
+}

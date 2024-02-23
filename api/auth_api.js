@@ -10,7 +10,7 @@ const POST = {
 const GET = [
     "/sign-up",
     "/sign-in"
-];
+]
 
 function initPages(app) {
     for(const route in GET) {

@@ -6,7 +6,7 @@ const cookies = parseCookies();
 window.StealthNet = {
     cookie: cookies,
     connection: new Connection({ token: cookies.token || null })
-};
+}
 
 StealthNet.connection.on("fetchedProfile", updateProfile);
 

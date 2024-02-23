@@ -74,7 +74,7 @@ export function addDM(userData) {
     friendContainer.appendChild(containerActions);
 
     document.getElementById("dm-list").appendChild(friendContainer);
-};
+}
 
 export function addFriend(userData) {
     const friendContainer = document.createElement("div");
@@ -122,7 +122,6 @@ export function addFriend(userData) {
     // cross
     const button2 = document.createElement("button");
     button2.addEventListener("click", () => {
-        console.log(userData);
         postData("/user-api/v1/remove-friend", { id: userData.id }, "POST");
         friendContainer.remove();
     });
@@ -161,7 +160,7 @@ export function addFriend(userData) {
     containerActions.appendChild(button2);
 
     document.getElementById("friend-list").appendChild(friendContainer);
-};
+}
 
 export function addPendingRequest(userData, ownRequest) {
     const friendContainer = document.createElement("div");
@@ -254,19 +253,19 @@ export function addPendingRequest(userData, ownRequest) {
         button1.appendChild(svg1);
 
         containerActions.appendChild(button1);
-    };
+    }
     containerActions.appendChild(button2);
 
     document.getElementById("pending-list").appendChild(friendContainer);
-};
+}
 
 export function removeFriend(id) {
     document.getElementById("friend-" + id).remove();
-};
+}
 
 export function removeFriendRequest(id) {
     document.getElementById("request-" + id).remove();
-};
+}
 
 export function addGuild(GuildID) {
     const imgElement = document.createElement('img');
@@ -274,7 +273,7 @@ export function addGuild(GuildID) {
     imgElement.src = "./images/logo_transparent.png";
 
     document.getElementById("guild-list").appendChild(imgElement);
-};
+}
 
 export function addMessage(messageData) {
     postData("/user-api/v1/send-message", { content: document.getElementById("user-message-content").value }, "POST").then(response => {
@@ -309,14 +308,14 @@ export function addMessage(messageData) {
         messageLabel.textContent = messageData.content;
 
         messageGroupDiv.appendChild(messageLabel);
-    };
+    }
 
     messageContainer.appendChild(img);
     messageContainer.appendChild(authorDiv);
     messageContainer.appendChild(messageGroupDiv);
 
     document.getElementById("dm-messages").appendChild(messageContainer);
-};
+}
 
 export function updateProfile() {
     const profile = document.querySelectorAll("#side-profile label");
@@ -337,7 +336,7 @@ export function updateProfile() {
     StealthNet.connection.user.friendRequestsOwn.forEach(userData => {
         addPendingRequest(userData, true);
     });
-};
+}
 
 document.getElementById("friend-add").addEventListener("click", async () => {
     const userData = await postData("/user-api/v1/add-friend", { username: document.getElementById("friend-username").value }, "POST");

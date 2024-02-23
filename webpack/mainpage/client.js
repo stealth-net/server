@@ -13,6 +13,6 @@ export class Connection extends EventEmitter {
 
         this.net = {
             socket: io()
-        };
-    };
-};
+        }
+    }
+}

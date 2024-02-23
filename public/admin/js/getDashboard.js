@@ -1,10 +1,7 @@
 dashboardCharts.forEach(async chartElement => {
     var chart = echarts.init(chartElement);
 
-    console.log(await getData("/admin-api/v1/get-analytics"));
     const response = ((await getData("/admin-api/v1/get-analytics"))[chartElement.getAttribute("apiname")]);
-
-    console.log(response);
 
     if(!response) return;
 
