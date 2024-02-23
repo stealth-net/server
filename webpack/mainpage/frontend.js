@@ -1,4 +1,4 @@
-import { formatTimestamp, postData } from "./util";
+import { formatTimestamp, postData } from "./util.js";
 
 export function addDM(userData) {
     const friendContainer = document.createElement('div');
