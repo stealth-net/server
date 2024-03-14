@@ -1,4 +1,4 @@
-async function getData(url) {
+export async function getData(url) {
     return new Promise((resolve, reject) => {
         var xhr = new XMLHttpRequest();
 
@@ -29,22 +29,36 @@ async function getData(url) {
     });
 }
 
-function getFormattedDates(chartData) {
+export function getFormattedDates(chartData) {
     return chartData.map(timestamp => {
         const date = new Date(timestamp.time);
         return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(date);
     });
 }
 
-function getDayOfMonth(chartData) {
+export function getDayOfMonth(chartData) {
     return chartData.map(timestamp => {
         const date = new Date(timestamp.time);
         return date.getDate();
     });
 }
 
-function getScore(chartData) {
+export function getScore(chartData) {
     return chartData.map(timestamp => {
         return timestamp.score;
     });
+}
+
+export function formatTimestamp(timestamp) {
+    const date = new Date(timestamp);
+  
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+  
+    return `[${year}-${month}-${day}] ${hours}:${minutes}:${seconds}`;
 }

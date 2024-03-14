@@ -13,7 +13,7 @@ button {
     background-color: #1d1d2f;
     color: #9EA4D6;
     font-family: Inria Sans;
-    font-weight: Regular;
+    font-weight: 100;
     font-size: 18px;
     border: none;
     border-radius: 5px;
@@ -29,7 +29,7 @@ input, textarea {
     background-color: #11111a;
     color: #9EA4D6;
     font-family: Inria Sans;
-    font-weight: Regular;
+    font-weight: 100;
     font-size: 18px;
     border: none;
     border-radius: 5px;
@@ -47,7 +47,6 @@ hr {
     background-color: #40446a;
     border-radius: 1px;
     height: 2px;
-    margin: 0 2 0 2;
     border: none;
 }
 .centered > hr {
@@ -89,7 +88,6 @@ hr {
     color: #8B91C3;
 }
 .menu-separator {
-    font-family: "Inria Sans", Helvetica;
     text-align: center;
     color: #8B91C3;
 }
@@ -97,7 +95,8 @@ hr {
     text-align: center;
 }
 label {
-    font-family: "Inria Sans", Helvetica;
+    font-family: Inria Sans;
+    font-weight: 100;
     color: #8B91C3;
 }
 #menu-mid > * {
@@ -145,4 +144,52 @@ div[class^="midsubtab-"] > label {
 }
 .chartlist > div:nth-child(2) {
     width: 480px;
+}
+.user-property {
+    color: #40446A;
+}
+#user-special-properties > div {
+    margin-bottom: 10px;
+}
+.full-table-div {
+    border: solid 1px #40446A;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin-left: 455px;
+}
+.full-table-div label {
+    color: #8B91C3;
+    font-size: 22px;
+}
+table {
+    margin: 0 auto;
+    padding: 5px;
+}
+#user-info {
+    margin-top: 10px;
+    padding: 5px;
+    width: 445px;
+    height: 990px;
+    font-size: 18px;
+    float: left;
+}
+/* header cell */
+th, td {
+    text-align: center;
+    font-family: Inria Sans;
+    font-weight: 100;
+    border: 1px solid; border-radius: 5px;
+    width: 262px;
+    height: 25px;
+    font-size: 19.5px;
+    color: #8B91C3;
+}
+th {
+    background-color: #232337;
+    border-color: #40446A;
+}
+/* cell */
+td {
+    background-color: #1D1D2F;
+    border-color: #40446A;
 }

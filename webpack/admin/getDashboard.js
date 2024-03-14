@@ -1,3 +1,5 @@
+import { getData } from "./frontend.js";
+
 const dashboardCharts = document.querySelectorAll(".chartlist > *[apiname]");
 
 dashboardCharts.forEach(async chartElement => {

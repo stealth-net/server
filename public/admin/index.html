@@ -20,7 +20,6 @@
         </div>
         <div tab="dashboard" class="lside-button" state="active"><label>Dashboard</button></div>
         <div tab="usermanagement" class="lside-button"><label>User Management</button></div>
-        <div tab="messagemanagement" class="lside-button"><label>Message Management</button></div>
         <div tab="servermanagement" class="lside-button"><label>Server Management</button></div>
         <div tab="systemlogs" class="lside-button"><label>System Logs</button></div>
     </div>
@@ -45,8 +44,70 @@
                 <div name="CPU"></div>
             </div>
         </div>
-        <div class="midtab-usermanagement" hidden></div>
-        <div class="midtab-messagemanagement" hidden></div>
+        <div class="midtab-usermanagement" hidden>
+            <div class="centered">
+                <label>User Management</label>
+            </div>
+            <hr>
+            <input id="user-search" placeholder="Username or ID" style="width: 445px;"></input>
+            <div>
+                <div id="user-info">
+                    <div class="centered">
+                        <img id="user-pfp" src="./favicon.png" width="135" height="135" style="border-radius: 5px;"></img><br>
+                        <label id="user-username" style="font-size: 16px;">username</label>
+                        <hr>
+                        <label>Member since</label><br>
+                        <label id="user-creationtime">[0000-00-00] 00:00:00</label><br>
+                        <div id="user-badges"></div>
+                    </div>
+                    
+                    <div id="user-special-properties">
+                        <div>
+                            <label class="user-property">ID</label><br>
+                            <label id="user-prop-id"></label>
+                        </div>
+
+                        <div>
+                            <label class="user-property">Display name</label><br>
+                            <label id="user-prop-displayname"></label>
+                        </div>
+
+                        <div>
+                            <label class="user-property">Email</label><br>
+                            <label id="user-prop-email"></label>
+                        </div>
+
+                        <div>
+                            <label class="user-property">Token</label><br>
+                            <label id="user-prop-token" style="font-size: 10.25px;"></label>
+                        </div>
+                    </div>
+                </div>
+                <div id="user-info-detailed">
+                    <div class="full-table-div">
+                        <div class="centered"><label>Guilds</label></div>
+                        <table id="user-guilds">
+                            <tr>
+                                <th>Name</th>
+                                <th>ID</th>
+                                <th>Size</th>
+                                <th>Invite link</th>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="full-table-div">
+                        <div class="centered"><label>Friends</label></div>
+                        <table id="user-friends">
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="midtab-servermanagement" hidden></div>
         <div class="midtab-systemlogs" hidden>
             <textarea style="margin-bottom: 5px; width: 100%; height: calc(100% - 45px); cursor: default;"></textarea>
