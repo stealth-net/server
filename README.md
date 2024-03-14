@@ -55,7 +55,7 @@ By embracing this hosting agnosticism, StealthNet ensures that users have the au
 StealthNet thrives on collaboration and welcomes contributions from the open-source community. The codebase is open for inspection and improvement, encouraging developers to actively participate in enhancing the application's features and security measures. This collaborative spirit not only ensures a constantly evolving and improving platform but also fosters a community dedicated to the principles of privacy and data security.
 
 ## Todo List for StealthNet Development
-- [ ] Finish message sending
+- [ ] Finish direct messages
 - [ ] Admin portal
   - [ ] Analytics
   - [ ] User management

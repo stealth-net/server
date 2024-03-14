@@ -2,34 +2,22 @@ const { User, query_search, safe_user } = require("../../../../components/User.j
 
 module.exports = async (req, res) => {
     if(!req.cookies.token) {
-        console.log("No token provided");
         res.sendStatus(401);
         return;
     }
 
     const senderProperties = await query_search(req.cookies.token, "token");
-    if(!senderProperties) {
-        console.log("Sender properties not found");
+    const targetProperties = await query_search(req.body.id, "id");
+
+    if(!senderProperties || !targetProperties || senderProperties.token === targetProperties.token) {
         res.sendStatus(404);
         return;
     }
+
     const sender = new User();
     await sender.initWithToken(senderProperties.token);
-
-    const targetProperties = await query_search(req.body.id, "id");
-    if(!targetProperties) {
-        console.log("Target properties not found");
-        res.sendStatus(404);
-        return;
-    }
     const target = new User();
     await target.initWithToken(targetProperties.token);
-
-    if(typeof target == "undefined" || sender.id == target.id) {
-        console.log("Invalid target or sender");
-        res.sendStatus(404);
-        return;
-    }
 
     let targetFriends = target.get("friends");
     let senderFriends = sender.get("friends");
@@ -40,7 +28,6 @@ module.exports = async (req, res) => {
         senderFriendRequestsOwn.includes(target.id) ||
         targetFriendRequests.includes(sender.id)
     ) {
-        console.log("Friend request already exists");
         res.sendStatus(409);
         return;
     }
@@ -54,7 +41,8 @@ module.exports = async (req, res) => {
     sender.set('friendRequests', JSON.stringify(targetFriendRequests.filter(id => id !== sender.id)));
     target.set('friendRequestsOwn', JSON.stringify(senderFriendRequestsOwn.filter(id => id !== target.id)));
 
-    target.send("friendRequestAccept", { username: sender.get("username"), pfpURL: sender.get("pfpURL"), id: sender.get("id") });
+    sender.send("friendRequestAccept", { username: target.get("username"), pfpURL: target.get("pfpURL"), id: target.get("id"), target: sender.get("status") });
+    target.send("friendRequestAccept", { username: sender.get("username"), pfpURL: sender.get("pfpURL"), id: sender.get("id"), status: sender.get("status") });
 
     res.send(safe_user(target));
 }

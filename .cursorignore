@@ -2,3 +2,6 @@ node_modules/
 package-lock.json
 database/
 .env
+public/mainpage/app.js
+public/mainpage/images/
+public/mainpage/favicon.png

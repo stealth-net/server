@@ -4,6 +4,7 @@ export function addDM(userData) {
     const friendContainer = document.createElement('div');
     friendContainer.classList.add('friend-container');
     friendContainer.setAttribute('state', 'inactive');
+    friendContainer.setAttribute('id', userData.id);
 
     const containerActions = document.createElement("div");
     containerActions.className = "container-actions";
@@ -123,7 +124,7 @@ export function addFriend(userData) {
     const button2 = document.createElement("button");
     button2.addEventListener("click", () => {
         postData("/user-api/v1/remove-friend", { id: userData.id }, "POST");
-        friendContainer.remove();
+        removeFriend(userData.id);
     });
 
     const svg2 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -173,7 +174,7 @@ export function addPendingRequest(userData, ownRequest) {
     img.src = userData.pfpURL;
 
     const label = document.createElement("label");
-    label.style.margin = "21px 0px 0px 3px";
+    label.style.margin = "0px 0px 0px 3px";
     label.textContent = userData.username;
 
     const containerActions = document.createElement("div");
@@ -260,11 +261,11 @@ export function addPendingRequest(userData, ownRequest) {
 }
 
 export function removeFriend(id) {
-    document.getElementById("friend-" + id).remove();
+    if(document.getElementById("friend-" + id)) document.getElementById("friend-" + id).remove();
 }
 
 export function removeFriendRequest(id) {
-    document.getElementById("request-" + id).remove();
+    if(document.getElementById("request-" + id)) document.getElementById("request-" + id).remove();
 }
 
 export function addGuild(GuildID) {
@@ -276,10 +277,6 @@ export function addGuild(GuildID) {
 }
 
 export function addMessage(messageData) {
-    postData("/user-api/v1/send-message", { content: document.getElementById("user-message-content").value }, "POST").then(response => {
-        console.log(response);
-    });
-    
     var messageContainer = document.createElement("div");
     messageContainer.className = "message-container";
 
@@ -291,16 +288,16 @@ export function addMessage(messageData) {
     var authorDiv = document.createElement("div");
     authorDiv.className = "message-author";
 
-    var developerLabel = document.createElement("label");
-    developerLabel.textContent = messageData.author.username;
+    var usernameLabel = document.createElement("label");
+    usernameLabel.textContent = messageData.author.username;
 
     var timestampLabel = document.createElement("label");
-    timestampLabel.textContent = messageData.creationTime;
+    timestampLabel.textContent = formatTimestamp(messageData.creationTime);
 
     var messageGroupDiv = document.createElement("div");
     messageGroupDiv.className = "message-group";
 
-    authorDiv.appendChild(developerLabel);
+    authorDiv.appendChild(usernameLabel);
     authorDiv.appendChild(timestampLabel);
 
     if(messageData.content) {
@@ -318,12 +315,12 @@ export function addMessage(messageData) {
 }
 
 export function updateProfile() {
-    const profile = document.querySelectorAll("#side-profile label");
+    const profile = document.querySelectorAll("#side-user-menu label");
 
     profile[0].innerText = StealthNet.connection.user.username;
     profile[2].innerText = formatTimestamp(StealthNet.connection.user.creationTime);
 
-    document.querySelector("#side-profile img").src = StealthNet.connection.user.pfpURL;
+    document.querySelector("#side-user-menu img").src = StealthNet.connection.user.pfpURL;
 
     StealthNet.connection.user.friends.forEach(async userData => {
         addFriend(userData);
@@ -343,6 +340,44 @@ document.getElementById("friend-add").addEventListener("click", async () => {
 
     if(userData)
         addPendingRequest(userData, true);
+});
+
+function enterAction(text) {
+    addMessage({
+        author: { username: StealthNet.connection.user.username, pfpURL: StealthNet.connection.user.pfpURL },
+        content: text,
+        creationTime: Date.now()
+    });
+    document.getElementById("user-message-content").value = ''; // Clear the input field
+}
+
+// TODO: get the recipient id
+document.getElementById("user-message-content").addEventListener("keydown", event => {
+    if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        const messageContent = document.getElementById("user-message-content").value.trim();
+
+        if (messageContent) {
+            const recipientId = document.querySelector("#dm-list > .friend-container[state='active']").getAttribute('id');
+
+            postData("/user-api/v1/send-message", { recipientId, text: messageContent }, "POST")
+                .then(() => enterAction(messageContent))
+                .catch(error => console.error("Error sending message:", error));
+        }
+    }
+});
+
+document.getElementById("dm-send-message").addEventListener("click", event => {
+    event.preventDefault();
+    const messageContent = document.getElementById("user-message-content").value.trim();
+
+    if (messageContent) {
+        const recipientId = document.querySelector("#dm-list > .friend-container[state='active']").getAttribute('id');
+
+        postData("/user-api/v1/send-message", { recipientId, text: messageContent }, "POST")
+            .then(() => enterAction(messageContent))
+            .catch(error => console.error("Error sending message:", error));
+    }
 });
 
 const subTabContents = document.querySelectorAll('[class^="midsubtab-"]');
@@ -393,3 +428,11 @@ lsideButtons.forEach(lsideButton => {
         if(selectedTabContent) selectedTabContent.hidden = false;
     });
 });
+
+function switchMenu(menuType) {
+    const userMenu = document.querySelectorAll('.side-user-menu');
+    const serverMenu = document.querySelectorAll('.side-server-menu');
+
+    userMenu.forEach(menu => menu.style.display = menuType === 'user' ? 'block' : 'none');
+    serverMenu.forEach(menu => menu.style.display = menuType === 'server' ? 'block' : 'none');
+}

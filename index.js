@@ -104,8 +104,13 @@ fs.readdirSync(publicDir).forEach((fileOrFolder) => {
 });
 
 io.on('connection', async (socket) => {
-    const token = decodeURIComponent(socket.request.headers.cookie.replace("token=", ''));
-    if(!token) {
+    const cookies = socket.request.headers.cookie.split('; ').reduce((acc, current) => {
+        const [key, value] = current.split('=');
+        acc[key] = decodeURIComponent(value);
+        return acc;
+    }, {});
+    const token = cookies.token;
+    if (!token) {
         socket.disconnect();
         return;
     }

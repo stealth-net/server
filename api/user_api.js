@@ -11,7 +11,8 @@ const routes = {
         "/user-api/v1/send-message": "./route/user/send-message.js"
     },
     GET: {
-        "/user-api/v1/get-me": "./route/user/get-me.js"
+        "/user-api/v1/get-me": "./route/user/get-me.js",
+        "/user-api/v1/get-messages": "./route/user/get-messages.js"
     }
 }
 

@@ -72,7 +72,7 @@ hr {
 .guildlist-logo:hover {
     filter: brightness(1.5);
 }
-.sidemenu {
+.side-server-menu, .side-user-menu, .side-main-menu {
     background-color: #13121f;
 }
 #menu-mid {
@@ -112,10 +112,6 @@ hr {
     text-align: center;
     color: #8B91C3;
 }
-#dm-list {
-    overflow-x: hidden;
-    overflow-y: scroll;
-}
 .friend-container {
     display: flex;
     align-items: center;
@@ -154,15 +150,15 @@ hr {
 .centered {
     text-align: center;
 }
-#side-profile > div > img {
-    margin: 50;
+#side-user-menu > div > div > img {
+    padding: 50;
 }
 label {
     font-family: "Inria Sans", Helvetica;
     color: #8B91C3;
 }
 #menu-mid > * {
-    margin: 10 10 10 10;
+    margin: 20 0 0 0;
 }
 .mid-tablist {
     margin: 10 0 10 0;
@@ -241,6 +237,7 @@ div[class^="midsubtab-"] > label {
     height: 45px;
 }
 .message-container {
+    padding: 2 0 2 0;
     height: 45px;
 }
 .message-container:hover {
@@ -255,4 +252,16 @@ div[class^="midsubtab-"] > label {
 }
 .message-author > label:nth-child(2) {
     color: #40446A;
+}
+#side-server-menu > div:first-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+body, html, input, textarea, button, label {
+    cursor: url('data:image/svg+xml;utf8,<svg width="26" height="27" viewBox="0 0 26 27" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M23.5 12.5L16 16L12.5 24L3 3L23.5 12.5Z" stroke="%2351567C" stroke-width="2"/></svg>'), auto;
+}
+.message-author > label:last-child {
+    margin-left: 5px;
 }
