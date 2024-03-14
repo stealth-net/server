@@ -1,3 +1,5 @@
+const dashboardCharts = document.querySelectorAll(".chartlist > *[apiname]");
+
 dashboardCharts.forEach(async chartElement => {
     var chart = echarts.init(chartElement);
 

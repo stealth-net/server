@@ -1,5 +1,3 @@
-const dashboardCharts = document.querySelectorAll(".chartlist > *[apiname]");
-
 async function getData(url) {
     return new Promise((resolve, reject) => {
         var xhr = new XMLHttpRequest();
