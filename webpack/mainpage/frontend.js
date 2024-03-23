@@ -436,3 +436,23 @@ function switchMenu(menuType) {
     userMenu.forEach(menu => menu.style.display = menuType === 'user' ? 'block' : 'none');
     serverMenu.forEach(menu => menu.style.display = menuType === 'server' ? 'block' : 'none');
 }
+
+document.getElementById("dm-attachfile").addEventListener("click", () => {
+    document.getElementById("file-input").click();
+});
+
+document.getElementById("file-input").addEventListener("change", function() {
+    const file = this.files[0];
+    if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        fetch("/user-api/v1/upload-file", {
+            method: "POST",
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error("Error uploading file:", error));
+    }
+});

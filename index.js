@@ -70,9 +70,9 @@ global.stealth = {
 
 if(config.collectAnalytics) require("./utils/analytics.js");
 
-require("./api/auth_api.js")(app);
-require("./api/user_api.js")(app);
-require("./api/admin_api.js")(app);
+require("./api/auth-api.js")(app);
+require("./api/user-api.js")(app);
+require("./api/admin-api.js")(app);
 
 const { User, fetch_users, query_search } = require("./components/User.js");
 
