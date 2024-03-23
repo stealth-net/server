@@ -307,6 +307,27 @@ export function addMessage(messageData) {
         messageGroupDiv.appendChild(messageLabel);
     }
 
+    console.log(messageData);
+    if(messageData.attachments && messageData.attachments.length > 0) {
+        messageData.attachments.forEach(attachment => {
+            if(/\.(jpeg|jpg|gif|png)$/.test(attachment.url)) {
+                var attachmentImg = document.createElement("img");
+                attachmentImg.src = attachment.url;
+                attachmentImg.style.maxWidth = "520px";
+                attachmentImg.style.maxHeight = "260px";
+                attachmentImg.style.marginTop = "3px";
+                messageGroupDiv.appendChild(attachmentImg);
+            } else {
+                // For non-image attachments or other future implementations
+                var attachmentLink = document.createElement("a");
+                attachmentLink.href = attachment.url;
+                attachmentLink.textContent = attachment.filename;
+                attachmentLink.style.marginTop = "3px";
+                messageGroupDiv.appendChild(attachmentLink);
+            }
+        });
+    }
+
     messageContainer.appendChild(img);
     messageContainer.appendChild(authorDiv);
     messageContainer.appendChild(messageGroupDiv);
@@ -349,39 +370,57 @@ function enterAction(text) {
         creationTime: Date.now()
     });
     document.getElementById("user-message-content").value = ''; // Clear the input field
+
+    // Auto-scroll to the bottom of the message container
+    const messageContainer = document.getElementById("dm-messages");
+    messageContainer.scrollTop = messageContainer.scrollHeight;
 }
 
-// TODO: get the recipient id
+function isdmChat() {
+    return document.querySelector("div.dm-user").hidden === false;
+}
+
+function getRecipientID() {
+    const activeFriendContainer = document.querySelector("#dm-list > .friend-container[state='active']");
+    return activeFriendContainer ? activeFriendContainer.getAttribute('id') : null;
+}
+
 document.getElementById("user-message-content").addEventListener("keydown", event => {
-    if (event.key === "Enter" && !event.shiftKey) {
+    if (event.key === "Enter" && !event.shiftKey && isdmChat()) {
         event.preventDefault();
         const messageContent = document.getElementById("user-message-content").value.trim();
 
         if (messageContent) {
-            const recipientId = document.querySelector("#dm-list > .friend-container[state='active']").getAttribute('id');
+            const recipientId = getRecipientID();
 
-            postData("/user-api/v1/send-message", { recipientId, text: messageContent }, "POST")
-                .then(() => enterAction(messageContent))
-                .catch(error => console.error("Error sending message:", error));
+            if (recipientId) {
+                postData("/user-api/v1/send-message", { recipientId, text: messageContent }, "POST")
+                    .then(() => enterAction(messageContent))
+                    .catch(error => console.error("Error sending message:", error));
+            }
         }
     }
 });
 
 document.getElementById("dm-send-message").addEventListener("click", event => {
     event.preventDefault();
-    const messageContent = document.getElementById("user-message-content").value.trim();
+    if (isdmChat()) {
+        const messageContent = document.getElementById("user-message-content").value.trim();
 
-    if (messageContent) {
-        const recipientId = document.querySelector("#dm-list > .friend-container[state='active']").getAttribute('id');
+        if (messageContent) {
+            const recipientId = getRecipientID();
 
-        postData("/user-api/v1/send-message", { recipientId, text: messageContent }, "POST")
-            .then(() => enterAction(messageContent))
-            .catch(error => console.error("Error sending message:", error));
+            if (recipientId) {
+                postData("/user-api/v1/send-message", { recipientId, text: messageContent }, "POST")
+                    .then(() => enterAction(messageContent))
+                    .catch(error => console.error("Error sending message:", error));
+            }
+        }
     }
 });
 
 const subTabContents = document.querySelectorAll('[class^="midsubtab-"]');
-const tabContents = document.querySelectorAll('#menu-mid > div');
+const tabContents = document.querySelectorAll("#menu-mid > div");
 const tabButtons = document.querySelectorAll(".mid-tabbutton");
 const lsideButtons = document.querySelectorAll(".lside-button");
 
@@ -446,6 +485,7 @@ document.getElementById("file-input").addEventListener("change", function() {
     if (file) {
         const formData = new FormData();
         formData.append("file", file);
+        formData.append("recipientId", getRecipientID());
 
         fetch("/user-api/v1/upload-file", {
             method: "POST",

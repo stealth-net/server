@@ -238,7 +238,6 @@ div[class^="midsubtab-"] > label {
 }
 .message-container {
     padding: 2 0 2 0;
-    height: 45px;
 }
 .message-container:hover {
     background-color: #1D1D30;

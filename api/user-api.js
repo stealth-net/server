@@ -12,16 +12,23 @@ const routes = {
     },
     GET: {
         "/user-api/v1/get-me": "./route/user/get-me.js",
-        "/user-api/v1/get-messages": "./route/user/get-messages.js"
+        "/user-api/v1/get-messages": "./route/user/get-messages.js",
+        "/user-api/v1/get-file/:fileName": "./route/user/get-file.js" // Include dynamic fileName parameter
     }
 }
 
 function initRequests(app) {
     for(const method in routes) {
         for(const path in routes[method]) {
-            app[method.toLowerCase()](path, (req, res) => {
-                require(`${routes[method][path]}`)(req, res);
-            });
+            if (path.includes(":")) { // Check if path includes dynamic parameter
+                app[method.toLowerCase()](path, (req, res, next) => {
+                    require(`${routes[method][path]}`)(req, res, next);
+                });
+            } else {
+                app[method.toLowerCase()](path, (req, res) => {
+                    require(`${routes[method][path]}`)(req, res);
+                });
+            }
         }
     }
 }
