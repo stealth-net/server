@@ -307,7 +307,6 @@ export function addMessage(messageData) {
         messageGroupDiv.appendChild(messageLabel);
     }
 
-    console.log(messageData);
     if(messageData.attachments && messageData.attachments.length > 0) {
         messageData.attachments.forEach(attachment => {
             if(/\.(jpeg|jpg|gif|png)$/.test(attachment.url)) {
@@ -363,14 +362,14 @@ document.getElementById("friend-add").addEventListener("click", async () => {
         addPendingRequest(userData, true);
 });
 
-function enterAction(text) {
+function enterAction(text, attachments = []) {
     addMessage({
         author: { username: StealthNet.connection.user.username, pfpURL: StealthNet.connection.user.pfpURL },
         content: text,
-        creationTime: Date.now()
+        creationTime: Date.now(),
+        attachments: attachments // Add this line
     });
     document.getElementById("user-message-content").value = ''; // Clear the input field
-
     // Auto-scroll to the bottom of the message container
     const messageContainer = document.getElementById("dm-messages");
     messageContainer.scrollTop = messageContainer.scrollHeight;
@@ -492,7 +491,10 @@ document.getElementById("file-input").addEventListener("change", function() {
             body: formData,
         })
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => {
+            console.log(data);
+            enterAction(null, [data.file]); // Pass null for text and the file data as attachments
+        })
         .catch(error => console.error("Error uploading file:", error));
     }
 });
