@@ -11,6 +11,7 @@ The codebase is organized into several directories and files:
 - [utils](https://github.com/stealth-net/server/tree/main/utils): Contains utility functions for user and message management, analytics, and logging.
 - [public](https://github.com/stealth-net/server/tree/main/public): Contains the frontend code for the application, including HTML, CSS, and JavaScript files.
 - [components](https://github.com/stealth-net/server/tree/main/components): Contains essential classes that play a crucial role in the functionality of StealthNet. These classes are responsible for managing and organizing core elements of the application.
+- [webpack](https://github.com/stealth-net/server/tree/main/webpack): Contains configuration files for Webpack, which is used to bundle and serve the frontend assets efficiently.
 
 ## Getting Started
 Getting started with StealthNet is a straightforward process, ensuring that you can quickly set up and enjoy a secure messaging experience. Follow these steps to get up and running:
