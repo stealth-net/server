@@ -6,6 +6,7 @@ class Message {
         this.recipientId = options.recipientId;
         this.content = options.content;
         this.conversationId = options.conversationId;
+        this.attachments = options.attachments || [];
         this.id = stealth.id_manager.getNextID();
         this.creationTime = Date.now();
     }
@@ -30,12 +31,14 @@ class Message {
             this.senderId = message.senderId;
             this.recipientId = message.recipientId;
             this.content = message.content;
+            this.attachments = message.attachments || [];
             this.conversationId = options.conversationId;
             this.creationTime = message.creationTime || Date.now();
         } else if(options.senderId && options.recipientId && options.content) {
             this.senderId = options.senderId;
             this.recipientId = options.recipientId;
             this.content = options.content;
+            this.attachments = options.attachments || [];
             this.conversationId = options.conversationId;
             this.creationTime = Date.now();
         } else {
@@ -59,6 +62,7 @@ class Message {
             senderId: this.senderId,
             recipientId: this.recipientId,
             content: this.content,
+            attachments: this.attachments,
             conversationId: this.conversationId,
             creationTime: this.creationTime
         });
