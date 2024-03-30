@@ -1,5 +1,5 @@
-const { User, query_search } = require("../../../components/User.js");
-const { Conversation, get_conversation } = require("../../../components/Conversation.js");
+const { User, query_search, safe_user } = require("../../../components/User.js");
+const { get_conversation, get_conversation_id } = require("../../../components/Conversation.js");
 
 module.exports = async (req, res) => {
     if(!req.cookies.token) {
@@ -7,9 +7,9 @@ module.exports = async (req, res) => {
         return;
     }
 
-    const { conversationId, start, end } = req.query;
-    if (!conversationId || start === undefined || end === undefined) {
-        res.status(400).send("Missing conversation ID or message range.");
+    const { recipientId, start, end } = req.query;
+    if (!recipientId) {
+        res.status(400).send("Missing recipient ID.");
         return;
     }
 
@@ -20,19 +20,30 @@ module.exports = async (req, res) => {
         return;
     }
 
-    const conversation = await get_conversation(conversationId);
+    // Assuming get_conversation now takes two user IDs to find their conversation
+    const conversation = await get_conversation(get_conversation_id(user.id, recipientId));
     if (!conversation) {
         res.status(404).send("Conversation not found.");
         return;
     }
 
-    // Ensure the user is part of the conversation
-    const participants = conversationId.split("-");
-    if (!participants.includes(user.id)) {
-        res.status(403).send("User not part of the conversation.");
+    // Extract user IDs from the conversation participants
+    const senderId = user.id;
+    const recipientProperties = await query_search(recipientId, "id");
+    const recipient = new User();
+    await recipient.initWithToken(recipientProperties.token);
+
+    if (!recipient) {
+        res.status(404).send("Recipient not found.");
         return;
     }
 
-    const messages = conversation.messages.slice(start, end);
-    res.status(200).json(messages);
-};
+    // Append user data to each message
+    const messagesWithUserData = conversation.messages.map(message => {
+        message.author = message.senderId === senderId ? safe_user(user) : safe_user(recipient);
+        return message;
+    });
+
+    const messages = messagesWithUserData.slice(-end, -start || undefined);
+    res.status(200).json({messages, hasMore: conversation.messages.length > messages.length});
+}

@@ -6,6 +6,11 @@ export function addDM(userData) {
     friendContainer.setAttribute('state', 'inactive');
     friendContainer.setAttribute('id', userData.id);
 
+    friendContainer.addEventListener('click', () => {
+        document.getElementById("dm-messages").innerHTML = ''; // Clear previous messages
+        loadInitialMessages(userData.id);
+    });
+
     const containerActions = document.createElement("div");
     containerActions.className = "container-actions";
 
@@ -492,9 +497,108 @@ document.getElementById("file-input").addEventListener("change", function() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             enterAction(null, [data.file]); // Pass null for text and the file data as attachments
         })
         .catch(error => console.error("Error uploading file:", error));
     }
 });
+
+document.getElementById("dm-messages").addEventListener("scroll", async function() {
+    if(this.scrollTop === 0) {
+        await loadMoreMessages();
+    }
+});
+
+function loadInitialMessages(recipientId) {
+    fetch(`/user-api/v1/get-messages?recipientId=${recipientId}&start=0&end=20`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.messages) {
+                // Messages are sorted oldest to newest
+                data.messages.forEach(message => addMessage(message));
+                // Scroll to the bottom to show the most recent messages
+                const messageContainer = document.getElementById("dm-messages");
+                messageContainer.scrollTop = messageContainer.scrollHeight;
+            }
+        })
+        .catch(error => console.error("Error loading messages:", error));
+}
+
+async function loadMoreMessages() {
+    const currentMessagesCount = document.querySelectorAll(".message-container").length;
+    const recipientId = getRecipientID();
+    if (recipientId) {
+        const oldScrollHeight = document.getElementById("dm-messages").scrollHeight;
+        const response = await fetch(`/user-api/v1/get-messages?recipientId=${recipientId}&start=${currentMessagesCount}&end=${currentMessagesCount + 20}`);
+        const data = await response.json();
+        if(data.messages) {
+            data.messages.forEach(message => {
+                addMessageAtTop(message);
+            });
+        }
+        const newScrollHeight = document.getElementById("dm-messages").scrollHeight;
+        document.getElementById("dm-messages").scrollTop += newScrollHeight - oldScrollHeight;
+        if(!data.hasMore) {
+            document.getElementById("dm-messages").removeEventListener("scroll", loadMoreMessages);
+        }
+    }
+}
+
+function addMessageAtTop(messageData) {
+    var messageContainer = document.createElement("div");
+    messageContainer.className = "message-container";
+
+    var img = document.createElement("img");
+    img.src = messageData.author.pfpURL;
+    img.width = 45;
+    img.height = 45;
+
+    var authorDiv = document.createElement("div");
+    authorDiv.className = "message-author";
+
+    var usernameLabel = document.createElement("label");
+    usernameLabel.textContent = messageData.author.username;
+
+    var timestampLabel = document.createElement("label");
+    timestampLabel.textContent = formatTimestamp(messageData.creationTime);
+
+    var messageGroupDiv = document.createElement("div");
+    messageGroupDiv.className = "message-group";
+
+    authorDiv.appendChild(usernameLabel);
+    authorDiv.appendChild(timestampLabel);
+
+    if(messageData.content) {
+        var messageLabel = document.createElement("label");
+        messageLabel.textContent = messageData.content;
+
+        messageGroupDiv.appendChild(messageLabel);
+    }
+
+    if(messageData.attachments && messageData.attachments.length > 0) {
+        messageData.attachments.forEach(attachment => {
+            if(/\.(jpeg|jpg|gif|png)$/.test(attachment.url)) {
+                var attachmentImg = document.createElement("img");
+                attachmentImg.src = attachment.url;
+                attachmentImg.style.maxWidth = "520px";
+                attachmentImg.style.maxHeight = "260px";
+                attachmentImg.style.marginTop = "3px";
+                messageGroupDiv.appendChild(attachmentImg);
+            } else {
+                // For non-image attachments or other future implementations
+                var attachmentLink = document.createElement("a");
+                attachmentLink.href = attachment.url;
+                attachmentLink.textContent = attachment.filename;
+                attachmentLink.style.marginTop = "3px";
+                messageGroupDiv.appendChild(attachmentLink);
+            }
+        });
+    }
+
+    messageContainer.appendChild(img);
+    messageContainer.appendChild(authorDiv);
+    messageContainer.appendChild(messageGroupDiv);
+
+    const dmMessages = document.getElementById("dm-messages");
+    dmMessages.insertBefore(messageContainer, dmMessages.firstChild);
+}
