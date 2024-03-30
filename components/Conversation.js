@@ -17,7 +17,7 @@ db.run(query, function(err) {
  * @param {string} senderId - The ID of the sender.
  * @param {string} recipientId - The ID of the recipient.
  * @returns {string} The generated conversation ID.
- */
+*/
 function get_conversation_id(senderId, recipientId) {
     return [senderId, recipientId].sort().join("-");
 }
@@ -26,7 +26,7 @@ function get_conversation_id(senderId, recipientId) {
  * Retrieves a conversation from the database based on the provided ID.
  * @param {string} id - The ID of the conversation to retrieve.
  * @returns {Promise<Object>} A promise that resolves with the conversation data if found, or rejects with an error.
- */
+*/
 function get_conversation(id) {
     return new Promise((resolve, reject) => {
         let query = `SELECT * FROM conversations WHERE id = ?`;
@@ -45,13 +45,13 @@ function get_conversation(id) {
 
 /**
  * Represents a conversation between two users.
- */
+*/
 class Conversation {
     /**
      * Creates an instance of a Conversation.
      * @param {string} senderId - The ID of the sender.
      * @param {string} recipientId - The ID of the recipient.
-     */
+    */
     constructor(senderId, recipientId) {
         this.id = get_conversation_id(senderId, recipientId);
         this.messages = JSON.stringify([]);
@@ -60,7 +60,7 @@ class Conversation {
     /**
      * Adds a message to the conversation.
      * @param {Object} message - The message to add.
-     */
+    */
     addMessage(message) {
         const messages = JSON.parse(this.messages);
         messages.push(message);
@@ -71,7 +71,7 @@ class Conversation {
     /**
      * Saves the current state of the conversation to the database.
      * @returns {Promise<void>} A promise that resolves when the conversation is successfully saved.
-     */
+    */
     async save() {
         const query = `INSERT OR REPLACE INTO conversations (id, messages) VALUES (?, ?)`;
         return new Promise((resolve, reject) => {

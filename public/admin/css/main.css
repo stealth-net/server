@@ -173,7 +173,7 @@ table {
     font-size: 18px;
     float: left;
 }
-/* header cell */
+/* header cell*/
 th, td {
     text-align: center;
     font-family: Inria Sans;
@@ -188,7 +188,7 @@ th {
     background-color: #232337;
     border-color: #40446A;
 }
-/* cell */
+/* cell*/
 td {
     background-color: #1D1D2F;
     border-color: #40446A;

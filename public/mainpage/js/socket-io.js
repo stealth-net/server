@@ -2,7 +2,7 @@
  * Socket.IO v4.7.2
  * (c) 2014-2023 Guillermo Rauch
  * Released under the MIT License.
- */
+*/
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -526,14 +526,14 @@
       TEXT_DECODER = new TextDecoder();
     }
     var chunks = [];
-    var state = 0 /* READ_HEADER */;
+    var state = 0 /* READ_HEADER*/;
     var expectedLength = -1;
     var isBinary = false;
     return new TransformStream({
       transform: function transform(chunk, controller) {
         chunks.push(chunk);
         while (true) {
-          if(state === 0 /* READ_HEADER */) {
+          if(state === 0 /* READ_HEADER*/) {
             if(totalLength(chunks) < 1) {
               break;
             }
@@ -541,20 +541,20 @@
             isBinary = (header[0] & 0x80) === 0x80;
             expectedLength = header[0] & 0x7f;
             if(expectedLength < 126) {
-              state = 3 /* READ_PAYLOAD */;
+              state = 3 /* READ_PAYLOAD*/;
             } else if(expectedLength === 126) {
-              state = 1 /* READ_EXTENDED_LENGTH_16 */;
+              state = 1 /* READ_EXTENDED_LENGTH_16*/;
             } else {
-              state = 2 /* READ_EXTENDED_LENGTH_64 */;
+              state = 2 /* READ_EXTENDED_LENGTH_64*/;
             }
-          } else if(state === 1 /* READ_EXTENDED_LENGTH_16 */) {
+          } else if(state === 1 /* READ_EXTENDED_LENGTH_16*/) {
             if(totalLength(chunks) < 2) {
               break;
             }
             var headerArray = concatChunks(chunks, 2);
             expectedLength = new DataView(headerArray.buffer, headerArray.byteOffset, headerArray.length).getUint16(0);
-            state = 3 /* READ_PAYLOAD */;
-          } else if(state === 2 /* READ_EXTENDED_LENGTH_64 */) {
+            state = 3 /* READ_PAYLOAD*/;
+          } else if(state === 2 /* READ_EXTENDED_LENGTH_64*/) {
             if(totalLength(chunks) < 8) {
               break;
             }
@@ -567,14 +567,14 @@
               break;
             }
             expectedLength = n * Math.pow(2, 32) + view.getUint32(4);
-            state = 3 /* READ_PAYLOAD */;
+            state = 3 /* READ_PAYLOAD*/;
           } else {
             if(totalLength(chunks) < expectedLength) {
               break;
             }
             var data = concatChunks(chunks, expectedLength);
             controller.enqueue(decodePacket(isBinary ? data : TEXT_DECODER.decode(data), binaryType));
-            state = 0 /* READ_HEADER */;
+            state = 0 /* READ_HEADER*/;
           }
 
           if(expectedLength === 0 || expectedLength > maxPayload) {
@@ -591,7 +591,7 @@
    * Initialize a new `Emitter`.
    *
    * @api public
-   */
+  */
 
   function Emitter(obj) {
     if(obj) return mixin(obj);
@@ -603,7 +603,7 @@
    * @param {Object} obj
    * @return {Object}
    * @api private
-   */
+  */
 
   function mixin(obj) {
     for (var key in Emitter.prototype) {
@@ -619,7 +619,7 @@
    * @param {Function} fn
    * @return {Emitter}
    * @api public
-   */
+  */
 
   Emitter.prototype.on = Emitter.prototype.addEventListener = function (event, fn) {
     this._callbacks = this._callbacks || {};
@@ -635,7 +635,7 @@
    * @param {Function} fn
    * @return {Emitter}
    * @api public
-   */
+  */
 
   Emitter.prototype.once = function (event, fn) {
     function on() {
@@ -655,7 +655,7 @@
    * @param {Function} fn
    * @return {Emitter}
    * @api public
-   */
+  */
 
   Emitter.prototype.off = Emitter.prototype.removeListener = Emitter.prototype.removeAllListeners = Emitter.prototype.removeEventListener = function (event, fn) {
     this._callbacks = this._callbacks || {};
@@ -700,7 +700,7 @@
    * @param {String} event
    * @param {Mixed} ...
    * @return {Emitter}
-   */
+  */
 
   Emitter.prototype.emit = function (event) {
     this._callbacks = this._callbacks || {};
@@ -727,7 +727,7 @@
    * @param {String} event
    * @return {Array}
    * @api public
-   */
+  */
 
   Emitter.prototype.listeners = function (event) {
     this._callbacks = this._callbacks || {};
@@ -740,7 +740,7 @@
    * @param {String} event
    * @return {Boolean}
    * @api public
-   */
+  */
 
   Emitter.prototype.hasListeners = function (event) {
     return !!this.listeners(event).length;
@@ -815,7 +815,7 @@
    *
    * @param {Object}
    * @api private
-   */
+  */
   function encode$1(obj) {
     var str = '';
     for (var i in obj) {
@@ -831,7 +831,7 @@
    *
    * @param {String} qs
    * @api private
-   */
+  */
   function decode(qs) {
     var qry = {};
     var pairs = qs.split('&');
@@ -864,7 +864,7 @@
      *
      * @param {Object} opts - options
      * @protected
-     */
+    */
     function Transport(opts) {
       var _this2;
       _classCallCheck(this, Transport);
@@ -884,7 +884,7 @@
      * @param context - the error context
      * @return {Transport} for chaining
      * @protected
-     */
+    */
     _createClass(Transport, [{
       key: "onError",
       value: function onError(reason, description, context) {
@@ -893,7 +893,7 @@
       }
       /**
        * Opens the transport.
-       */
+      */
     }, {
       key: "open",
       value: function open() {
@@ -903,7 +903,7 @@
       }
       /**
        * Closes the transport.
-       */
+      */
     }, {
       key: "close",
       value: function close() {
@@ -917,7 +917,7 @@
        * Sends multiple packets.
        *
        * @param {Array} packets
-       */
+      */
     }, {
       key: "send",
       value: function send(packets) {
@@ -929,7 +929,7 @@
        * Called upon open
        *
        * @protected
-       */
+      */
     }, {
       key: "onOpen",
       value: function onOpen() {
@@ -942,7 +942,7 @@
        *
        * @param {String} data
        * @protected
-       */
+      */
     }, {
       key: "onData",
       value: function onData(data) {
@@ -953,7 +953,7 @@
        * Called with a decoded packet.
        *
        * @protected
-       */
+      */
     }, {
       key: "onPacket",
       value: function onPacket(packet) {
@@ -963,7 +963,7 @@
        * Called upon close.
        *
        * @protected
-       */
+      */
     }, {
       key: "onClose",
       value: function onClose(details) {
@@ -974,7 +974,7 @@
        * Pauses the transport, in order not to lose packets during an upgrade.
        *
        * @param onPause
-       */
+      */
     }, {
       key: "pause",
       value: function pause(onPause) {}
@@ -1023,7 +1023,7 @@
    * @param {Number} num The number to convert.
    * @returns {String} The string representation of the number.
    * @api public
-   */
+  */
   function encode(num) {
     var encoded = '';
     do {
@@ -1037,7 +1037,7 @@
    *
    * @returns {String} A unique id.
    * @api public
-   */
+  */
   function yeast() {
     var now = encode(+new Date());
     if(now !== prev) return seed = 0, prev = now;
@@ -1090,7 +1090,7 @@
      *
      * @param {Object} opts
      * @package
-     */
+    */
     function Polling(opts) {
       var _this;
       _classCallCheck(this, Polling);
@@ -1107,7 +1107,7 @@
       }
       /**
        * XHR supports binary
-       */
+      */
       var forceBase64 = opts && opts.forceBase64;
       _this.supportsBinary = hasXHR2 && !forceBase64;
       if(_this.opts.withCredentials) {
@@ -1125,7 +1125,7 @@
        * when the transport is open.
        *
        * @protected
-       */
+      */
     }, {
       key: "doOpen",
       value: function doOpen() {
@@ -1136,7 +1136,7 @@
        *
        * @param {Function} onPause - callback upon buffers are flushed and transport is paused
        * @package
-       */
+      */
     }, {
       key: "pause",
       value: function pause(onPause) {
@@ -1168,7 +1168,7 @@
        * Starts polling cycle.
        *
        * @private
-       */
+      */
     }, {
       key: "poll",
       value: function poll() {
@@ -1180,7 +1180,7 @@
        * Overloads onData to detect payloads.
        *
        * @protected
-       */
+      */
     }, {
       key: "onData",
       value: function onData(data) {
@@ -1216,7 +1216,7 @@
        * For polling, send a close packet.
        *
        * @protected
-       */
+      */
     }, {
       key: "doClose",
       value: function doClose() {
@@ -1239,7 +1239,7 @@
        *
        * @param {Array} packets - data packets
        * @protected
-       */
+      */
     }, {
       key: "write",
       value: function write(packets) {
@@ -1256,7 +1256,7 @@
        * Generates uri for connection.
        *
        * @private
-       */
+      */
     }, {
       key: "uri",
       value: function uri() {
@@ -1276,7 +1276,7 @@
        *
        * @param {String} method
        * @private
-       */
+      */
     }, {
       key: "request",
       value: function request() {
@@ -1293,7 +1293,7 @@
        * @param {String} data to send.
        * @param {Function} called upon flush.
        * @private
-       */
+      */
     }, {
       key: "doWrite",
       value: function doWrite(data, fn) {
@@ -1311,7 +1311,7 @@
        * Starts a poll cycle.
        *
        * @private
-       */
+      */
     }, {
       key: "doPoll",
       value: function doPoll() {
@@ -1334,7 +1334,7 @@
      *
      * @param {Object} options
      * @package
-     */
+    */
     function Request(uri, opts) {
       var _this8;
       _classCallCheck(this, Request);
@@ -1351,7 +1351,7 @@
      * Creates the XHR object and sends the request.
      *
      * @private
-     */
+    */
     _createClass(Request, [{
       key: "create",
       value: function create() {
@@ -1423,7 +1423,7 @@
        * Called upon error.
        *
        * @private
-       */
+      */
     }, {
       key: "onError",
       value: function onError(err) {
@@ -1434,7 +1434,7 @@
        * Cleans up house.
        *
        * @private
-       */
+      */
     }, {
       key: "cleanup",
       value: function cleanup(fromError) {
@@ -1456,7 +1456,7 @@
        * Called upon load.
        *
        * @private
-       */
+      */
     }, {
       key: "onLoad",
       value: function onLoad() {
@@ -1471,7 +1471,7 @@
        * Aborts the request.
        *
        * @package
-       */
+      */
     }, {
       key: "abort",
       value: function abort() {
@@ -1486,7 +1486,7 @@
    * Aborts pending requests when unloading the window. This is needed to prevent
    * memory leaks (e.g. when using IE) and to ensure that no spurious error is
    * emitted.
-   */
+  */
   if(typeof document !== "undefined") {
     // @ts-ignore
     if(typeof attachEvent === "function") {
@@ -1531,7 +1531,7 @@
      *
      * @param {Object} opts - connection options
      * @protected
-     */
+    */
     function WS(opts) {
       var _this;
       _classCallCheck(this, WS);
@@ -1570,7 +1570,7 @@
        * Adds event listeners to the socket
        *
        * @private
-       */
+      */
     }, {
       key: "addEventListeners",
       value: function addEventListeners() {
@@ -1642,7 +1642,7 @@
        * Generates uri for connection.
        *
        * @private
-       */
+      */
     }, {
       key: "uri",
       value: function uri() {
@@ -1663,7 +1663,7 @@
        *
        * @return {Boolean} whether this transport is available.
        * @private
-       */
+      */
     }, {
       key: "check",
       value: function check() {
@@ -1787,7 +1787,7 @@
    *
    * @author Steven Levithan <stevenlevithan.com> (MIT license)
    * @api private
-   */
+  */
   var re = /^(?:(?![^:@\/?#]+:[^:@\/]*@)(http|https|ws|wss):\/\/)?((?:(([^:@\/?#]*)(?::([^:@\/?#]*))?)?@)?((?:[a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}|[^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/;
   var parts = ['source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'anchor'];
   function parse(str) {
@@ -1842,7 +1842,7 @@
      *
      * @param {String|Object} uri - uri or options
      * @param {Object} opts - options
-     */
+    */
     function Socket(uri) {
       var _this;
       var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -1932,7 +1932,7 @@
      * @param {String} name - transport name
      * @return {Transport}
      * @private
-     */
+    */
     _createClass(Socket, [{
       key: "createTransport",
       value: function createTransport(name) {
@@ -1956,7 +1956,7 @@
        * Initializes transport to use and starts probe.
        *
        * @private
-       */
+      */
     }, {
       key: "open",
       value: function open() {
@@ -1989,7 +1989,7 @@
        * Sets the current transport. Disables the existing one (if any).
        *
        * @private
-       */
+      */
     }, {
       key: "setTransport",
       value: function setTransport(transport) {
@@ -2009,7 +2009,7 @@
        *
        * @param {String} name - transport name
        * @private
-       */
+      */
     }, {
       key: "probe",
       value: function probe(name) {
@@ -2108,7 +2108,7 @@
        * Called when connection is deemed open.
        *
        * @private
-       */
+      */
     }, {
       key: "onOpen",
       value: function onOpen() {
@@ -2130,7 +2130,7 @@
        * Handles a packet.
        *
        * @private
-       */
+      */
     }, {
       key: "onPacket",
       value: function onPacket(packet) {
@@ -2166,7 +2166,7 @@
        *
        * @param {Object} data - handshake obj
        * @private
-       */
+      */
     }, {
       key: "onHandshake",
       value: function onHandshake(data) {
@@ -2186,7 +2186,7 @@
        * Sets and resets ping timeout timer based on server pings.
        *
        * @private
-       */
+      */
     }, {
       key: "resetPingTimeout",
       value: function resetPingTimeout() {
@@ -2203,7 +2203,7 @@
        * Called on `drain` event
        *
        * @private
-       */
+      */
     }, {
       key: "onDrain",
       value: function onDrain() {
@@ -2222,7 +2222,7 @@
        * Flush write buffers.
        *
        * @private
-       */
+      */
     }, {
       key: "flush",
       value: function flush() {
@@ -2240,7 +2240,7 @@
        * long-polling)
        *
        * @private
-       */
+      */
     }, {
       key: "getWritablePackets",
       value: function getWritablePackets() {
@@ -2269,7 +2269,7 @@
        * @param {Object} options.
        * @param {Function} callback function.
        * @return {Socket} for chaining.
-       */
+      */
     }, {
       key: "write",
       value: function write(msg, options, fn) {
@@ -2290,7 +2290,7 @@
        * @param {Object} options.
        * @param {Function} fn - callback function.
        * @private
-       */
+      */
     }, {
       key: "sendPacket",
       value: function sendPacket(type, data, options, fn) {
@@ -2319,7 +2319,7 @@
       }
       /**
        * Closes the connection.
-       */
+      */
     }, {
       key: "close",
       value: function close() {
@@ -2360,7 +2360,7 @@
        * Called upon transport error
        *
        * @private
-       */
+      */
     }, {
       key: "onError",
       value: function onError(err) {
@@ -2372,7 +2372,7 @@
        * Called upon transport close.
        *
        * @private
-       */
+      */
     }, {
       key: "onClose",
       value: function onClose(reason, description) {
@@ -2406,7 +2406,7 @@
        *
        * @param {Array} upgrades - server upgrades
        * @private
-       */
+      */
     }, {
       key: "filterUpgrades",
       value: function filterUpgrades(upgrades) {
@@ -2433,7 +2433,7 @@
    * @param loc - An object meant to mimic window.location.
    *        Defaults to window.location.
    * @public
-   */
+  */
   function url(uri) {
     var path = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
     var loc = arguments.length > 2 ? arguments[2] : undefined;
@@ -2489,7 +2489,7 @@
    * Returns true if obj is a Buffer, an ArrayBuffer, a Blob or a File.
    *
    * @private
-   */
+  */
   function isBinary(obj) {
     return withNativeArrayBuffer && (obj instanceof ArrayBuffer || isView(obj)) || withNativeBlob && obj instanceof Blob || withNativeFile && obj instanceof File;
   }
@@ -2525,7 +2525,7 @@
    * @param {Object} packet - socket.io event packet
    * @return {Object} with deconstructed packet and list of buffers
    * @public
-   */
+  */
   function deconstructPacket(packet) {
     var buffers = [];
     var packetData = packet.data;
@@ -2570,7 +2570,7 @@
    * @param {Array} buffers - binary buffers to put in placeholder positions
    * @return {Object} reconstructed packet
    * @public
-   */
+  */
   function reconstructPacket(packet, buffers) {
     packet.data = _reconstructPacket(packet.data, buffers);
     delete packet.attachments; // no longer useful
@@ -2601,14 +2601,14 @@
 
   /**
    * These strings must not be used as event names, as they have a special meaning.
-   */
+  */
   var RESERVED_EVENTS$1 = ["connect", "connect_error", "disconnect", "disconnecting", "newListener", "removeListener" // used by the Node.js EventEmitter
   ];
   /**
    * Protocol version.
    *
    * @public
-   */
+  */
   var protocol = 5;
   var PacketType;
   (function (PacketType) {
@@ -2622,13 +2622,13 @@
   })(PacketType || (PacketType = {}));
   /**
    * A socket.io Encoder instance
-   */
+  */
   var Encoder = /*#__PURE__*/function () {
     /**
      * Encoder constructor
      *
      * @param {function} replacer - custom replacer to pass down to JSON.parse
-     */
+    */
     function Encoder(replacer) {
       _classCallCheck(this, Encoder);
       this.replacer = replacer;
@@ -2638,7 +2638,7 @@
      * buffer sequence, depending on packet type.
      *
      * @param {Object} obj - packet object
-     */
+    */
     _createClass(Encoder, [{
       key: "encode",
       value: function encode(obj) {
@@ -2656,7 +2656,7 @@
       }
       /**
        * Encode packet as string.
-       */
+      */
     }, {
       key: "encodeAsString",
       value: function encodeAsString(obj) {
@@ -2685,7 +2685,7 @@
        * Encode packet as 'buffer sequence' by removing blobs, and
        * deconstructing packet into object with placeholders and
        * a list of buffers.
-       */
+      */
     }, {
       key: "encodeAsBinary",
       value: function encodeAsBinary(obj) {
@@ -2706,7 +2706,7 @@
    * A socket.io Decoder instance
    *
    * @return {Object} decoder
-   */
+  */
   var Decoder = /*#__PURE__*/function (_Emitter) {
     _inherits(Decoder, _Emitter);
     var _super = _createSuper(Decoder);
@@ -2714,7 +2714,7 @@
      * Decoder constructor
      *
      * @param {function} reviver - custom reviver to pass down to JSON.stringify
-     */
+    */
     function Decoder(reviver) {
       var _this;
       _classCallCheck(this, Decoder);
@@ -2726,7 +2726,7 @@
      * Decodes an encoded packet string into packet JSON.
      *
      * @param {String} obj - encoded packet
-     */
+    */
     _createClass(Decoder, [{
       key: "add",
       value: function add(obj) {
@@ -2770,7 +2770,7 @@
        *
        * @param {String} str
        * @return {Object} packet
-       */
+      */
     }, {
       key: "decodeString",
       value: function decodeString(str) {
@@ -2843,7 +2843,7 @@
       value:
       /**
        * Deallocates a parser's resources
-       */
+      */
       function destroy() {
         if(this.reconstructor) {
           this.reconstructor.finishedReconstruction();
@@ -2878,7 +2878,7 @@
    *
    * @param {Object} packet
    * @return {BinaryReconstructor} initialized reconstructor
-   */
+  */
   var BinaryReconstructor = /*#__PURE__*/function () {
     function BinaryReconstructor(packet) {
       _classCallCheck(this, BinaryReconstructor);
@@ -2893,7 +2893,7 @@
      * @param {Buffer | ArrayBuffer} binData - the raw binary data received
      * @return {null | Object} returns null if more binary data is expected or
      *   a reconstructed packet object if all buffers have been received.
-     */
+    */
     _createClass(BinaryReconstructor, [{
       key: "takeBinaryData",
       value: function takeBinaryData(binData) {
@@ -2908,7 +2908,7 @@
       }
       /**
        * Cleans up binary packet reconstruction variables.
-       */
+      */
     }, {
       key: "finishedReconstruction",
       value: function finishedReconstruction() {
@@ -2937,7 +2937,7 @@
   /**
    * Internal events.
    * These events can't be emitted by the user.
-   */
+  */
   var RESERVED_EVENTS = Object.freeze({
     connect: 1,
     connect_error: 1,
@@ -2970,13 +2970,13 @@
    * socket.on("disconnect", (reason) => {
    *   console.log(`disconnected due to ${reason}`);
    * });
-   */
+  */
   var Socket = /*#__PURE__*/function (_Emitter) {
     _inherits(Socket, _Emitter);
     var _super = _createSuper(Socket);
     /**
      * `Socket` constructor.
-     */
+    */
     function Socket(io, nsp, opts) {
       var _this;
       _classCallCheck(this, Socket);
@@ -2994,32 +2994,32 @@
        * socket.on("disconnect", () => {
        *   console.log(socket.connected); // false
        * });
-       */
+      */
       _this.connected = false;
       /**
        * Whether the connection state was recovered after a temporary disconnection. In that case, any missed packets will
        * be transmitted by the server.
-       */
+      */
       _this.recovered = false;
       /**
        * Buffer for packets received before the CONNECT packet
-       */
+      */
       _this.receiveBuffer = [];
       /**
        * Buffer for packets that will be sent once the socket is connected
-       */
+      */
       _this.sendBuffer = [];
       /**
        * The queue of packets to be sent with retry in case of failure.
        *
        * Packets are sent one by one, each waiting for the server acknowledgement, in order to guarantee the delivery order.
        * @private
-       */
+      */
       _this._queue = [];
       /**
        * A sequence to generate the ID of the {@link QueuedPacket}.
        * @private
-       */
+      */
       _this._queueSeq = 0;
       _this.ids = 0;
       _this.acks = {};
@@ -3046,7 +3046,7 @@
      * socket.on("disconnect", () => {
      *   console.log(socket.disconnected); // true
      * });
-     */
+    */
     _createClass(Socket, [{
       key: "disconnected",
       get: function get() {
@@ -3056,7 +3056,7 @@
        * Subscribe to open, close and packet events
        *
        * @private
-       */
+      */
     }, {
       key: "subEvents",
       value: function subEvents() {
@@ -3080,7 +3080,7 @@
        *   // else the socket will automatically try to reconnect
        *   console.log(socket.active); // true
        * });
-       */
+      */
     }, {
       key: "active",
       get: function get() {
@@ -3095,7 +3095,7 @@
        * });
        *
        * socket.connect();
-       */
+      */
     }, {
       key: "connect",
       value: function connect() {
@@ -3107,7 +3107,7 @@
       }
       /**
        * Alias for {@link connect()}.
-       */
+      */
     }, {
       key: "open",
       value: function open() {
@@ -3127,7 +3127,7 @@
        * socket.emit("message", "hello");
        *
        * @return self
-       */
+      */
     }, {
       key: "send",
       value: function send() {
@@ -3154,7 +3154,7 @@
        * });
        *
        * @return self
-       */
+      */
     }, {
       key: "emit",
       value: function emit(ev) {
@@ -3195,7 +3195,7 @@
       }
       /**
        * @private
-       */
+      */
     }, {
       key: "_registerAckCallback",
       value: function _registerAckCallback(id, ack) {
@@ -3240,7 +3240,7 @@
        * }
        *
        * @return a Promise that will be fulfilled when the server acknowledges the event
-       */
+      */
     }, {
       key: "emitWithAck",
       value: function emitWithAck(ev) {
@@ -3265,7 +3265,7 @@
        * Add the packet to the queue.
        * @param args
        * @private
-       */
+      */
     }, {
       key: "_addToQueue",
       value: function _addToQueue(args) {
@@ -3316,7 +3316,7 @@
        * @param force - whether to resend a packet that has not been acknowledged yet
        *
        * @private
-       */
+      */
     }, {
       key: "_drainQueue",
       value: function _drainQueue() {
@@ -3338,7 +3338,7 @@
        *
        * @param packet
        * @private
-       */
+      */
     }, {
       key: "packet",
       value: function packet(_packet) {
@@ -3349,7 +3349,7 @@
        * Called upon engine `open`.
        *
        * @private
-       */
+      */
     }, {
       key: "onopen",
       value: function onopen() {
@@ -3367,7 +3367,7 @@
        *
        * @param data
        * @private
-       */
+      */
     }, {
       key: "_sendConnectPacket",
       value: function _sendConnectPacket(data) {
@@ -3384,7 +3384,7 @@
        *
        * @param err
        * @private
-       */
+      */
     }, {
       key: "onerror",
       value: function onerror(err) {
@@ -3398,7 +3398,7 @@
        * @param reason
        * @param description
        * @private
-       */
+      */
     }, {
       key: "onclose",
       value: function onclose(reason, description) {
@@ -3411,7 +3411,7 @@
        *
        * @param packet
        * @private
-       */
+      */
     }, {
       key: "onpacket",
       value: function onpacket(packet) {
@@ -3450,7 +3450,7 @@
        *
        * @param packet
        * @private
-       */
+      */
     }, {
       key: "onevent",
       value: function onevent(packet) {
@@ -3491,7 +3491,7 @@
        * Produces an ack callback to emit with an event.
        *
        * @private
-       */
+      */
     }, {
       key: "ack",
       value: function ack(id) {
@@ -3516,7 +3516,7 @@
        *
        * @param packet
        * @private
-       */
+      */
     }, {
       key: "onack",
       value: function onack(packet) {
@@ -3530,7 +3530,7 @@
        * Called upon server connect.
        *
        * @private
-       */
+      */
     }, {
       key: "onconnect",
       value: function onconnect(id, pid) {
@@ -3546,7 +3546,7 @@
        * Emit buffered events (received and emitted).
        *
        * @private
-       */
+      */
     }, {
       key: "emitBuffered",
       value: function emitBuffered() {
@@ -3565,7 +3565,7 @@
        * Called upon server disconnect.
        *
        * @private
-       */
+      */
     }, {
       key: "ondisconnect",
       value: function ondisconnect() {
@@ -3578,7 +3578,7 @@
        * that reconnections don't get triggered for this.
        *
        * @private
-       */
+      */
     }, {
       key: "destroy",
       value: function destroy() {
@@ -3606,7 +3606,7 @@
        * socket.disconnect();
        *
        * @return self
-       */
+      */
     }, {
       key: "disconnect",
       value: function disconnect() {
@@ -3627,7 +3627,7 @@
        * Alias for {@link disconnect()}.
        *
        * @return self
-       */
+      */
     }, {
       key: "close",
       value: function close() {
@@ -3641,7 +3641,7 @@
        *
        * @param compress - if `true`, compresses the sending data
        * @return self
-       */
+      */
     }, {
       key: "compress",
       value: function compress(_compress) {
@@ -3656,7 +3656,7 @@
        * socket.volatile.emit("hello"); // the server may or may not receive it
        *
        * @returns self
-       */
+      */
     }, {
       key: "volatile",
       get: function get() {
@@ -3675,7 +3675,7 @@
        * });
        *
        * @returns self
-       */
+      */
     }, {
       key: "timeout",
       value: function timeout(_timeout) {
@@ -3692,7 +3692,7 @@
        * });
        *
        * @param listener
-       */
+      */
     }, {
       key: "onAny",
       value: function onAny(listener) {
@@ -3710,7 +3710,7 @@
        * });
        *
        * @param listener
-       */
+      */
     }, {
       key: "prependAny",
       value: function prependAny(listener) {
@@ -3735,7 +3735,7 @@
        * socket.offAny();
        *
        * @param listener
-       */
+      */
     }, {
       key: "offAny",
       value: function offAny(listener) {
@@ -3758,7 +3758,7 @@
       /**
        * Returns an array of listeners that are listening for any event that is specified. This array can be manipulated,
        * e.g. to remove listeners.
-       */
+      */
     }, {
       key: "listenersAny",
       value: function listenersAny() {
@@ -3776,7 +3776,7 @@
        * });
        *
        * @param listener
-       */
+      */
     }, {
       key: "onAnyOutgoing",
       value: function onAnyOutgoing(listener) {
@@ -3796,7 +3796,7 @@
        * });
        *
        * @param listener
-       */
+      */
     }, {
       key: "prependAnyOutgoing",
       value: function prependAnyOutgoing(listener) {
@@ -3821,7 +3821,7 @@
        * socket.offAnyOutgoing();
        *
        * @param [listener] - the catch-all listener (optional)
-       */
+      */
     }, {
       key: "offAnyOutgoing",
       value: function offAnyOutgoing(listener) {
@@ -3844,7 +3844,7 @@
       /**
        * Returns an array of listeners that are listening for any event that is specified. This array can be manipulated,
        * e.g. to remove listeners.
-       */
+      */
     }, {
       key: "listenersAnyOutgoing",
       value: function listenersAnyOutgoing() {
@@ -3856,7 +3856,7 @@
        * @param packet
        *
        * @private
-       */
+      */
     }, {
       key: "notifyOutgoingListeners",
       value: function notifyOutgoingListeners(packet) {
@@ -3890,7 +3890,7 @@
    *
    * @param {Object} opts
    * @api public
-   */
+  */
   function Backoff(opts) {
     opts = opts || {};
     this.ms = opts.min || 100;
@@ -3904,7 +3904,7 @@
    *
    * @return {Number}
    * @api public
-   */
+  */
   Backoff.prototype.duration = function () {
     var ms = this.ms * Math.pow(this.factor, this.attempts++);
     if(this.jitter) {
@@ -3918,7 +3918,7 @@
    * Reset the number of attempts.
    *
    * @api public
-   */
+  */
   Backoff.prototype.reset = function () {
     this.attempts = 0;
   };
@@ -3926,7 +3926,7 @@
    * Set the minimum duration
    *
    * @api public
-   */
+  */
   Backoff.prototype.setMin = function (min) {
     this.ms = min;
   };
@@ -3934,7 +3934,7 @@
    * Set the maximum duration
    *
    * @api public
-   */
+  */
   Backoff.prototype.setMax = function (max) {
     this.max = max;
   };
@@ -3942,7 +3942,7 @@
    * Set the jitter
    *
    * @api public
-   */
+  */
   Backoff.prototype.setJitter = function (jitter) {
     this.jitter = jitter;
   };
@@ -4038,7 +4038,7 @@
        * started reconnecting yet
        *
        * @private
-       */
+      */
     }, {
       key: "maybeReconnectOnOpen",
       value: function maybeReconnectOnOpen() {
@@ -4054,7 +4054,7 @@
        * @param {Function} fn - optional, callback
        * @return self
        * @public
-       */
+      */
     }, {
       key: "open",
       value: function open(fn) {
@@ -4107,7 +4107,7 @@
        *
        * @return self
        * @public
-       */
+      */
     }, {
       key: "connect",
       value: function connect(fn) {
@@ -4117,7 +4117,7 @@
        * Called upon transport open.
        *
        * @private
-       */
+      */
     }, {
       key: "onopen",
       value: function onopen() {
@@ -4134,7 +4134,7 @@
        * Called upon a ping.
        *
        * @private
-       */
+      */
     }, {
       key: "onping",
       value: function onping() {
@@ -4144,7 +4144,7 @@
        * Called with data.
        *
        * @private
-       */
+      */
     }, {
       key: "ondata",
       value: function ondata(data) {
@@ -4158,7 +4158,7 @@
        * Called when parser fully decodes a packet.
        *
        * @private
-       */
+      */
     }, {
       key: "ondecoded",
       value: function ondecoded(packet) {
@@ -4172,7 +4172,7 @@
        * Called upon socket error.
        *
        * @private
-       */
+      */
     }, {
       key: "onerror",
       value: function onerror(err) {
@@ -4183,7 +4183,7 @@
        *
        * @return {Socket}
        * @public
-       */
+      */
     }, {
       key: "socket",
       value: function socket(nsp, opts) {
@@ -4201,7 +4201,7 @@
        *
        * @param socket
        * @private
-       */
+      */
     }, {
       key: "_destroy",
       value: function _destroy(socket) {
@@ -4220,7 +4220,7 @@
        *
        * @param packet
        * @private
-       */
+      */
     }, {
       key: "_packet",
       value: function _packet(packet) {
@@ -4233,7 +4233,7 @@
        * Clean up transport subscriptions and packet buffer.
        *
        * @private
-       */
+      */
     }, {
       key: "cleanup",
       value: function cleanup() {
@@ -4247,7 +4247,7 @@
        * Close the current socket.
        *
        * @private
-       */
+      */
     }, {
       key: "_close",
       value: function _close() {
@@ -4260,7 +4260,7 @@
        * Alias for close()
        *
        * @private
-       */
+      */
     }, {
       key: "disconnect",
       value: function disconnect() {
@@ -4270,7 +4270,7 @@
        * Called upon engine close.
        *
        * @private
-       */
+      */
     }, {
       key: "onclose",
       value: function onclose(reason, description) {
@@ -4286,7 +4286,7 @@
        * Attempt a reconnection.
        *
        * @private
-       */
+      */
     }, {
       key: "reconnect",
       value: function reconnect() {
@@ -4327,7 +4327,7 @@
        * Called upon successful reconnect.
        *
        * @private
-       */
+      */
     }, {
       key: "onreconnect",
       value: function onreconnect() {
@@ -4342,7 +4342,7 @@
 
   /**
    * Managers cache.
-   */
+  */
   var cache = {};
   function lookup(uri, opts) {
     if(_typeof(uri) === "object") {

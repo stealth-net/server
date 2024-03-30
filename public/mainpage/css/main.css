@@ -181,7 +181,7 @@ div[class^="midsubtab-"] > label {
     margin-left: 10px;
 }
 #friend-list {
-    /* margin-top: 3px; */
+    /* margin-top: 3px;*/
     overflow-y: scroll;
 }
 ::-webkit-scrollbar {
@@ -238,7 +238,7 @@ div[class^="midsubtab-"] > label {
 }
 .message-container {
     padding: 2 0 2 0;
-    clear: both; /* Clear floats */
+    clear: both; /* Clear floats*/
 }
 .message-container:hover {
     background-color: #1D1D30;
@@ -268,7 +268,7 @@ body, html, input, textarea, button, label {
 
 .checkbox-container {
     display: flex;
-    align-items: center; /* Centers the checkbox and text vertically */
+    align-items: center; /* Centers the checkbox and text vertically*/
     cursor: pointer;
 }
 
@@ -284,7 +284,7 @@ body, html, input, textarea, button, label {
     background-color: #1D1D2F;
     border: 1px solid #131320;
     position: relative;
-    margin-right: 5px; /* Adds some space between the checkbox and the text */
+    margin-right: 5px; /* Adds some space between the checkbox and the text*/
 }
 
 .checkbox-input:checked + .checkbox-custom::after {

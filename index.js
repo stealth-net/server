@@ -38,7 +38,6 @@ let db = new sqlite3.Database(config.databasePath, sqlite3.OPEN_READWRITE, (err)
 
 /**
  * @global
- * @typedef {Object} StealthObject
  * @property {EventEmitter} events - EventEmitter instance
  * @property {express.Application} app - Express application instance
  * @property {http.Server} server - HTTP server instance
@@ -49,12 +48,8 @@ let db = new sqlite3.Database(config.databasePath, sqlite3.OPEN_READWRITE, (err)
  * @property {Object} env - Process environment variables
  * @property {Function} log - Logging function
  * @property {Object} sockets - Object to store sockets
- */
+*/
 
-/**
- * Global object for StealthNet application.
- * @type {StealthObject}
- */
 global.stealth = {
     events: new EventEmitter(),
     app,

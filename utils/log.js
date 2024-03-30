@@ -11,7 +11,7 @@ Date.prototype.timeNow = function () {
  * Logs messages with a specified type.
  * @param {string} type - The type of the log (INFO, WARN, ERROR, DEBUG, AUTH, USERS).
  * @param {...string} message - The messages to log.
- */
+*/
 function log(type, ...message) {
     type = type.toUpperCase();
     if(!stealth.config.logging[type.toLowerCase()]) return;

@@ -30,7 +30,7 @@ db.run(query, function(err) {
  * @param {string} queue - The value to search for in the database.
  * @param {string} key - The key to search for in the database.
  * @returns {Promise<Object>} A promise that resolves with the user row if found, or rejects with an error.
- */
+*/
 function query_search(queue, key) {
     return new Promise((resolve, reject) => {
         let query = `SELECT * FROM users WHERE ${key} = ?`;
@@ -48,7 +48,7 @@ function query_search(queue, key) {
  * Creates a safe user object with limited properties.
  * @param {Object} user - The user object to make safe.
  * @returns {Object} A safe user object with limited properties.
- */
+*/
 function safe_user(user) {
     return {
         username: user.username,
@@ -63,7 +63,7 @@ function safe_user(user) {
  * @param {Array} ids - The array of user IDs to fetch.
  * @param {boolean} safe - A flag to determine if fetching should be safe.
  * @returns {Array} An array of fetched users.
- */
+*/
 async function fetch_users(ids, safe) {
     const users = [];
     for (let id of ids) {
@@ -84,7 +84,7 @@ async function fetch_users(ids, safe) {
 
 /**
  * Represents a user in the system.
- */
+*/
 class User {
     /**
      * @property {string} id - The unique identifier of the user.
@@ -101,7 +101,7 @@ class User {
      * @property {string} display_name - The display name of the user.
      * @property {string} email - The email address of the user.
      * @property {string} password - The password of the user.
-     */
+    */
     constructor() {}
 
     /**
@@ -109,7 +109,7 @@ class User {
      * @param {Object} options - The options for user initialization.
      * @param {string} options.token - The token for user initialization.
      * @param {string} options.password - The password for user initialization.
-     */
+    */
     async init(options) {
         if(options.token) {
             await this.initWithToken(options.token);
@@ -121,7 +121,7 @@ class User {
     /**
      * Initialize user with token.
      * @param {string} token - The token for user initialization.
-     */
+    */
     async initWithToken(token) {
         try {
             const userData = await query_search(token, "token");
@@ -139,7 +139,7 @@ class User {
      * @param {string} options.username - The username of the user.
      * @param {string} options.email - The email of the user.
      * @param {string} options.password - The password of the user.
-     */
+    */
     initWithCredentials(options) {
         this.id = stealth.id_manager.getNextID();
         this.token = options.token || gen_token(this.id);
@@ -163,7 +163,7 @@ class User {
      * Get the value of a property by key.
      * @param {string} key - The key of the property to retrieve.
      * @returns {*} The value of the property.
-     */
+    */
     get(key) {
         const value = this[key];
         if(typeof value === 'string') {
@@ -183,7 +183,7 @@ class User {
      * Set the value of a property by key.
      * @param {string} key - The key of the property to set.
      * @param {*} value - The value to set for the property.
-     */
+    */
     set(key, value) {
         Object.assign(this, { [key]: value });
         let query = `UPDATE users SET ${key} = ? WHERE id = ?`;
@@ -197,7 +197,7 @@ class User {
     /**
      * Get all properties of the user.
      * @returns {Object} All properties of the user.
-     */
+    */
     async getAllProperties() {
         const properties = {};
 
@@ -218,7 +218,7 @@ class User {
      * @param {string} type - The type of data to send.
      * @param {...*} data - The data to send.
      * @returns {boolean} True if data is sent successfully, false otherwise.
-     */
+    */
     send(type, ...data) {
         const socket = this.getSocket();
         if(!socket) return false;
