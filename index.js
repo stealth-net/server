@@ -138,6 +138,7 @@ io.on('connection', async (socket) => {
     }
 
     stealth.sockets[user.id] = socket;
+    console.log(socket.handshake.headers);
 
     user.setStatus("online");
 

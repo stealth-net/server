@@ -1,9 +1,11 @@
 import { addFriend, addMessage, addPendingRequest, removeFriend, removeFriendRequest, updateProfile } from './frontend.js';
 import { Connection } from './client.js';
 import { parseCookies } from './util.js';
+import config from "./config.js";
 const cookies = parseCookies();
 
 window.StealthNet = {
+    config,
     cookie: cookies,
     connection: new Connection({ token: cookies.token || null })
 }

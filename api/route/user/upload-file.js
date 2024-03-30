@@ -34,21 +34,31 @@ app.post("/user-api/v1/upload-file", upload.single("file"), async (req, res, nex
         };
 
         try {
+            // Initialize sender user with token
             const user = new User();
             await user.initWithToken(req.cookies.token);
+            // Search for recipient by ID
             const recipientProperties = await query_search(recipientId, "id");
             if (!recipientProperties) {
                 throw new Error("Recipient not found");
             }
             const recipientUser = new User();
             await recipientUser.initWithToken(recipientProperties.token);
+            // Create a new message object
             const message = new Message({
                 senderId: user.id,
                 recipientId: recipientUser.id,
                 attachments: [fileData],
                 conversationId: get_conversation_id(user.id, recipientUser.id)
             });
-            await message.save();
+            
+            // Check if messages should be saved based on socket header
+            const socket = sender.getSocket();
+            if (socket && socket.handshake.headers.savemessages === "true") {
+                await message.save();
+            }
+
+            // Send new message notification to recipient
             recipientUser.send("newMessage", {
                 author: { id: user.id, username: user.username, pfpURL: user.pfpURL },
                 attachments: [fileData],
@@ -58,6 +68,7 @@ app.post("/user-api/v1/upload-file", upload.single("file"), async (req, res, nex
             console.error("Error sending socket message:", error);
         }
 
+        // Respond with success message and file data
         res.json({
             message: "File uploaded successfully",
             file: fileData

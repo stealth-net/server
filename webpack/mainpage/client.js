@@ -1,4 +1,5 @@
 import { getData } from "./util.js";
+import config from "./config.js";
 
 export class Connection extends EventEmitter {
     constructor(options = {}) {
@@ -12,7 +13,7 @@ export class Connection extends EventEmitter {
         });
 
         this.net = {
-            socket: io()
+            socket: io({ extraHeaders: { saveMessages: config.getValue("save-messages") } })
         }
     }
 }

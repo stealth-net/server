@@ -158,10 +158,10 @@ label {
     color: #8B91C3;
 }
 #menu-mid > * {
-    margin: 20 0 0 0;
+    margin: 10;
 }
 .mid-tablist {
-    margin: 10 0 10 0;
+    padding-bottom: 10px;
 }
 .mid-tabbutton:not([state="active"]) {
     transition: color 0.4s cubic-bezier(1, -0.44, 0.99, 1.13);
@@ -264,4 +264,38 @@ body, html, input, textarea, button, label {
 }
 .message-author > label:last-child {
     margin-left: 5px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center; /* Centers the checkbox and text vertically */
+    cursor: pointer;
+}
+
+.checkbox-input {
+    display: none;
+}
+
+.checkbox-custom {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    border-radius: 4.5px;
+    background-color: #1D1D2F;
+    border: 1px solid #131320;
+    position: relative;
+    margin-right: 5px; /* Adds some space between the checkbox and the text */
+}
+
+.checkbox-input:checked + .checkbox-custom::after {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 10px;
+    width: 14px;
+    height: 6px;
+    background-color: transparent;
+    border: solid #4E6A40;
+    border-width: 0 0 4px 4px;
+    transform: rotate(-60deg);
 }

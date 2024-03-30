@@ -45,7 +45,10 @@ module.exports = async (req, res) => {
         conversationId
     });
 
-    await message.save();
+    const socket = sender.getSocket();
+    if (socket && socket.handshake.headers.savemessages === "true") {
+        await message.save();
+    }
 
     recipient.send("newMessage", {
         author: { username: sender.username, pfpURL: sender.pfpURL },
