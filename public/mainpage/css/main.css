@@ -292,17 +292,15 @@ body, html, input, textarea, button, label {
 .message-author > label:last-child {
     margin-left: 5px;
 }
-
 .checkbox-container {
     display: flex;
-    align-items: center; /* Centers the checkbox and text vertically*/
+    align-items: center;
     cursor: pointer;
+    margin-bottom: 5px; /* Add space below each checkbox */
 }
-
 .checkbox-input {
     display: none;
 }
-
 .checkbox-custom {
     width: 30px;
     height: 30px;
@@ -313,7 +311,6 @@ body, html, input, textarea, button, label {
     position: relative;
     margin-right: 5px; /* Adds some space between the checkbox and the text*/
 }
-
 .checkbox-input:checked + .checkbox-custom::after {
     content: '';
     position: absolute;
