@@ -1,4 +1,4 @@
-import { formatTimestamp, postData } from "./util.js";
+import { formatMessage, formatTimestamp, postData } from "./util.js";
 
 export function addDM(userData) {
     const friendContainer = document.createElement('div');
@@ -307,7 +307,7 @@ export function addMessage(messageData) {
 
     if(messageData.content) {
         var messageLabel = document.createElement("label");
-        messageLabel.textContent = messageData.content;
+        messageLabel.innerHTML = formatMessage(messageData.content);
 
         messageGroupDiv.appendChild(messageLabel);
     }
@@ -570,7 +570,7 @@ function addMessageAtTop(messageData) {
 
     if(messageData.content) {
         var messageLabel = document.createElement("label");
-        messageLabel.textContent = messageData.content;
+        messageLabel.innerHTML = formatMessage(messageData.content);
 
         messageGroupDiv.appendChild(messageLabel);
     }

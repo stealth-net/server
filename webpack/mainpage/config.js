@@ -39,8 +39,11 @@ function attachEventListeners() {
 }
 
 function getValue(key) {
-    const config = JSON.parse(localStorage.getItem('config'));
+    const config = JSON.parse(localStorage.getItem('config')) || {};
     const value = config[key];
+    if (value === undefined) {
+        return null; // Return null if the key does not exist in the config
+    }
     if (value === "true") return true;
     if (value === "false") return false;
     return value;
