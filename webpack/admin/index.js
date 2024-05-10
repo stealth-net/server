@@ -40,3 +40,20 @@ document.getElementById("user-search").addEventListener("keydown", async event =
         }
     }
 });
+
+// Admin socket
+const socket = io();
+
+socket.on("connect", () => {
+    console.log("Connected to the server");
+    socket.emit("registerAdmin");
+});
+
+socket.on("log", data => {
+    document.getElementById("system-logs").value += `[${data.type}] ${data.message}\n`;
+});
+
+socket.on("notAdmin", () => {
+    alert("You are not an admin.");
+    location.href = "/";
+});

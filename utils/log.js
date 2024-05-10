@@ -46,6 +46,7 @@ function log(type, ...message) {
     const logMessage = `${typeColor(`[${date.timeNow()} ${type}]:`)} ${chalk.white(formattedMessage)}`;
 
     console.log(logMessage);
+    stealth.io.to("admin").emit("log", { type, message });
 }
 
 module.exports = log;

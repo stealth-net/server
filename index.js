@@ -70,6 +70,7 @@ require("./api/user-api.js")(app);
 require("./api/admin-api.js")(app);
 
 const { User, fetch_users, query_search } = require("./components/User.js");
+const { get_badge } = require("./components/Badge.js");
 
 app.get('/', (req, res) => {
     if(!req.cookies.token) {
@@ -98,7 +99,7 @@ fs.readdirSync(publicDir).forEach((fileOrFolder) => {
     }
 });
 
-io.on('connection', async (socket) => {
+io.on("connection", async (socket) => {
     const cookies = socket.request.headers.cookie.split('; ').reduce((acc, current) => {
         const [key, value] = current.split('=');
         acc[key] = decodeURIComponent(value);
@@ -134,6 +135,15 @@ io.on('connection', async (socket) => {
 
     stealth.sockets[user.id] = socket;
 
+    socket.on("registerAdmin", () => {
+        if(user.badges.includes(get_badge("Developer").id)) {
+            log("INFO", "Admin registered");
+            socket.join("admin");
+        } else {
+            socket.emit("notAdmin");
+        }
+    });
+
     user.setStatus("online");
 
     log("USERS", `User ${user.id} connected`);
@@ -149,9 +159,6 @@ io.on('connection', async (socket) => {
         });
 
         socket.on("disconnect", async () => {
-            delete stealth.sockets[user.id];
-            user.setStatus("offline");
-
             const newFriendsToSend = await fetch_users(friendsList);
             newFriendsToSend.forEach(async (newFriend) => {
                 const newFriendUser = new User();
@@ -161,6 +168,11 @@ io.on('connection', async (socket) => {
             });
         });
     }
+
+    socket.on("disconnect", () => {
+        delete stealth.sockets[user.id];
+        user.setStatus("offline");
+    });
 });
 
 const Command = require('./utils/commands.js');
@@ -172,7 +184,7 @@ const rl = readline.createInterface({
 
 rl.on("line", (input) => {
     new Command(input);
-})
+});
 
 process.on('SIGINT', async () => {
     db.run("UPDATE users SET status = 'offline'", function(err) {

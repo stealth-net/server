@@ -32,8 +32,13 @@ async function demote_badge(queue, badgeID) {
     user.set("badges", badges);
 }
 
+function get_badge(badgeName) {
+    return Object.values(Badges).find(badge => badge.name === badgeName);
+}
+
 module.exports = {
     promote_badge,
     demote_badge,
-    Badges
+    Badges,
+    get_badge
 }

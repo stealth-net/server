@@ -8,6 +8,7 @@
     <meta property="og:image" content="/images/logo_transparent.png">
     <link href="/admin/css/main.css" rel="stylesheet">
     <link rel="icon" href="/mainpage/favicon.png" type="image/png">
+    <script src="/mainpage/js/socket-io.js"></script>
     <title>StealthNet Admin portal</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 </head>
@@ -110,7 +111,7 @@
         </div>
         <div class="midtab-servermanagement" hidden></div>
         <div class="midtab-systemlogs" hidden>
-            <textarea style="margin-bottom: 5px; width: 100%; height: calc(100% - 45px); cursor: default;"></textarea>
+            <textarea id="system-logs" style="margin-bottom: 5px; width: 100%; height: calc(100% - 45px); cursor: default;" readonly></textarea>
             <input style="width: 95%; border-radius: 0px;" placeholder="Enter command"></input>
             <button style="width: 4.7%; /* lol*/">Send</button>
         </div>
