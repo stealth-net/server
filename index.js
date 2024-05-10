@@ -126,11 +126,14 @@ io.on("connection", async socket => {
 
     stealth.sockets[user.id] = socket;
 
-    socket.on("registerAdmin", () => {
-        if(user.badges.includes(get_badge("Developer").id).toString()) {
+    socket.on("registerAdmin", async () => {
+        const developerBadgeId = get_badge("Developer").id.toString();
+        console.log(user.badges, developerBadgeId);
+        if(user.badges && user.badges.includes(developerBadgeId)) {
             log("INFO", `Admin ${user.username} (${user.id}) registered`);
             socket.join("admin");
         } else {
+            log("WARN", `User ${user.username} (${user.id}) tried to register as admin, but they don't have the Developer badge.`);
             socket.emit("notAdmin");
             socket.disconnect();
         }
