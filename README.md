@@ -57,19 +57,20 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
 
 ## Todo List for StealthNet Development
 - [ ] Homepage
-  - [ ] Display user badges
-  - [ ] Message actions
-    - [ ] Quote message
-    - [ ] Delete message
-    - [ ] Edit message
-  - [ ] User profile
+  - [ ] User
+    - [ ] Message actions
+      - [ ] Quote message
+      - [ ] Delete message
+      - [ ] Edit message
     - [ ] Display user profile
-  - [ ] User settings
-    - [ ] Change password
-    - [ ] Change email
-    - [ ] Change username
-    - [ ] Change language
-    - [x] Change avatar
+      - [ ] Display user badges
+      - [ ] Joined at
+    - [ ] User settings
+      - [ ] Change password
+      - [ ] Change email
+      - [ ] Change username
+      - [ ] Change language
+      - [x] Change avatar
   - [ ] Guilds
     - [ ] Create guild
     - [ ] Edit guild
@@ -102,6 +103,7 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
     - [ ] Edit server details
     - [ ] View members
   - [ ] System Logs
+    - [x] View logs
     - [ ] Clear logs
     - [ ] Run command
   - [/] Remove XSS vulnerabilities
