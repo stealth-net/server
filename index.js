@@ -28,7 +28,7 @@ const server = http.createServer(app);
 const io = socketIO(server);
 
 if (!fs.existsSync(config.databasePath)) fs.writeFileSync(config.databasePath, "");
-let db = new sqlite3.Database(config.databasePath, sqlite3.OPEN_READWRITE, (err) => {
+let db = new sqlite3.Database(config.databasePath, sqlite3.OPEN_READWRITE, err => {
     if(err) {
         console.error(err.message);
         throw err;
@@ -63,12 +63,11 @@ global.stealth = {
     sockets: {}
 }
 
-if(config.collectAnalytics) require("./utils/analytics.js");
-
 require("./api/auth-api.js")(app);
 require("./api/user-api.js")(app);
 require("./api/admin-api.js")(app);
 
+if(config.collectAnalytics) require("./utils/analytics.js");
 const { User, fetch_users, query_search } = require("./components/User.js");
 const { get_badge } = require("./components/Badge.js");
 
@@ -85,7 +84,7 @@ app.get('/mainpage/css/main.css', (req, res) => {
     res.sendFile(path.join(publicDir, "/mainpage/css/main.css"));
 });
 
-fs.readdirSync(publicDir).forEach((fileOrFolder) => {
+fs.readdirSync(publicDir).forEach(fileOrFolder => {
     if(fileOrFolder == "index.html") return;
 
     const filePath = path.join(publicDir, fileOrFolder);
@@ -99,7 +98,7 @@ fs.readdirSync(publicDir).forEach((fileOrFolder) => {
     }
 });
 
-io.on("connection", async (socket) => {
+io.on("connection", async socket => {
     const cookies = parseCookies(socket.request.headers.cookie);
     const token = cookies.token;
 
@@ -120,7 +119,7 @@ io.on("connection", async (socket) => {
     const user = new User();
     await user.initWithToken(socket.token);
 
-    if(typeof user == "undefined" || stealth.sockets[user.id] || JSON.stringify(user) == '{}') {
+    if(typeof user == "undefined" || stealth.sockets[user.id] || JSON.stringify(user) == "{}") {
         socket.disconnect();
         return;
     }
@@ -140,7 +139,7 @@ io.on("connection", async (socket) => {
 
     log("USERS", `User ${user.id} connected`);
 
-    const friendsList = user.get('friends');
+    const friendsList = user.get("friends");
     if(friendsList.length > 0) {
         const friendsToSend = await fetch_users(friendsList);
         friendsToSend.forEach(async (friend) => {
@@ -167,19 +166,19 @@ io.on("connection", async (socket) => {
     });
 });
 
-const Command = require('./utils/commands.js');
+const Command = require("./utils/commands.js");
 
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
-rl.on("line", (input) => {
+rl.on("line", input => {
     new Command(input);
 });
 
 process.on('SIGINT', async () => {
-    db.run("UPDATE users SET status = 'offline'", function(err) {
+    db.run("UPDATE users SET status = 'offline'", err => {
         if (err) {
             log("ERROR", "Error updating user status to offline:", err);
         }

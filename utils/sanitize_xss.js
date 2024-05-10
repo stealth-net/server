@@ -1,4 +1,4 @@
-module.exports = (input) => {
+module.exports = input => {
     const escapeMap = {
         '&': '&amp;',
         '<': '&lt;',
