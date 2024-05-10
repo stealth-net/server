@@ -39,6 +39,14 @@ class Command {
         
         demote_badge(id, badgeID);
     }
+
+    eval(code) {
+        try {
+            eval(code);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 module.exports = Command;
