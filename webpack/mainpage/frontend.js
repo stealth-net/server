@@ -337,6 +337,8 @@ export function addMessage(messageData) {
     messageContainer.appendChild(messageGroupDiv);
 
     document.getElementById("dm-messages").appendChild(messageContainer);
+    
+    document.getElementById("dm-messages").scrollTop = document.getElementById("dm-messages").scrollHeight; // Auto-scroll to the bottom of the message container
 }
 
 export function updateProfile() {
@@ -375,9 +377,7 @@ function enterAction(text, attachments = []) {
         attachments: attachments // Add this line
     });
     document.getElementById("user-message-content").value = ''; // Clear the input field
-    // Auto-scroll to the bottom of the message container
-    const messageContainer = document.getElementById("dm-messages");
-    messageContainer.scrollTop = messageContainer.scrollHeight;
+    document.getElementById("dm-messages").scrollTop = document.getElementById("dm-messages").scrollHeight; // Auto-scroll to the bottom of the message container
 }
 
 function isdmChat() {
