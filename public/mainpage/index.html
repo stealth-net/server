@@ -51,20 +51,13 @@
                 <div class="checkbox-custom"></div>
                 <span>Save messages</span>
             </label>
+            <div class="slider-container">
+                <label for="space-between-messages" class="slider-label">Space between message groups: <span class="slider-value">0</span></label>
+                <input type="range" min="0" max="10" value="0" class="slider" data-setting="space-between-messages" data-default="0">
+            </div>
         </div>
         <div class="dm-user" hidden>
-            <div id="dm-messages">
-                <!-- <div class="message-container">
-                    <img src="/mainpage/images/logo_transparent.png" width="45" height="45"></img>
-                    <div class="message-author">
-                        <label>Developer</label>
-                        <label>[2023-12-20] 23:08:20</label>
-                    </div>
-                    <div class="message-group">
-                        <label>Hello! How can I assist you today?</label>
-                    </div>
-                </div> -->
-            </div>
+            <div id="dm-messages"></div>
             <div class="dm-bottombar">
                 <button id="dm-attachfile" class="action">
                     <svg width="27" height="31" viewBox="0 0 27 31" fill="none" xmlns="http://www.w3.org/2000/svg">

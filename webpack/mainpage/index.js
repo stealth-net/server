@@ -19,3 +19,11 @@ socket.on("friendRequestCancel", userData => removeFriendRequest(userData.id));
 socket.on("friendRequestAccept", userData => addFriend(userData));
 socket.on("newMessage", messageData => addMessage(messageData));
 socket.on("statusChanged", (id, type) => document.getElementById("friend-" + id).querySelector('div.friend-status').setAttribute("state", type));
+
+// init config
+const messageGroupSpace = config.getValue("space-between-messages");
+
+document.addEventListener("DOMContentLoaded", () => {
+    console.log(messageGroupSpace);
+    Object.values(document.styleSheets[0].cssRules).filter(rule => rule.selectorText == ".message-container")[0].style.marginBottom = messageGroupSpace;
+});

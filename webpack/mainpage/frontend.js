@@ -639,3 +639,15 @@ document.querySelector("#user-menu > div.centered > img").addEventListener("dblc
         event.stopPropagation();
     }, { once: true });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const sliders = document.querySelectorAll('.slider-container');
+
+    sliders.forEach(slider => {
+        const sliderValueDisplay = slider.querySelector('.slider-value');
+
+        slider.oninput = function() {
+            sliderValueDisplay.textContent = slider.querySelector('.slider').value;
+        }
+    });
+});
