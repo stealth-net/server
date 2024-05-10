@@ -606,14 +606,10 @@ async function loadMoreMessages() {
     }
 }
 
-function updateOnlineCount(status) {
+export function updateOnlineCount() {
     const onlineCountElement = document.getElementById("online-count");
-    let currentCount = parseInt(onlineCountElement.textContent, 10);
-    if (status === "online") {
-        onlineCountElement.textContent = currentCount + 1;
-    } else if (status === "offline") {
-        onlineCountElement.textContent = currentCount - 1;
-    }
+    const onlineFriends = document.querySelectorAll('#friend-list > div > .friend-status[state="online"]').length;
+    onlineCountElement.textContent = onlineFriends;
 }
 
 document.querySelector("#user-menu > div.centered > img").addEventListener("dblclick", function() {

@@ -1,4 +1,4 @@
-import { addFriend, addMessage, addPendingRequest, removeFriend, removeFriendRequest, updateProfile } from './frontend.js';
+import { addFriend, addMessage, addPendingRequest, removeFriend, removeFriendRequest, updateProfile, updateOnlineCount } from './frontend.js';
 import { getData, parseCookies } from "./util.js";
 import config from "./config.js";
 
@@ -20,7 +20,7 @@ export class Connection extends EventEmitter {
         }
 
         const socket = this.net.socket;
-        this.on("fetchedProfile", updateProfile);
+        this.on("fetchedProfile", () => {updateProfile(); updateOnlineCount();});
 
         socket.on("friendRemove", id => removeFriend(id));
         socket.on("friendRequest", userData => addPendingRequest(userData, false));
@@ -35,15 +35,14 @@ export class Connection extends EventEmitter {
                     statusDiv.setAttribute('state', newStatus);
                 }
             }
-            /*
-            const dmElement = document.getElementById(`dm-${userId}`);
+            updateOnlineCount();
+            const dmElement = document.querySelector(`#dm-list > .friend-container[id="${userId}"]`);
             if (dmElement) {
                 const statusDiv = dmElement.querySelector('.dm-status');
                 if (statusDiv) {
                     statusDiv.textContent = newStatus;
                 }
             }
-            */
         });
     }
 }
