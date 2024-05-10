@@ -56,6 +56,33 @@ By embracing this hosting agnosticism, StealthNet ensures that users have the au
 StealthNet thrives on collaboration and welcomes contributions from the open-source community. The codebase is open for inspection and improvement, encouraging developers to actively participate in enhancing the application's features and security measures. This collaborative spirit not only ensures a constantly evolving and improving platform but also fosters a community dedicated to the principles of privacy and data security.
 
 ## Todo List for StealthNet Development
+- [ ] Homepage
+  - [ ] Display user badges
+  - [ ] Message actions
+    - [ ] Quote message
+    - [ ] Delete message
+    - [ ] Edit message
+  - [ ] User profile
+    - [ ] Display user profile
+  - [ ] User settings
+    - [ ] Change password
+    - [ ] Change email
+    - [ ] Change username
+    - [ ] Change language
+  - [ ] Guilds
+    - [ ] Create guild
+    - [ ] Edit guild
+    - [ ] Delete guild
+    - [ ] Manage members
+    - [ ] Manage roles
+    - [ ] Manage channels
+    - [ ] Manage permissions
+    - [ ] Create server invite link
+    - [ ] Manage server invites
+    - [ ] Manage server bans
+    - [ ] Manage server kicks
+    - [ ] Manage server settings
+    - [ ] Join/Leave guild
 - [ ] Admin portal
   - [ ] Analytics
   - [ ] User management
@@ -77,6 +104,11 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
     - [ ] Clear logs
     - [ ] Run command
   - [/] Remove XSS vulnerabilities
+- [ ] Policy
+  - [ ] Privacy policy
+  - [ ] Terms of service
+  - [ ] Acceptable use policy
+  - [ ] Disclaimer
 
 ## Logo
 #### Currently we are using a logo similar to the old [Linkin Park](https://en.wikipedia.org/wiki/Linkin_Park) logo. If you are a member of the rock band, please contact us by mail with a request to change the logo: scar17off@gmail.com
