@@ -1,3 +1,4 @@
+import { connectionInstance } from "./client.js";
 import { formatMessage, formatTimestamp, postData } from "./util.js";
 
 export function addDM(userData) {
@@ -29,6 +30,14 @@ export function addDM(userData) {
     const button1 = document.createElement("button");
     button1.addEventListener("click", () => {
         friendContainer.remove();
+        // Remove from saved opened DMs list
+        const activeDMs = JSON.parse(localStorage.getItem('activeDMs') || '[]');
+        const newActiveDMs = activeDMs.filter(id => id !== userData.id);
+        localStorage.setItem('activeDMs', JSON.stringify(newActiveDMs));
+        // Open home tab
+        setTimeout(() => {
+            document.querySelector('div[tab="home"]').click();
+        }, 1);
     });
 
     const svg2 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -80,6 +89,13 @@ export function addDM(userData) {
     friendContainer.appendChild(containerActions);
 
     document.getElementById("dm-list").appendChild(friendContainer);
+
+    // Save the DM ID to localStorage immediately after adding to the list
+    let activeDMs = JSON.parse(localStorage.getItem('activeDMs') || '[]');
+    if (!activeDMs.includes(userData.id)) {
+        activeDMs.push(userData.id);
+        localStorage.setItem('activeDMs', JSON.stringify(activeDMs));
+    }
 }
 
 export function addFriend(userData) {
@@ -105,7 +121,13 @@ export function addFriend(userData) {
     // message
     const button1 = document.createElement("button");
     button1.addEventListener("click", () => {
-        addDM(userData);
+        const dmContainer = document.getElementById("dm-list");
+        const existingDM = dmContainer.querySelector(`#friend-${userData.id}`);
+        if (existingDM && !existingDM.hidden) {
+            existingDM.hidden = false; // Ensure the DM is visible
+        } else {
+            addDM(userData);
+        }
     });
 
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -640,7 +662,8 @@ document.querySelector("#user-menu > div.centered > img").addEventListener("dblc
     }, { once: true });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize sliders
     const sliders = document.querySelectorAll('.slider-container');
 
     sliders.forEach(slider => {
@@ -649,5 +672,15 @@ document.addEventListener('DOMContentLoaded', function() {
         slider.oninput = function() {
             sliderValueDisplay.textContent = slider.querySelector('.slider').value;
         }
+    });
+    // Load active DMs from localStorage
+    connectionInstance.on("fetchedProfile", () => {
+        const activeDMs = JSON.parse(localStorage.getItem('activeDMs') || '[]');
+        activeDMs.forEach(id => {
+            const userData = connectionInstance.user.friends.find(friend => friend.id === id);
+            if (userData) {
+                addDM(userData);
+            }
+        });
     });
 });
