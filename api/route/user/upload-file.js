@@ -53,7 +53,7 @@ app.post("/user-api/v1/upload-file", upload.single("file"), async (req, res, nex
             });
             
             // Check if messages should be saved based on socket header
-            const socket = sender.getSocket();
+            const socket = user.getSocket();
             if (socket && socket.handshake.headers.savemessages === "true") {
                 await message.save();
             }
