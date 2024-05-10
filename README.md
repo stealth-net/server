@@ -62,8 +62,8 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
     - [ ] View all users
     - [ ] Edit user details
     - [ ] Delete user
-    - [ ] Promote badge
-    - [ ] Demote badge
+    - [/] Promote badge
+    - [/] Demote badge
   - [ ] Message management
     - [ ] Search message by ID
     - [ ] View message attachments
@@ -74,10 +74,9 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
     - [ ] Edit server details
     - [ ] View members
   - [ ] System Logs
-    - [ ] View logs
     - [ ] Clear logs
     - [ ] Run command
-  - [ ] Remove XSS vulnerabilities
+  - [/] Remove XSS vulnerabilities
 
 ## Logo
 #### Currently we are using a logo similar to the old [Linkin Park](https://en.wikipedia.org/wiki/Linkin_Park) logo. If you are a member of the rock band, please contact us by mail with a request to change the logo: scar17off@gmail.com
