@@ -19,7 +19,7 @@ db.run(query, function(err) {
  * @returns {string} The generated conversation ID.
 */
 function get_conversation_id(senderId, recipientId) {
-    return [senderId, recipientId].sort().join("-");
+    return [senderId, recipientId].sort((a, b) => b.localeCompare(a)).join("-");
 }
 
 /**
