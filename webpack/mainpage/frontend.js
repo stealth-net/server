@@ -516,6 +516,9 @@ document.getElementById("file-input").addEventListener("change", function() {
         fetch("/user-api/v1/upload-file", {
             method: "POST",
             body: formData,
+            headers: {
+                'save-attachments': document.querySelector("[data-setting='save-attachments']").checked.toString()
+            }
         })
         .then(response => response.json())
         .then(data => {

@@ -54,8 +54,13 @@ app.post("/user-api/v1/upload-file", upload.single("file"), async (req, res, nex
             
             // Check if messages should be saved based on socket header
             const socket = user.getSocket();
-            if (socket && socket.handshake.headers.savemessages === "true") {
+            if (socket && req.headers['save-attachments'] === "true") {
                 await message.save();
+            } else {
+                // Delete the file from the temporary storage
+                setTimeout(() => {
+                    fs.unlinkSync(path.join(destPath, req.file.filename));
+                }, 1000);
             }
 
             // Send new message notification to recipient
