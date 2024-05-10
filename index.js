@@ -127,11 +127,12 @@ io.on("connection", async socket => {
     stealth.sockets[user.id] = socket;
 
     socket.on("registerAdmin", () => {
-        if(user.badges.includes(get_badge("Developer").id)) {
-            log("INFO", "Admin registered");
+        if(user.badges.includes(get_badge("Developer").id).toString()) {
+            log("INFO", `Admin ${user.username} (${user.id}) registered`);
             socket.join("admin");
         } else {
             socket.emit("notAdmin");
+            socket.disconnect();
         }
     });
 
