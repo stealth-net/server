@@ -128,7 +128,6 @@ io.on("connection", async socket => {
 
     socket.on("registerAdmin", async () => {
         const developerBadgeId = get_badge("Developer").id.toString();
-        console.log(user.badges, developerBadgeId);
         if(user.badges && user.badges.includes(developerBadgeId)) {
             log("INFO", `Admin ${user.username} (${user.id}) registered`);
             socket.join("admin");
