@@ -154,10 +154,11 @@ hr {
     background-color: var(--lside-button-background);
 }
 .friend-status {
-    border-radius: 8px;
+    border-radius: 50%;
     margin: 0 3 0 3;
     height: 16px;
     width: 16px;
+    flex-shrink: 0; /* Prevents the element from shrinking */
 }
 .friend-status[state="online"] {
     background-color: var(--online-status);
@@ -339,7 +340,7 @@ body, html, input, textarea, button, label {
 }
 .slider-container {
     display: block;
-    /* margin: 20px 0; Not sure this is needed */
+    margin: inherit;
 }
 .slider-container label {
     display: block;
