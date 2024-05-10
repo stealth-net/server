@@ -602,3 +602,47 @@ function addMessageAtTop(messageData) {
     const dmMessages = document.getElementById("dm-messages");
     dmMessages.insertBefore(messageContainer, dmMessages.firstChild);
 }
+
+document.querySelector("#user-menu > div.centered > img").addEventListener("dblclick", function() {
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "image/*";
+    fileInput.style.display = "none";
+
+    fileInput.addEventListener("change", function(event) {
+        if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imageData = e.target.result;
+                fetch("/user-api/v1/edit-pfp", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ pfpURL: imageData }),
+                    credentials: 'include'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.pfpURL) {
+                        document.querySelector("#user-menu > div.centered > img").src = data.pfpURL;
+                    }
+                })
+                .catch(error => console.error("Error updating profile picture:", error));
+            };
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+
+    fileInput.click();
+    document.body.appendChild(fileInput);
+
+    fileInput.addEventListener("click", function(event) {
+        event.stopPropagation();
+    }, { once: true });
+
+    document.addEventListener("click", function() {
+        fileInput.remove();
+    }, { once: true });
+});
+
