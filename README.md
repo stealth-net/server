@@ -69,6 +69,7 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
     - [ ] Change email
     - [ ] Change username
     - [ ] Change language
+    - [x] Change avatar
   - [ ] Guilds
     - [ ] Create guild
     - [ ] Edit guild
