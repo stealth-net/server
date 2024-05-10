@@ -12,7 +12,7 @@ require('dotenv').config({ path: "./.env" });
 
 const config = require("./config.json");
 
-const log = require("./utils/log.js");
+const { log, parseCookies } = require("./utils/log.js");
 
 if(!process.env.databaseKey) {
     log("WARN", "Please provide a database key in the .env");
@@ -100,24 +100,16 @@ fs.readdirSync(publicDir).forEach((fileOrFolder) => {
 });
 
 io.on("connection", async (socket) => {
-    const cookies = socket.request.headers.cookie.split('; ').reduce((acc, current) => {
-        const [key, value] = current.split('=');
-        acc[key] = decodeURIComponent(value);
-        return acc;
-    }, {});
+    const cookies = parseCookies(socket.request.headers.cookie);
     const token = cookies.token;
-    if (!token) {
+
+    if (!token || !(await query_search(token, "token"))) {
         socket.disconnect();
         return;
     }
 
-    const userProperties = await query_search(token, "token");
-    if(!userProperties) {
-        socket.disconnect();
-        return;
-    }
-
-    if(/^[A-Za-z0-9_\-]+=*\.[A-Za-z0-9_\-]+=*\.[A-Za-z0-9_\-]+=*$/.test(token)) {
+    const jwtPattern = /^[A-Za-z0-9_\-]+=*\.[A-Za-z0-9_\-]+=*\.[A-Za-z0-9_\-]+=*$/;
+    if (jwtPattern.test(token)) {
         socket.token = token;
         socket.authorized = true;
     } else {

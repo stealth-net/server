@@ -49,4 +49,12 @@ function log(type, ...message) {
     stealth.io.to("admin").emit("log", { type, message });
 }
 
-module.exports = log;
+const parseCookies = (cookieHeader) => {
+    return cookieHeader.split('; ').reduce((acc, cookie) => {
+        const [key, value] = cookie.split('=');
+        acc[key] = decodeURIComponent(value);
+        return acc;
+    }, {});
+}
+
+module.exports = { log, parseCookies };
