@@ -122,7 +122,7 @@ export function addFriend(userData) {
     const button1 = document.createElement("button");
     button1.addEventListener("click", () => {
         const dmContainer = document.getElementById("dm-list");
-        const existingDM = dmContainer.querySelector(`#friend-${userData.id}`);
+        const existingDM = dmContainer.querySelector(`.friend-container[id="${userData.id}"]`);
         if (existingDM && !existingDM.hidden) {
             existingDM.hidden = false; // Ensure the DM is visible
         } else {
