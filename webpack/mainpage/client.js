@@ -27,7 +27,24 @@ export class Connection extends EventEmitter {
         socket.on("friendRequestCancel", userData => removeFriendRequest(userData.id));
         socket.on("friendRequestAccept", userData => addFriend(userData));
         socket.on("newMessage", messageData => addMessage(messageData));
-        socket.on("statusChanged", (id, type) => document.getElementById("friend-" + id).querySelector('div.friend-status').setAttribute("state", type));
+        socket.on("statusChanged", (userId, newStatus) => {
+            const friendElement = document.getElementById(`friend-${userId}`);
+            if (friendElement) {
+                const statusDiv = friendElement.querySelector('.friend-status');
+                if (statusDiv) {
+                    statusDiv.setAttribute('state', newStatus);
+                }
+            }
+            /*
+            const dmElement = document.getElementById(`dm-${userId}`);
+            if (dmElement) {
+                const statusDiv = dmElement.querySelector('.dm-status');
+                if (statusDiv) {
+                    statusDiv.textContent = newStatus;
+                }
+            }
+            */
+        });
     }
 }
 

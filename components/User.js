@@ -232,9 +232,15 @@ class User {
         return stealth.sockets[this.id] || null;
     }
 
-    setStatus(type) {
+    setStatus(type, broadcast = true) {
         this.status = type;
         this.set("status", type);
+        if(broadcast)
+            JSON.parse(this.friends).forEach(async friendId => {
+                const friendUser = new User();
+                await friendUser.initWithToken(friendId);
+                friendUser.send("statusChanged", this.id, type);
+            });
     }
 
     save() {

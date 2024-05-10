@@ -181,7 +181,7 @@ hr {
 #side-user-menu > div > div > img {
     padding: 50;
 }
-label, a {
+label, a, span {
     font-family: "Inria Sans", Helvetica;
     color: var(--active-color);
 }

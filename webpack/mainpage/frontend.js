@@ -303,7 +303,7 @@ export function addGuild(GuildID) {
     document.getElementById("guild-list").appendChild(imgElement);
 }
 
-export function addMessage(messageData) {
+export function addMessage(messageData, atTop = false) {
     var messageContainer = document.createElement("div");
     messageContainer.className = "message-container";
 
@@ -330,7 +330,6 @@ export function addMessage(messageData) {
     if(messageData.content) {
         var messageLabel = document.createElement("label");
         messageLabel.innerHTML = formatMessage(messageData.content);
-
         messageGroupDiv.appendChild(messageLabel);
     }
 
@@ -344,7 +343,6 @@ export function addMessage(messageData) {
                 attachmentImg.style.marginTop = "3px";
                 messageGroupDiv.appendChild(attachmentImg);
             } else {
-                // For non-image attachments
                 var fileDiv = document.createElement("div");
                 fileDiv.style.display = "inline-flex";
 
@@ -393,9 +391,13 @@ export function addMessage(messageData) {
     messageContainer.appendChild(authorDiv);
     messageContainer.appendChild(messageGroupDiv);
 
-    document.getElementById("dm-messages").appendChild(messageContainer);
-    
-    document.getElementById("dm-messages").scrollTop = document.getElementById("dm-messages").scrollHeight; // Auto-scroll to the bottom of the message container
+    const dmMessages = document.getElementById("dm-messages");
+    if (atTop) {
+        dmMessages.insertBefore(messageContainer, dmMessages.firstChild);
+    } else {
+        dmMessages.appendChild(messageContainer);
+        dmMessages.scrollTop = dmMessages.scrollHeight; // Auto-scroll to the bottom of the message container
+    }
 }
 
 export function updateProfile() {
@@ -593,7 +595,7 @@ async function loadMoreMessages() {
         const data = await response.json();
         if(data.messages) {
             data.messages.forEach(message => {
-                addMessageAtTop(message);
+                addMessage(message, true);
             });
         }
         const newScrollHeight = document.getElementById("dm-messages").scrollHeight;
@@ -604,80 +606,14 @@ async function loadMoreMessages() {
     }
 }
 
-function addMessageAtTop(messageData) {
-    var messageContainer = document.createElement("div");
-    messageContainer.className = "message-container";
-
-    var img = document.createElement("img");
-    img.src = messageData.author.pfpURL;
-    img.width = 45;
-    img.height = 45;
-
-    var authorDiv = document.createElement("div");
-    authorDiv.className = "message-author";
-
-    var usernameLabel = document.createElement("label");
-    usernameLabel.textContent = messageData.author.username;
-
-    var timestampLabel = document.createElement("label");
-    timestampLabel.textContent = formatTimestamp(messageData.creationTime);
-
-    var messageGroupDiv = document.createElement("div");
-    messageGroupDiv.className = "message-group";
-
-    authorDiv.appendChild(usernameLabel);
-    authorDiv.appendChild(timestampLabel);
-
-    if(messageData.content) {
-        var messageLabel = document.createElement("label");
-        messageLabel.innerHTML = formatMessage(messageData.content);
-
-        messageGroupDiv.appendChild(messageLabel);
+function updateOnlineCount(status) {
+    const onlineCountElement = document.getElementById("online-count");
+    let currentCount = parseInt(onlineCountElement.textContent, 10);
+    if (status === "online") {
+        onlineCountElement.textContent = currentCount + 1;
+    } else if (status === "offline") {
+        onlineCountElement.textContent = currentCount - 1;
     }
-
-    if(messageData.attachments && messageData.attachments.length > 0) {
-        messageData.attachments.forEach(attachment => {
-            if(/\.(jpeg|jpg|gif|png)$/.test(attachment.url)) {
-                var attachmentImg = document.createElement("img");
-                attachmentImg.src = attachment.url;
-                attachmentImg.style.maxWidth = "520px";
-                attachmentImg.style.maxHeight = "260px";
-                attachmentImg.style.marginTop = "3px";
-                messageGroupDiv.appendChild(attachmentImg);
-            } else {
-                // For non-image attachments
-                var fileDiv = document.createElement("div");
-                fileDiv.style.display = "flex";
-                fileDiv.style.alignItems = "center";
-                fileDiv.style.marginTop = "3px";
-
-                var fileIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                fileIcon.setAttribute("width", "45");
-                fileIcon.setAttribute("height", "45");
-                fileIcon.setAttribute("viewBox", "0 0 45 45");
-                fileIcon.setAttribute("fill", "none");
-                fileIcon.innerHTML = '<rect x="0.5" y="0.5" width="44" height="44" rx="4.5" fill="#1D1D2F" stroke="#131320"/><path d="M22.5 8H30L35 12.5789C35 13.9762 35 21.7368 35 21.7368M22.5 8H10V37H35V21.7368M22.5 8L30 16.3947L35 21.7368M13.3333 12.5789H21.6667M13.3333 17.1579H26.6667M13.3333 20.2105H23.3333M13.3333 23.2632H28.3333" stroke="#51567C"/>';
-
-                var fileNameLabel = document.createElement("label");
-                fileNameLabel.textContent = attachment.filename;
-                fileNameLabel.style.textDecoration = "underline";
-                fileNameLabel.style.fontSize = "16px";
-                fileNameLabel.style.marginLeft = "10px";
-
-                fileDiv.appendChild(fileIcon);
-                fileDiv.appendChild(fileNameLabel);
-
-                messageGroupDiv.appendChild(fileDiv);
-            }
-        });
-    }
-
-    messageContainer.appendChild(img);
-    messageContainer.appendChild(authorDiv);
-    messageContainer.appendChild(messageGroupDiv);
-
-    const dmMessages = document.getElementById("dm-messages");
-    dmMessages.insertBefore(messageContainer, dmMessages.firstChild);
 }
 
 document.querySelector("#user-menu > div.centered > img").addEventListener("dblclick", function() {
