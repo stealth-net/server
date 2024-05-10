@@ -1,7 +1,7 @@
 const { User, query_search } = require("../../../components/User.js");
 const { Message } = require("../../../components/Message.js");
 const { Conversation, get_conversation, get_conversation_id } = require("../../../components/Conversation.js");
-const log = require("../../../utils/log.js");
+const { log } = require("../../../utils/log.js");
 
 module.exports = async (req, res) => {
     if(!req.cookies.token) {

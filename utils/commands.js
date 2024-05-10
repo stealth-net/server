@@ -1,5 +1,5 @@
 const chalk = require("chalk");
-const log = require("./log.js");
+const { log } = require("./log.js");
 
 const { promote_badge, demote_badge } = require("../components/Badge.js");
 

@@ -1,5 +1,5 @@
 const gen_token = require("../utils/gen_token.js");
-const log = require("../utils/log.js");
+const { log } = require("../utils/log.js");
 const db = stealth.database;
 
 const query = `

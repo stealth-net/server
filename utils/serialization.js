@@ -1,4 +1,4 @@
-const log = require("./log.js");
+const { log } = require("./log.js");
 
 /**
  * Serializes an array into a JSON string.

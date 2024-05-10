@@ -624,9 +624,7 @@ document.querySelector("#user-menu > div.centered > img").addEventListener("dblc
                 })
                 .then(response => response.json())
                 .then(data => {
-                    if (data && data.pfpURL) {
-                        document.querySelector("#user-menu > div.centered > img").src = data.pfpURL;
-                    }
+                    if (data && data.pfpURL) document.querySelector("#user-menu > div.centered > img").src = data.pfpURL;
                 })
                 .catch(error => console.error("Error updating profile picture:", error));
             };
@@ -640,9 +638,4 @@ document.querySelector("#user-menu > div.centered > img").addEventListener("dblc
     fileInput.addEventListener("click", function(event) {
         event.stopPropagation();
     }, { once: true });
-
-    document.addEventListener("click", function() {
-        fileInput.remove();
-    }, { once: true });
 });
-
