@@ -344,12 +344,47 @@ export function addMessage(messageData) {
                 attachmentImg.style.marginTop = "3px";
                 messageGroupDiv.appendChild(attachmentImg);
             } else {
-                // For non-image attachments or other future implementations
-                var attachmentLink = document.createElement("a");
-                attachmentLink.href = attachment.url;
-                attachmentLink.textContent = attachment.filename;
-                attachmentLink.style.marginTop = "3px";
-                messageGroupDiv.appendChild(attachmentLink);
+                // For non-image attachments
+                var fileDiv = document.createElement("div");
+                fileDiv.style.display = "inline-flex";
+
+                var attachmentDiv = document.createElement("div");
+                attachmentDiv.className = "attachment";
+                attachmentDiv.style.backgroundColor = "var(--action-background)";
+                attachmentDiv.style.border = "solid 1px var(--action-border)";
+                attachmentDiv.style.width = "45px";
+                attachmentDiv.style.height = "45px";
+                attachmentDiv.style.transition = "0.4s";
+                attachmentDiv.style.display = "flex";
+                attachmentDiv.style.justifyContent = "center";
+                attachmentDiv.style.alignItems = "center";
+
+                var svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                svgElement.setAttribute("width", "27");
+                svgElement.setAttribute("height", "31");
+                svgElement.setAttribute("viewBox", "0 0 27 31");
+                svgElement.setAttribute("fill", "none");
+
+                var pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                pathElement.setAttribute("d", "M13.5 1H21L26 5.57895C26 6.9762 26 14.7368 26 14.7368M13.5 1H1V30H26V14.7368M13.5 1L21 9.39474L26 14.7368M4.33333 5.57895H12.6667M4.33333 10.1579H17.6667M4.33333 13.2105H14.3333M4.33333 16.2632H19.3333");
+                pathElement.setAttribute("stroke", "#51567C");
+                pathElement.setAttribute("stroke-width", "2");
+
+                svgElement.appendChild(pathElement);
+                attachmentDiv.appendChild(svgElement);
+
+                var fileNameLabel = document.createElement("a");
+                fileNameLabel.textContent = attachment.filename;
+                fileNameLabel.style.textDecoration = "underline";
+                fileNameLabel.style.fontSize = "16px";
+                fileNameLabel.style.marginLeft = "10px";
+                fileNameLabel.href = attachment.url;
+                fileNameLabel.download = attachment.filename;
+
+                fileDiv.appendChild(attachmentDiv);
+                fileDiv.appendChild(fileNameLabel);
+
+                messageGroupDiv.appendChild(fileDiv);
             }
         });
     }
@@ -610,12 +645,29 @@ function addMessageAtTop(messageData) {
                 attachmentImg.style.marginTop = "3px";
                 messageGroupDiv.appendChild(attachmentImg);
             } else {
-                // For non-image attachments or other future implementations
-                var attachmentLink = document.createElement("a");
-                attachmentLink.href = attachment.url;
-                attachmentLink.textContent = attachment.filename;
-                attachmentLink.style.marginTop = "3px";
-                messageGroupDiv.appendChild(attachmentLink);
+                // For non-image attachments
+                var fileDiv = document.createElement("div");
+                fileDiv.style.display = "flex";
+                fileDiv.style.alignItems = "center";
+                fileDiv.style.marginTop = "3px";
+
+                var fileIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                fileIcon.setAttribute("width", "45");
+                fileIcon.setAttribute("height", "45");
+                fileIcon.setAttribute("viewBox", "0 0 45 45");
+                fileIcon.setAttribute("fill", "none");
+                fileIcon.innerHTML = '<rect x="0.5" y="0.5" width="44" height="44" rx="4.5" fill="#1D1D2F" stroke="#131320"/><path d="M22.5 8H30L35 12.5789C35 13.9762 35 21.7368 35 21.7368M22.5 8H10V37H35V21.7368M22.5 8L30 16.3947L35 21.7368M13.3333 12.5789H21.6667M13.3333 17.1579H26.6667M13.3333 20.2105H23.3333M13.3333 23.2632H28.3333" stroke="#51567C"/>';
+
+                var fileNameLabel = document.createElement("label");
+                fileNameLabel.textContent = attachment.filename;
+                fileNameLabel.style.textDecoration = "underline";
+                fileNameLabel.style.fontSize = "16px";
+                fileNameLabel.style.marginLeft = "10px";
+
+                fileDiv.appendChild(fileIcon);
+                fileDiv.appendChild(fileNameLabel);
+
+                messageGroupDiv.appendChild(fileDiv);
             }
         });
     }
