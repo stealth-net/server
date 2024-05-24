@@ -19,4 +19,4 @@ We employ industry-standard security measures to protect the data we collect. Ho
 We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.
 
 ## Contact Us
-If you have any questions about this Privacy Policy, please contact us at support@stealthnet.com.
+If you have any questions about this Privacy Policy, please contact us at scar17off@gmail.com.

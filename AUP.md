@@ -20,7 +20,7 @@ While using StealthNet, you must not engage in activities that:
 StealthNet does not actively monitor or moderate content posted by users. As such, we rely on our community to act responsibly. However, if illegal activity is reported or detected, you may be held accountable by the appropriate authorities.
 
 ## Reporting Violations
-If you believe that a user is violating this AUP, please contact us at support@stealthnet.com with details of the violation. While we do not monitor content, we will cooperate with law enforcement if necessary.
+If you believe that a user is violating this AUP, please contact us at scar17off@gmail.com with details of the violation. While we do not monitor content, we will cooperate with law enforcement if necessary.
 
 ## Consequences of Violation
 Violation of this AUP may result in the suspension or termination of your access to our services, at our discretion. We reserve the right to remove any content that we determine to be in violation of this policy.
@@ -29,4 +29,4 @@ Violation of this AUP may result in the suspension or termination of your access
 We may modify this AUP at any time by posting a revised version on our website. By continuing to use StealthNet after these changes are made, you agree to the revised policy.
 
 ## Contact Us
-If you have any questions about this Acceptable Use Policy, please contact us at support@stealthnet.com.
+If you have any questions about this Acceptable Use Policy, please contact us at scar17off@gmail.com.

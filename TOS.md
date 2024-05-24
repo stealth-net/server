@@ -26,4 +26,4 @@ We may terminate or suspend access to our service immediately, without prior not
 We reserve the right to modify these Terms at any time. We will provide notice of these changes by revising the date at the top of the Terms.
 
 ## Contact Us
-If you have any questions about these Terms, please contact us at support@stealthnet.com.
+If you have any questions about these Terms, please contact us at scar17off@gmail.com.

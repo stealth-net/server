@@ -107,11 +107,11 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
     - [ ] Clear logs
     - [ ] Run command
   - [/] Remove XSS vulnerabilities
-- [ ] Policy
+- [x] Policy
   - [x] Privacy policy
   - [x] Terms of service
   - [x] Acceptable use policy
-  - [ ] Disclaimer
+  - [x] Disclaimer
 
 ## Logo
-#### Currently we are using a logo similar to the old [Linkin Park](https://en.wikipedia.org/wiki/Linkin_Park) logo. If you are a member of the rock band, please contact us by mail with a request to change the logo: scar17off@gmail.com
+#### Currently we are using a logo similar to the old [Linkin Park](https://en.wikipedia.org/wiki/Linkin_Park) logo. If you are a member of the rock band, please contact us by mail with a request to change the logo: scar17off@gmail.com.
