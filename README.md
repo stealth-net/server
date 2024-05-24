@@ -110,7 +110,7 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
 - [ ] Policy
   - [x] Privacy policy
   - [x] Terms of service
-  - [ ] Acceptable use policy
+  - [x] Acceptable use policy
   - [ ] Disclaimer
 
 ## Logo
