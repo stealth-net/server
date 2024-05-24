@@ -15,5 +15,8 @@ StealthNet uses cookies to maintain your session and preferences. Cookies are fi
 ## Data Security
 We employ industry-standard security measures to protect the data we collect. However, no method of transmission over the internet or method of electronic storage is 100% secure.
 
+## Changes to This Privacy Policy
+We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.
+
 ## Contact Us
 If you have any questions about this Privacy Policy, please contact us at support@stealthnet.com.

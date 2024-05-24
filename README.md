@@ -109,7 +109,7 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
   - [/] Remove XSS vulnerabilities
 - [ ] Policy
   - [x] Privacy policy
-  - [ ] Terms of service
+  - [x] Terms of service
   - [ ] Acceptable use policy
   - [ ] Disclaimer
 
