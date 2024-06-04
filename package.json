@@ -23,7 +23,8 @@
   "scripts": {
     "start": "node index.js",
     "build-mainpage": "webpack --config webpack.mainpage.config.js",
-    "build-admin": "webpack --config webpack.admin.config.js"
+    "build-admin": "webpack --config webpack.admin.config.js",
+    "build": "npm run build-mainpage && npm run build-admin"
   },
   "keywords": [],
   "author": "",
