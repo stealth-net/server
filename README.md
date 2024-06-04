@@ -85,6 +85,9 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
     - [ ] Manage server kicks
     - [ ] Manage server settings
     - [ ] Join/Leave guild
+  - [ ] Chat
+    - [ ] Emoji picker
+    - [ ] Chat color formatting
 - [ ] Admin portal
   - [ ] Analytics
   - [ ] User management
