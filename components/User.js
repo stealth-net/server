@@ -166,8 +166,8 @@ class User {
     */
     get(key) {
         const value = this[key];
-        if(typeof value === 'string') {
-            if(value.startsWith('{') || value.startsWith('[')) {
+        if(typeof value === "string") {
+            if(value.startsWith("{") || value.startsWith("[")) {
                 try {
                     return JSON.parse(value);
                 } catch (error) {
@@ -187,7 +187,7 @@ class User {
     set(key, value) {
         Object.assign(this, { [key]: value });
         let query = `UPDATE users SET ${key} = ? WHERE id = ?`;
-        db.run(query, [typeof value === 'object' ? JSON.stringify(value) : value, this.id], function(err) {
+        db.run(query, [typeof value === "object" ? JSON.stringify(value) : value, this.id], function(err) {
             if(err) {
                 console.error(`Failed to update user ${this.id}:`, err.message);
             }
