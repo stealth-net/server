@@ -49,6 +49,11 @@ function log(type, ...message) {
     stealth.io.to("admin").emit("log", { type, message });
 }
 
+/**
+ * Parses the cookie header string into an object of key-value pairs.
+ * @param {string} cookieHeader - The raw cookie header string.
+ * @returns {Object} An object where each key-value pair corresponds to a cookie name and its decoded value.
+ */
 const parseCookies = cookieHeader => {
     return cookieHeader.split('; ').reduce((acc, cookie) => {
         const [key, value] = cookie.split('=');
