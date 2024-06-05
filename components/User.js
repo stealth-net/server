@@ -1,5 +1,9 @@
 const gen_token = require("../utils/gen_token.js");
 const { log } = require("../utils/log.js");
+
+const Guild = require("./Guild.js");
+const Member = require("./Member.js");
+
 const db = stealth.database;
 
 const query = `
@@ -109,12 +113,30 @@ class User {
      * @param {Object} options - The options for user initialization.
      * @param {string} options.token - The token for user initialization.
      * @param {string} options.password - The password for user initialization.
+     * @param {string} options.id - The ID for user initialization.
     */
     async init(options) {
         if(options.token) {
             await this.initWithToken(options.token);
         } else if(options.password) {
             this.initWithCredentials(options);
+        } else if(options.id) {
+            this.initWithID(options.id);
+        } else {
+            throw new Error("Invalid user initialization options");
+        }
+    }
+
+    /**
+     * Initialize user with ID.
+     * @param {string} id - The ID for user initialization.
+    */
+    async initWithID(id) {
+        try {
+            const userData = await query_search(id, "id");
+            this.assignUserData(userData);
+        } catch (err) {
+            log("ERROR", "Failed to fetch user data with ID:", err.message);
         }
     }
 
@@ -125,11 +147,19 @@ class User {
     async initWithToken(token) {
         try {
             const userData = await query_search(token, "token");
-            if(userData) {
-                Object.assign(this, userData);
-            }
+            this.assignUserData(userData);
         } catch (err) {
             log("ERROR", "Failed to fetch user data with token:", err.message);
+        }
+    }
+
+    /**
+     * Assign user data if available.
+     * @param {Object|null} userData - The user data to assign.
+    */
+    assignUserData(userData) {
+        if (userData) {
+            Object.assign(this, userData);
         }
     }
 
@@ -232,6 +262,23 @@ class User {
         return stealth.sockets[this.id] || null;
     }
 
+    async getMember(guildId) {
+        const query = 'SELECT * FROM members WHERE user_id = $1 AND guild_id = $2';
+        const values = [this.id, guildId];
+        try {
+            const result = await db.query(query, values);
+            if (result.rows.length > 0) {
+                const { user_id, guild_id, role, joined_at } = result.rows[0];
+                return new Member(user_id, guild_id, role);
+            } else {
+                return null; // User is not a member of the guild
+            }
+        } catch (err) {
+            console.error('Error fetching member:', err);
+            throw err;
+        }
+    }
+
     setStatus(type, broadcast = true) {
         this.status = type;
         this.set("status", type);
@@ -241,6 +288,27 @@ class User {
                 await friendUser.initWithToken(friendId);
                 friendUser.send("statusChanged", this.id, type);
             });
+    }
+
+    /**
+     * Adds a guild to the user's list of guilds and updates the guild's member list.
+     * @param {string} guildID - The ID of the guild to add the user to.
+     */
+    async addGuild(guildID) {
+        const guild = new Guild();
+        await guild.initWithID(guildID);
+        if(this.get("guilds").includes(guild.id) || !guild) return;
+        this.set("guilds", [...this.get("guilds"), guild.id]);
+
+        const members = guild.get("members");
+        if (!members.includes(this.id)) {
+            guild.set("members", [...members, this.id]);
+        }
+
+        const socket = this.getSocket();
+        if (socket) {
+            socket.emit("guildAdded", guild.id);
+        }
     }
 
     save() {

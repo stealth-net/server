@@ -2,6 +2,8 @@ const chalk = require("chalk");
 const { log } = require("./log.js");
 
 const { promote_badge, demote_badge } = require("../components/Badge.js");
+const { User } = require("../components/User.js");
+const Guild = require("../components/Guild.js");
 
 class Command {
     constructor(message) {
@@ -19,7 +21,9 @@ class Command {
         const commands = {
             help: [],
             promote: ['<id> <badgeID>'],
-            demote: ['<id> <badgeID>']
+            demote: ['<id> <badgeID>'],
+            addGuild: ['<guildID> <memberID>'],
+            mkGuild: ['<name>']
         }
 
         log("INFO", "Command List:");
@@ -29,15 +33,30 @@ class Command {
     }
 
     promote(id, badgeID) {
-        console.log("Promoting user:", id, "to badge:", badgeID);
+        log("INFO", `Promoting user: ${id} to badge: ${badgeID}`);
         
         promote_badge(id, badgeID);
     }
 
     demote(id, badgeID) {
-        console.log("Demoting user:", id, "from badge:", badgeID);
+        log("INFO", `Demoting user: ${id} from badge: ${badgeID}`);
         
         demote_badge(id, badgeID);
+    }
+
+    async mkGuild(name) {
+        const guild = new Guild();
+        await guild.initWithName(name);
+
+        log("INFO", `Created guild: ${guild.id}`);
+    }
+
+    async addGuild(guildID, userID) {
+        const user = new User();
+        await user.initWithID(userID);
+        await user.addGuild(guildID);
+
+        log("INFO", `Added guild: ${guildID} to user: ${userID}`);
     }
 
     eval(code) {

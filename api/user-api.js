@@ -9,6 +9,8 @@ const routes = {
         "/user-api/v1/deny-friend-request": "./route/user/friend/deny-friend-request.js",
 
         "/user-api/v1/send-message": "./route/user/send-message.js",
+
+        "/user-api/v1/create-guild": "./route/user/guild/create-guild.js"
     },
     GET: {
         "/user-api/v1/get-me": "./route/user/get-me.js",

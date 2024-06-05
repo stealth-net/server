@@ -1,4 +1,5 @@
-const { log } = require('../utils/log.js');
+const { log } = require("../utils/log.js");
+const User = require("./User.js");
 const db = stealth.database;
 
 const query = `
@@ -6,14 +7,14 @@ CREATE TABLE IF NOT EXISTS guilds (
     id TEXT PRIMARY KEY,
     name TEXT,
     ownerID TEXT,
-    FOREIGN KEY(ownerID) REFERENCES users(id),
     channels TEXT,
     roles TEXT,
     members TEXT,
     maxMembers INTEGER,
     creationTime INTEGER,
     pfpURL TEXT,
-    invitations TEXT
+    invitations TEXT,
+    FOREIGN KEY(ownerID) REFERENCES users(id)
 )`;
 db.run(query, function(err) {
     if(err) {
@@ -40,59 +41,89 @@ class Guild {
     constructor() {}
 
     /**
-     * Initialize a new guild with the given creator ID.
-     * @param {string} creatorID - The ID of the creator.
+     * Initialize a guild with options.
+     * @param {Object} options - The options for initialization.
+     * @param {string} options.id - The ID of the guild.
+     * @param {string} options.ownerID - The ID of the owner of the guild.
+     * @param {string} options.name - The name of the guild.
      */
-    async init(creatorID) {
-        try {
-            const existingGuild = await this.initWithCreatorID(creatorID);
-            if (existingGuild) {
-                Object.assign(this, existingGuild);
-            } else {
-                await this.initGuild();
-            }
-        } catch (error) {
-            log("ERROR", "Failed to initialize guild:", error.message);
+    async init(options) {
+        if (options.id) {
+            await this.initWithID(options.id);
+        } else if (options.ownerID) {
+            await this.initWithOwnerID(options.ownerID);
+        } else if (options.name) {
+            await this.initWithName(options.name);
+        } else {
+            throw new Error("Invalid guild initialization options");
         }
     }
 
     /**
-     * Load a guild with the given creator ID.
-     * @param {string} creatorID - The ID of the creator.
+     * Load a guild with the given ID.
+     * @param {string} id - The ID of the guild.
      */
-    async initWithCreatorID(creatorID) {
-        const query = `SELECT * FROM guilds WHERE ownerID = ?`;
+    async initWithID(id) {
+        try {
+            const guildData = await this.querySearch(id, "id");
+            this.assignGuildData(guildData);
+        } catch (err) {
+            log("ERROR", "Failed to fetch guild data with ID:", err.message);
+        }
+    }
+
+    /**
+     * Load a guild with the given owner ID.
+     * @param {string} ownerID - The ID of the owner.
+     */
+    async initWithOwnerID(ownerID) {
+        try {
+            const guildData = await this.querySearch(ownerID, "ownerID");
+            this.assignGuildData(guildData);
+        } catch (err) {
+            log("ERROR", "Failed to fetch guild data with owner ID:", err.message);
+        }
+    }
+
+    /**
+     * Load a guild with the given name.
+     * @param {string} name - The name of the guild.
+     */
+    async initWithName(name) {
+        try {
+            const guildData = await this.querySearch(name, "name");
+            this.assignGuildData(guildData);
+        } catch (err) {
+            log("ERROR", "Failed to fetch guild data with name:", err.message);
+        }
+    }
+
+    /**
+     * Assign guild data if available.
+     * @param {Object|null} guildData - The guild data to assign.
+     */
+    assignGuildData(guildData) {
+        if (guildData) {
+            Object.assign(this, guildData);
+        }
+    }
+
+    /**
+     * Searches for a guild in the database based on a specific key.
+     * @param {string} queue - The value to search for in the database.
+     * @param {string} key - The key to search for in the database.
+     * @returns {Promise<Object>} A promise that resolves with the guild row if found, or rejects with an error.
+     */
+    async querySearch(queue, key) {
         return new Promise((resolve, reject) => {
-            db.get(query, [creatorID], (err, row) => {
+            let query = `SELECT * FROM guilds WHERE ${key} = ?`;
+            db.get(query, [queue], (err, row) => {
                 if (err) {
-                    reject(err);
+                    reject(new Error(`SQLITE_ERROR: no such table: guilds --> in Database#get('${query}', [ '${queue}' ])`));
                 } else {
                     resolve(row);
                 }
             });
-        });
-    }
-
-    async initGuild(creatorID) {
-        this.id = stealth.id_manager.getNextID();
-        this.name = "New guild";
-        this.ownerID = creatorID;
-        this.channels = JSON.stringify([]);
-        this.roles = JSON.stringify([]);
-        this.members = JSON.stringify([]);
-        this.maxMembers = 16;
-        this.creationTime = Date.now();
-        this.pfpURL = "/mainpage/images/logo_transparent.png";
-        this.invitations = JSON.stringify([]);
-
-        const insertQuery = `
-            INSERT INTO guilds (id, name, ownerID, channels, roles, members, maxMembers, creationTime, pfpURL, invitations)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `;
-        db.run(insertQuery, [this.id, this.name, this.ownerID, this.channels, this.roles, this.members, this.maxMembers, this.creationTime, this.pfpURL, this.invitations], function(err) {
-            if (err) {
-                log("ERROR", "Failed to create new guild in database:", err.message);
-            }
         });
     }
 
@@ -129,6 +160,29 @@ class Guild {
                 console.error(`Failed to update user ${this.id}:`, err.message);
             }
         });
+    }
+    
+    /**
+     * Adds a guild to the user's list of guilds and updates the guild's member list.
+     * @param {string} userID - The ID of the user to add to the guild.
+     */
+    addMember(userID) {
+        if(this.get("members").includes(userID) || !this.guild) return;
+        this.set("members", [...this.get("members"), userID]);
+
+        const members = this.get("members");
+
+        if (!members.includes(userID)) {
+            this.set("members", [...members, userID]);
+        }
+
+        const user = new User();
+        user.initWithID(userID);
+
+        const socket = user.getSocket();
+        if (socket) {
+            socket.emit("guildAdded", this.id);
+        }
     }
 }
 
