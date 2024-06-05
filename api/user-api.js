@@ -15,14 +15,14 @@ const routes = {
     GET: {
         "/user-api/v1/get-me": "./route/user/get-me.js",
         "/user-api/v1/get-messages": "./route/user/get-messages.js",
-        "/user-api/v1/get-file/:fileName": "./route/user/get-file.js" // Include dynamic fileName parameter
+        "/user-api/v1/get-file/:fileName": "./route/user/get-file.js"
     }
 }
 
 function initRequests(app) {
     for(const method in routes) {
         for(const path in routes[method]) {
-            if (path.includes(":")) { // Check if path includes dynamic parameter
+            if (path.includes(":")) {
                 app[method.toLowerCase()](path, (req, res, next) => {
                     require(`${routes[method][path]}`)(req, res, next);
                 });
