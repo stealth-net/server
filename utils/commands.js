@@ -50,6 +50,7 @@ class Command {
     async mkGuild(name) {
         const guild = new Guild();
         await guild.initWithName(name);
+        guild.save();
 
         log("INFO", `Created guild: ${guild.id}`);
     }

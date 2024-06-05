@@ -668,22 +668,22 @@ document.querySelector("#user-menu > div.centered > img").addEventListener("dblc
     }, { once: true });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     // Initialize sliders
-    const sliders = document.querySelectorAll('.slider-container');
+    const sliders = document.querySelectorAll(".slider-container");
 
     sliders.forEach(slider => {
-        const sliderValueDisplay = slider.querySelector('.slider-value');
+        const sliderValueDisplay = slider.querySelector(".slider-value");
 
         slider.oninput = function() {
-            sliderValueDisplay.textContent = slider.querySelector('.slider').value;
+            sliderValueDisplay.textContent = slider.querySelector(".slider").value;
         }
     });
     
     // Load active DMs from localStorage
     connectionInstance.on("fetchedProfile", () => {
         const user = connectionInstance.user;
-        const activeDMs = JSON.parse(localStorage.getItem('activeDMs') || '[]');
+        const activeDMs = JSON.parse(localStorage.getItem("activeDMs") || "[]");
         activeDMs.forEach(id => {
             const userData = user.friends.find(friend => friend.id === id);
             if (userData) {
@@ -699,4 +699,70 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         });
     });
+});
+
+document.getElementById("add-server").addEventListener("click", () => {
+    const dialog = document.createElement("dialog");
+    dialog.classList.add("modal-window");
+    
+    const closeButton = document.createElement("button");
+    closeButton.innerHTML = `<svg width="45" height="45" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0.5" y="0.5" width="44" height="44" rx="4.5" fill="#1D1D2F" stroke="#131320"/>
+        <path d="M13.6612 13.6612L22.5001 22.5M31.3389 31.3388L22.5001 22.5M22.5001 22.5L31.3389 13.6612M22.5001 22.5L13.6612 31.3388" stroke="#51567C" stroke-width="2"/>
+    </svg>`;
+    closeButton.style.padding = '0';
+    closeButton.style.float = "right";
+    closeButton.style.position = "absolute";
+    closeButton.style.top = "0";
+    closeButton.style.right = "0";
+    closeButton.style.margin = "10";
+    closeButton.classList.add("brightness-effect");
+    closeButton.addEventListener("click", () => {
+        dialog.remove();
+    });
+
+    dialog.innerHTML = `
+<div class="modal-content" style="display: flex; justify-content: space-around; text-align: center;">
+    <div style="width: 283px; height: 273px;">
+        <label>Create guild</label>
+        <br>
+        <textarea id="create-guild-name" style="width: 200px; height: 30px;" placeholder="Guild name"></textarea>
+        <br>
+        <div style="width: 283px; height: -webkit-fill-available; font-size: 15px; display: flex; align-items: center; justify-content: center;">Creating a guild is an exciting way to bring together a community of like-minded individuals. Whether you're forming a guild for gaming, hobbies, or a professional group, the process is simple and fun.</div>
+        <br>
+        <button id="create-guild" style="width: 200px; height: 30px;">Create</button>
+    </div>
+    
+    <label style="width: 100%; text-align: center; display: block;">or</label>
+    
+    <div style="width: 283px; height: 273px;">
+        <label>Join guild</label>
+        <br>
+        <textarea id="join-guild-code" style="width: 200px; height: 30px;" placeholder="Invite code"></textarea>
+        <br>
+        <div style="width: 283px; height: -webkit-fill-available; font-size: 15px; display: flex; align-items: center; justify-content: center;">Looking to join a community of like-minded individuals?</div>
+        <br>
+        <button id="join-guild" style="width: 200px; height: 30px;">Join</button>
+    </div>
+</div>`;
+
+    dialog.querySelector("#create-guild").addEventListener("click", () => {
+        const guildName = dialog.querySelector("#create-guild-name").value;
+        postData("/user-api/v1/create-guild", { name: guildName }, "POST")
+            .then(data => {
+                console.log(data);
+            });
+    });
+
+    dialog.querySelector("#join-guild").addEventListener("click", () => {
+        const inviteCode = dialog.querySelector("#join-guild-code").value;
+        postData("/user-api/v1/join-guild", { inviteCode }, "POST")
+            .then(data => {
+                console.log(data);
+            });
+    });
+
+    dialog.appendChild(closeButton);
+    document.body.appendChild(dialog);
+    dialog.showModal();
 });

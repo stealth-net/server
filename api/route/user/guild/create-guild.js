@@ -1,4 +1,5 @@
-const { Guild } = require("../../../../components/Guild.js");
+const { User } = require("../../../../components/User.js");
+const Guild = require("../../../../components/Guild.js");
 
 module.exports = async (req, res) => {
     if (!req.cookies.token) {
@@ -15,8 +16,10 @@ module.exports = async (req, res) => {
     }
 
     const guild = new Guild();
-    await guild.initGuild(user.id);
-    guild.addMember(user.id);
+    await guild.initWithName(req.body.name);
+    await guild.addMember(user.id);
+    await guild.setOwner(user.id);
+    await guild.save();
 
-    res.status(201).send({ guildId: guild.id });
+    res.status(201).send(guild);
 }

@@ -1,19 +1,22 @@
 const { log } = require("../utils/log.js");
-const User = require("./User.js");
+
+const { User } = require("./User.js");
+const { Member } = require("./Member.js");
+
 const db = stealth.database;
 
 const query = `
 CREATE TABLE IF NOT EXISTS guilds (
     id TEXT PRIMARY KEY,
-    name TEXT,
+    name TEXT DEFAULT "New guild",
     ownerID TEXT,
-    channels TEXT,
-    roles TEXT,
-    members TEXT,
-    maxMembers INTEGER,
+    channels TEXT DEFAULT "[]",
+    roles TEXT DEFAULT "[]",
+    members TEXT DEFAULT "[]",
+    maxMembers INTEGER DEFAULT 16,
     creationTime INTEGER,
-    pfpURL TEXT,
-    invitations TEXT,
+    pfpURL TEXT DEFAULT "/mainpage/images/logo_transparent.png",
+    invitations TEXT DEFAULT "[]",
     FOREIGN KEY(ownerID) REFERENCES users(id)
 )`;
 db.run(query, function(err) {
@@ -45,7 +48,7 @@ class Guild {
      * @param {Object} options - The options for initialization.
      * @param {string} options.id - The ID of the guild.
      * @param {string} options.ownerID - The ID of the owner of the guild.
-     * @param {string} options.name - The name of the guild.
+     * @param {string} options.name - The name of the guild to create a new one with.
      */
     async init(options) {
         if (options.id) {
@@ -86,16 +89,20 @@ class Guild {
     }
 
     /**
-     * Load a guild with the given name.
+     * Create a new guild with the given name.
      * @param {string} name - The name of the guild.
      */
     async initWithName(name) {
-        try {
-            const guildData = await this.querySearch(name, "name");
-            this.assignGuildData(guildData);
-        } catch (err) {
-            log("ERROR", "Failed to fetch guild data with name:", err.message);
-        }
+        this.id = stealth.id_manager.getNextID();
+        this.name = name;
+        this.ownerID = null; // Owner to be assigned later
+        this.maxMembers = 16;
+        this.members = "[]";
+        this.channels = "[]";
+        this.roles = "[]";
+        this.invitations = "[]";
+        this.pfpURL = '/mainpage/images/logo_transparent.png';
+        this.creationTime = Date.now();
     }
 
     /**
@@ -165,25 +172,30 @@ class Guild {
     /**
      * Adds a guild to the user's list of guilds and updates the guild's member list.
      * @param {string} userID - The ID of the user to add to the guild.
+     * @returns {Promise<Member>} A promise that resolves with the member object.
      */
-    addMember(userID) {
-        if(this.get("members").includes(userID) || !this.guild) return;
-        this.set("members", [...this.get("members"), userID]);
-
-        const members = this.get("members");
-
+    async addMember(userID, options = {}) {
+        const members = this.get("members") || [];
         if (!members.includes(userID)) {
-            this.set("members", [...members, userID]);
+            members.push(userID);
+            this.set("members", JSON.stringify(members));
         }
 
         const user = new User();
-        user.initWithID(userID);
+        await user.initWithID(userID);
+        const oldGuilds = user.get("guilds");
+        user.set("guilds", [...oldGuilds, this.id]);
 
-        user.send("guildAdded", this.id);
+        const member = new Member();
+        await member.init({ id: userID, guild_id: this.id, new: true, owner: options.owner });
+        await member.save();
+
+        return member;
     }
-
+    
     /**
-     * 
+     * Removes a member from the guild.
+     * @param {string} userID - The ID of the user to remove from the guild.
      */
     removeMember(userID) {
         if(!this.get("members").includes(userID)) return;
@@ -194,6 +206,36 @@ class Guild {
         user.initWithID(userID);
 
         user.send("guildRemoved", this.id);
+    }
+
+    /**
+     * Sets a new owner for the guild and updates the owner status in the database.
+     * @param {string} userID - The ID of the new owner.
+     */
+    async setOwner(userID) {
+        this.set("ownerID", userID);
+
+        const member = new Member();
+        await member.init({ id: userID, guild_id: this.id });
+        member.owner = true;
+        await member.save();
+    }
+
+    /**
+     * Asynchronously saves the guild data to the database.
+     * @returns {Promise<void>} A promise that resolves when the guild data is successfully saved.
+     */
+    async save() {
+        const query = `INSERT INTO guilds (id, name, ownerID, channels, roles, members, maxMembers, creationTime, pfpURL, invitations) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        return new Promise((resolve, reject) => {
+            db.run(query, [this.id, this.name, this.ownerID, this.channels, this.roles, this.members, this.maxMembers, this.creationTime, this.pfpURL, this.invitations], function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
+        });
     }
 }
 

@@ -25,6 +25,7 @@
     --checkbox-custom-background: #1D1D2F;
     --checkbox-custom-border: #131320;
     --checkbox-checked: #5e8a48;
+    --modal-window-background: #171724;
 }
 
 html, body {
@@ -181,7 +182,7 @@ hr {
 #side-user-menu > div > div > img {
     padding: 50;
 }
-label, a, span {
+label, a, span, dialog {
     font-family: "Inria Sans", Helvetica;
     color: var(--active-color);
 }
@@ -254,9 +255,11 @@ div[class^="midsubtab-"] > label {
     border: solid 1px var(--action-border);
     width: 45px;
     height: 45px;
+}
+.brightness-effect {
     transition: 0.4s;
 }
-.action:hover {
+.brightness-effect:hover {
     filter: brightness(1.5);
     transition: 0.4s;
 }
@@ -368,4 +371,17 @@ body, html, input, textarea, button, label {
     background: var(--menu-background);
     color: var(--text-color);
     z-index: 2;
+}
+.modal-window {
+    width: 37%;
+    height: 42%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(calc(-50% - 42% / 2), -50%);
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: var(--modal-window-background);
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5);
 }

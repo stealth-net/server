@@ -10,7 +10,8 @@ const routes = {
 
         "/user-api/v1/send-message": "./route/user/send-message.js",
 
-        "/user-api/v1/create-guild": "./route/user/guild/create-guild.js"
+        "/user-api/v1/create-guild": "./route/user/guild/create-guild.js",
+        "/user-api/v1/join-guild": "./route/user/guild/join-guild.js"
     },
     GET: {
         "/user-api/v1/get-me": "./route/user/get-me.js",

@@ -1,9 +1,6 @@
 const gen_token = require("../utils/gen_token.js");
 const { log } = require("../utils/log.js");
 
-const Guild = require("./Guild.js");
-const Member = require("./Member.js");
-
 const db = stealth.database;
 
 const query = `
@@ -262,23 +259,6 @@ class User {
         return stealth.sockets[this.id] || null;
     }
 
-    async getMember(guildId) {
-        const query = 'SELECT * FROM members WHERE user_id = $1 AND guild_id = $2';
-        const values = [this.id, guildId];
-        try {
-            const result = await db.query(query, values);
-            if (result.rows.length > 0) {
-                const { user_id, guild_id, role, joined_at } = result.rows[0];
-                return new Member(user_id, guild_id, role);
-            } else {
-                return null; // User is not a member of the guild
-            }
-        } catch (err) {
-            console.error('Error fetching member:', err);
-            throw err;
-        }
-    }
-
     setStatus(type, broadcast = true) {
         this.status = type;
         this.set("status", type);
@@ -289,39 +269,12 @@ class User {
                 friendUser.send("statusChanged", this.id, type);
             });
     }
-
+    
     /**
-     * Adds a guild to the user's list of guilds and updates the guild's member list.
-     * @param {string} guildID - The ID of the guild to add the user to.
+     * Asynchronously saves the user data to the database.
+     * @returns {Promise<void>} A promise that resolves when the user data is successfully saved.
      */
-    async addGuild(guildID) {
-        const guild = new Guild();
-        await guild.initWithID(guildID);
-        if(this.get("guilds").includes(guild.id) || !guild) return;
-        this.set("guilds", [...this.get("guilds"), guild.id]);
-
-        const members = guild.get("members");
-        if (!members.includes(this.id)) {
-            guild.set("members", [...members, this.id]);
-        }
-
-        this.send("guildAdded", guild.id);
-    }
-
-    /**
-     * Remove a guild from the user's list of guilds and update the guild's member list.
-     * @param {string} guildID - The ID of the guild to remove the user from.
-     */
-    removeGuild(guildID) {
-        this.set("guilds", this.get("guilds").filter(id => id !== guildID));
-        const guild = new Guild();
-        guild.initWithID(guildID);
-        guild.removeMember(this.id);
-        
-        this.send("guildRemoved", guildID);
-    }
-
-    save() {
+    async save() {
         let query = `
             INSERT OR REPLACE INTO users (id, token, badges, friends, friendRequests, friendRequestsOwn, guilds, status, pfpURL, creationTime, username, display_name, email, password) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
