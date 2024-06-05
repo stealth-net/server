@@ -1,18 +1,13 @@
 const { User, query_search } = require("../../../components/User.js");
 const { log } = require("../../../utils/log.js");
+const sendStatusIf = require("../../../utils/resStatus.js");
 
 module.exports = async (req, res) => {
     const existingUsername = await query_search(req.body.username, "username");
-    if(existingUsername) {
-        res.status(409).send("Username already registered");
-        return;
-    }
+    if (sendStatusIf(res, existingUsername, 409, "Username already registered")) return;
 
     const existingEmail = await query_search(req.body.email, "email");
-    if(existingEmail) {
-        res.status(409).send("Email already registered");
-        return;
-    }
+    if (sendStatusIf(res, existingEmail, 409, "Email already registered")) return;
 
     const user = new User();
     user.init({

@@ -1,34 +1,22 @@
 const { User, query_search } = require("../../../components/User.js");
 const { Message } = require("../../../components/Message.js");
 const { Conversation, get_conversation, get_conversation_id } = require("../../../components/Conversation.js");
-const { log } = require("../../../utils/log.js");
+const sendStatusIf = require("../../../utils/resStatus.js");
 
 module.exports = async (req, res) => {
-    if(!req.cookies.token) {
-        res.sendStatus(401);
-        return;
-    }
+    if (sendStatusIf(res, !req.cookies.token, 401)) return;
 
     const { recipientId, text } = req.body;
-    if (!recipientId || !text) {
-        res.status(400).send("Missing recipient ID or message text.");
-        return;
-    }
+    if (sendStatusIf(res, !recipientId || !text, 400, "Missing recipient ID or message text.")) return;
 
     const sender = new User();
     await sender.initWithToken(req.cookies.token);
-    if (!sender) {
-        res.status(404).send("Sender not found.");
-        return;
-    }
+    if (sendStatusIf(res, !sender, 404, "Sender not found.")) return;
 
     const recipientProperties = await query_search(recipientId, "id");
     const recipient = new User();
     await recipient.initWithToken(recipientProperties.token);
-    if (!recipient) {
-        res.status(404).send("Recipient not found.");
-        return;
-    }
+    if (sendStatusIf(res, !recipient, 404, "Recipient not found.")) return;
 
     const conversationId = get_conversation_id(sender.id, recipient.id);
     let conversation = await get_conversation(conversationId);

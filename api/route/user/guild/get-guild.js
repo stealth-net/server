@@ -1,10 +1,9 @@
+const sendStatusIf = require("../../../../utils/resStatus.js");
 const db = stealth.database;
 
 module.exports = async (req, res) => {
     const guildID = req.query.guildID;
-    if (!guildID) {
-        return res.status(400).json({ error: 'Guild ID is required' });
-    }
+    if (sendStatusIf(res, !guildID, 400, 'Guild ID is required')) return;
 
     try {
         const sql = 'SELECT * FROM guilds WHERE id = ?';
@@ -13,9 +12,7 @@ module.exports = async (req, res) => {
                 console.error('Database error:', err);
                 return res.status(500).json({ error: 'Internal server error' });
             }
-            if (!guild) {
-                return res.status(404).json({ error: 'Guild not found' });
-            }
+            if (sendStatusIf(res, !guild, 404, 'Guild not found')) return;
             res.json(guild);
         });
     } catch (error) {

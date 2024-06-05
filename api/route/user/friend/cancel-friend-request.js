@@ -1,4 +1,5 @@
 const { User, query_search } = require("../../../../components/User.js");
+const sendStatusIf = require("../../../utils/resStatus.js");
 
 module.exports = async (req, res) => {
     if(!req.cookies.token) {
@@ -10,17 +11,11 @@ module.exports = async (req, res) => {
     await sender.initWithToken(req.cookies.token);
 
     const targetData = await query_search(req.body.id, "id");
-    if (!targetData) {
-        res.sendStatus(400);
-        return;
-    }
+    if (sendStatusIf(res, !targetData, 400, "User not found.")) return;
     const target = new User();
     await target.initWithToken(targetData.token);
 
-    if(sender.id == target.id) {
-        res.sendStatus(400);
-        return;
-    }
+    if (sendStatusIf(res, sender.id == target.id, 400, "User not found.")) return;
 
     const targetFriendRequests = target.get('friendRequests');
     const senderFriendRequestsOwn = sender.get('friendRequestsOwn');

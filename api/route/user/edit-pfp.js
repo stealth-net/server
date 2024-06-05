@@ -1,18 +1,14 @@
 const { User } = require("../../../components/User.js");
+const sendStatusIf = require("../../../utils/resStatus.js");
 
 module.exports = async (req, res) => {
-    if (!req.cookies.token) {
-        res.sendStatus(401);
-        return;
-    }
+    if (sendStatusIf(res, !req.cookies.token, 401)) return;
 
     try {
         const user = new User();
         await user.initWithToken(req.cookies.token);
 
-        user.set('pfpURL', req.body.pfpURL);
-        
-        user.save();
+        user.set("pfpURL", req.body.pfpURL);
 
         res.send({ pfpURL: user.pfpURL });
     } catch (error) {

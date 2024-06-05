@@ -1,19 +1,13 @@
 const { User, query_search } = require("../../../components/User.js");
+const sendStatusIf = require("../../../utils/resStatus.js");
 
 module.exports = async (req, res) => {
-    if(!req.cookies.token) {
-        res.sendStatus(401);
-        return;
-    }
-
-    const userProperties = await query_search(req.cookies.token, "token");
-    if(!userProperties) {
-        res.sendStatus(404);
-        return;
-    }
+    if (sendStatusIf(res, !req.cookies.token, 401)) return;
 
     const user = new User();
-    await user.initWithToken(userProperties.token);
+    await user.initWithToken(req.cookies.token);
+
+    if (sendStatusIf(res, !user, 404)) return;
 
     res.send(await user.getAllProperties());
 }

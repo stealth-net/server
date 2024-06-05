@@ -7,6 +7,7 @@ const destPath = path.join(__dirname, "../../../database/uploads/");
 const { User, query_search } = require("../../../components/User.js");
 const { Message } = require("../../../components/Message.js");
 const { get_conversation_id } = require("../../../components/Conversation.js");
+const sendStatusIf = require("../../../utils/resStatus.js");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -39,9 +40,7 @@ app.post("/user-api/v1/upload-file", upload.single("file"), async (req, res, nex
             await user.initWithToken(req.cookies.token);
             // Search for recipient by ID
             const recipientProperties = await query_search(recipientId, "id");
-            if (!recipientProperties) {
-                throw new Error("Recipient not found");
-            }
+            if (sendStatusIf(res, !recipientProperties, 404, "Recipient not found")) return;
             const recipientUser = new User();
             await recipientUser.initWithToken(recipientProperties.token);
             // Create a new message object

@@ -1,18 +1,13 @@
 const { User, query_search, safe_user } = require("../../../../components/User.js");
+const sendStatusIf = require("../../../utils/resStatus.js");
 
 module.exports = async (req, res) => {
-    if(!req.cookies.token) {
-        res.sendStatus(401);
-        return;
-    }
+    if (sendStatusIf(res, !req.cookies.token, 401)) return;
 
     const senderProperties = await query_search(req.cookies.token, "token");
     const targetProperties = await query_search(req.body.id, "id");
 
-    if(!senderProperties || !targetProperties || senderProperties.token === targetProperties.token) {
-        res.sendStatus(404);
-        return;
-    }
+    if (sendStatusIf(res, !senderProperties || !targetProperties || senderProperties.token === targetProperties.token, 404, "User not found.")) return;
 
     const sender = new User();
     await sender.initWithToken(senderProperties.token);

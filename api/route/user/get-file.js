@@ -1,23 +1,19 @@
-const fs = require('fs');
-const path = require('path');
-const { query_search } = require('../../../components/User');
+const fs = require("fs");
+const path = require("path");
+const { query_search } = require("../../../components/User");
 
 module.exports = async (req, res) => {
-    if (!req.cookies.token) {
-        return res.status(401).send('Unauthorized');
-    }
+    if (sendStatusIf(res, !req.cookies.token, 401)) return;
 
     const userProperties = await query_search(req.cookies.token, "token");
-    if (!userProperties) {
-        return res.status(401).send('Unauthorized');
-    }
+    if (sendStatusIf(res, !userProperties, 401)) return;
 
     const { fileName } = req.params;
-    const filePath = path.join(__dirname, '../../../database/uploads', fileName);
+    const filePath = path.join(__dirname, "../../../database/uploads", fileName);
 
-    fs.access(filePath, fs.constants.F_OK, (err) => {
+    fs.access(filePath, fs.constants.F_OK, err => {
         if (err) {
-            return res.status(404).send('File not found');
+            return res.status(404).send("File not found");
         }
 
         res.sendFile(filePath, (err) => {
