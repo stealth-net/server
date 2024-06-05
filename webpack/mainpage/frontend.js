@@ -295,10 +295,11 @@ export function removeFriendRequest(id) {
     if(document.getElementById("request-" + id)) document.getElementById("request-" + id).remove();
 }
 
-export function addGuild(GuildID) {
-    const imgElement = document.createElement('img');
+export function addGuild(guild) {
+    const imgElement = document.createElement("img");
     imgElement.classList.add("guildlist-logo");
-    imgElement.src = "./images/logo_transparent.png";
+    imgElement.src = guild.pfpURL;
+    imgElement.setAttribute("id", guild.id);
 
     document.getElementById("guild-list").appendChild(imgElement);
 }
@@ -660,14 +661,24 @@ document.addEventListener('DOMContentLoaded', () => {
             sliderValueDisplay.textContent = slider.querySelector('.slider').value;
         }
     });
+    
     // Load active DMs from localStorage
     connectionInstance.on("fetchedProfile", () => {
+        const user = connectionInstance.user;
         const activeDMs = JSON.parse(localStorage.getItem('activeDMs') || '[]');
         activeDMs.forEach(id => {
-            const userData = connectionInstance.user.friends.find(friend => friend.id === id);
+            const userData = user.friends.find(friend => friend.id === id);
             if (userData) {
                 addDM(userData);
             }
+        });
+
+        user.guilds.forEach(guildID => {
+            fetch(`/user-api/v1/get-guild?guildID=${guildID}`)
+                .then(response => response.json())
+                .then(guildData => {
+                    addGuild(guildData);
+                });
         });
     });
 });

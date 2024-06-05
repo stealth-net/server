@@ -44,6 +44,8 @@ export class Connection extends EventEmitter {
                 }
             }
         });
+        socket.on("guildAdded", guildID => addGuild(guildID));
+        socket.on("guildRemoved", guildID => removeGuild(guildID));
     }
 }
 

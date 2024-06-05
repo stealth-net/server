@@ -15,7 +15,9 @@ const routes = {
     GET: {
         "/user-api/v1/get-me": "./route/user/get-me.js",
         "/user-api/v1/get-messages": "./route/user/get-messages.js",
-        "/user-api/v1/get-file/:fileName": "./route/user/get-file.js"
+        "/user-api/v1/get-file/:fileName": "./route/user/get-file.js",
+
+        "/user-api/v1/get-guild": "./route/user/guild/get-guild.js"
     }
 }
 

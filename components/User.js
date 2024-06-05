@@ -317,6 +317,8 @@ class User {
         const guild = new Guild();
         guild.initWithID(guildID);
         guild.removeMember(this.id);
+        
+        this.send("guildRemoved", guildID);
     }
 
     save() {
