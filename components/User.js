@@ -305,10 +305,18 @@ class User {
             guild.set("members", [...members, this.id]);
         }
 
-        const socket = this.getSocket();
-        if (socket) {
-            socket.emit("guildAdded", guild.id);
-        }
+        this.send("guildAdded", guild.id);
+    }
+
+    /**
+     * Remove a guild from the user's list of guilds and update the guild's member list.
+     * @param {string} guildID - The ID of the guild to remove the user from.
+     */
+    removeGuild(guildID) {
+        this.set("guilds", this.get("guilds").filter(id => id !== guildID));
+        const guild = new Guild();
+        guild.initWithID(guildID);
+        guild.removeMember(this.id);
     }
 
     save() {

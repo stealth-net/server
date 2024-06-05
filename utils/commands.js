@@ -23,7 +23,10 @@ class Command {
             promote: ['<id> <badgeID>'],
             demote: ['<id> <badgeID>'],
             addGuild: ['<guildID> <memberID>'],
-            mkGuild: ['<name>']
+            mkGuild: ['<name>'],
+            rmGuild: ['<guildID>'],
+            delGuild: ['<guildID> <memberID>'],
+            eval: ['<code>']
         }
 
         log("INFO", "Command List:");
@@ -51,12 +54,28 @@ class Command {
         log("INFO", `Created guild: ${guild.id}`);
     }
 
+    rmGuild(guildID) {
+        const guild = new Guild();
+        guild.initWithID(guildID);
+        guild.removeMember(this.id);
+
+        log("INFO", `Removed guild: ${guildID} from user: ${this.id}`);
+    }
+
     async addGuild(guildID, userID) {
         const user = new User();
         await user.initWithID(userID);
         await user.addGuild(guildID);
 
         log("INFO", `Added guild: ${guildID} to user: ${userID}`);
+    }
+
+    delGuild(guildID, userID) {
+        const user = new User();
+        user.initWithID(userID);
+        user.removeGuild(guildID);
+
+        log("INFO", `Removed guild: ${guildID} from user: ${userID}`);
     }
 
     eval(code) {

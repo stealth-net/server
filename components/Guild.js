@@ -179,10 +179,21 @@ class Guild {
         const user = new User();
         user.initWithID(userID);
 
-        const socket = user.getSocket();
-        if (socket) {
-            socket.emit("guildAdded", this.id);
-        }
+        user.send("guildAdded", this.id);
+    }
+
+    /**
+     * 
+     */
+    removeMember(userID) {
+        if(!this.get("members").includes(userID)) return;
+        const members = this.get("members").filter(id => id !== userID);
+        this.set("members", members);
+
+        const user = new User();
+        user.initWithID(userID);
+
+        user.send("guildRemoved", this.id);
     }
 }
 
