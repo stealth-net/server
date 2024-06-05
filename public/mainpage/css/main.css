@@ -355,11 +355,17 @@ body, html, input, textarea, button, label {
     background: var(--active-color);
     cursor: pointer;
 }
-
 .slider::-moz-range-thumb {
     width: 20px;
     height: 20px;
     border-radius: 50%;
     background: var(--active-color);
     cursor: pointer;
+}
+.guild-name {
+    display: none;
+    position: absolute;
+    background: var(--menu-background);
+    color: var(--text-color);
+    z-index: 2;
 }

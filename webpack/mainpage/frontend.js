@@ -296,12 +296,30 @@ export function removeFriendRequest(id) {
 }
 
 export function addGuild(guild) {
+    const guildContainer = document.createElement("div");
+    guildContainer.classList.add("guild-container");
+
     const imgElement = document.createElement("img");
     imgElement.classList.add("guildlist-logo");
     imgElement.src = guild.pfpURL;
     imgElement.setAttribute("id", guild.id);
 
-    document.getElementById("guild-list").appendChild(imgElement);
+    const nameDiv = document.createElement("div");
+    nameDiv.textContent = guild.name;
+    nameDiv.className = "guild-name";
+
+    guildContainer.appendChild(imgElement);
+    guildContainer.appendChild(nameDiv);
+
+    imgElement.addEventListener("mouseover", () => {
+        nameDiv.style.display = "block";
+    });
+
+    imgElement.addEventListener("mouseout", () => {
+        nameDiv.style.display = "none";
+    });
+
+    document.getElementById("guild-list").appendChild(guildContainer);
 }
 
 export function addMessage(messageData, atTop = false) {
