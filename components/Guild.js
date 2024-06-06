@@ -204,8 +204,6 @@ class Guild {
 
         const user = new User();
         user.initWithID(userID);
-
-        user.send("guildRemoved", this.id);
     }
 
     /**

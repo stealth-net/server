@@ -1,14 +1,12 @@
-import { addFriend, addMessage, addPendingRequest, removeFriend, removeFriendRequest, updateProfile, updateOnlineCount } from './frontend.js';
+import { addFriend, addMessage, addPendingRequest, removeFriend, removeFriendRequest, updateProfile, updateOnlineCount, addGuild, removeGuild } from './frontend.js';
 import { getData, parseCookies } from "./util.js";
 import config from "./config.js";
 
 const cookies = parseCookies();
 
 export class Connection extends EventEmitter {
-    constructor(options = {}) {
+    constructor() {
         super();
-
-        this.options = options;
 
         getData("/user-api/v1/get-me").then(response => {
             this.user = response;
@@ -44,8 +42,8 @@ export class Connection extends EventEmitter {
                 }
             }
         });
-        socket.on("guildAdded", guildID => addGuild(guildID));
-        socket.on("guildRemoved", guildID => removeGuild(guildID));
+        socket.on("guildAdded", guild => addGuild(guild));
+        socket.on("guildRemoved", guild => removeGuild(guild));
     }
 }
 

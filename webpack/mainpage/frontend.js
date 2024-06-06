@@ -297,6 +297,7 @@ export function removeFriendRequest(id) {
 
 export function addGuild(guild) {
     const guildContainer = document.createElement("div");
+    guildContainer.id = "guild-" + guild.id;
     guildContainer.classList.add("guild-container");
 
     const imgElement = document.createElement("img");
@@ -320,6 +321,10 @@ export function addGuild(guild) {
     });
 
     document.getElementById("guild-list").appendChild(guildContainer);
+}
+
+export function removeGuild(guild) {
+    if(document.getElementById("guild-" + guild.id)) document.getElementById("guild-" + guild.id).remove();
 }
 
 export function addMessage(messageData, atTop = false) {
@@ -750,7 +755,7 @@ document.getElementById("add-server").addEventListener("click", () => {
         const guildName = dialog.querySelector("#create-guild-name").value;
         postData("/user-api/v1/create-guild", { name: guildName }, "POST")
             .then(data => {
-                console.log(data);
+                addGuild(data);
             });
     });
 
@@ -758,7 +763,7 @@ document.getElementById("add-server").addEventListener("click", () => {
         const inviteCode = dialog.querySelector("#join-guild-code").value;
         postData("/user-api/v1/join-guild", { inviteCode }, "POST")
             .then(data => {
-                console.log(data);
+                addGuild(data);
             });
     });
 
