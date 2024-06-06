@@ -30,9 +30,9 @@ class IDManager {
     readCurrentID() {
         try {
             const data = fs.readFileSync(this.filePath, "utf8");
-            return parseInt(data) || 1;
+            return parseInt(data) || 0;
         } catch (error) {
-            if(error.code === 'ENOENT') return 1;
+            if(error.code === 'ENOENT') return 0;
             throw error;
         }
     }

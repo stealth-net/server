@@ -4,9 +4,9 @@ const app = stealth.app;
 
 const fs = require("fs");
 const destPath = path.join(__dirname, "../../../database/uploads/");
-const { User, query_search } = require("../../../components/User.js");
+const { User, querySearch } = require("../../../components/User.js");
 const { Message } = require("../../../components/Message.js");
-const { get_conversation_id } = require("../../../components/Conversation.js");
+const { getConversationId } = require("../../../components/Conversation.js");
 const sendStatusIf = require("../../../utils/resStatus.js");
 
 const storage = multer.diskStorage({
@@ -39,7 +39,7 @@ app.post("/user-api/v1/upload-file", upload.single("file"), async (req, res, nex
             const user = new User();
             await user.initWithToken(req.cookies.token);
             // Search for recipient by ID
-            const recipientProperties = await query_search(recipientId, "id");
+            const recipientProperties = await querySearch(recipientId, "id");
             if (sendStatusIf(res, !recipientProperties, 404, "Recipient not found")) return;
             const recipientUser = new User();
             await recipientUser.initWithToken(recipientProperties.token);
@@ -48,7 +48,7 @@ app.post("/user-api/v1/upload-file", upload.single("file"), async (req, res, nex
                 senderId: user.id,
                 recipientId: recipientUser.id,
                 attachments: [fileData],
-                conversationId: get_conversation_id(user.id, recipientUser.id)
+                conversationId: getConversationId(user.id, recipientUser.id)
             });
             
             // Check if messages should be saved based on socket header

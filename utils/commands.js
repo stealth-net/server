@@ -57,7 +57,7 @@ class Command {
 
     rmGuild(guildID) {
         const guild = new Guild();
-        guild.initWithID(guildID);
+        guild.initWithId(guildID);
         guild.removeMember(this.id);
 
         log("INFO", `Removed guild: ${guildID} from user: ${this.id}`);
@@ -65,7 +65,7 @@ class Command {
 
     async addGuild(guildID, userID) {
         const user = new User();
-        await user.initWithID(userID);
+        await user.initWithId(userID);
         await user.addGuild(guildID);
 
         log("INFO", `Added guild: ${guildID} to user: ${userID}`);
@@ -73,7 +73,7 @@ class Command {
 
     delGuild(guildID, userID) {
         const user = new User();
-        user.initWithID(userID);
+        user.initWithId(userID);
         user.removeGuild(guildID);
 
         log("INFO", `Removed guild: ${guildID} from user: ${userID}`);

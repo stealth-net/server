@@ -1,9 +1,9 @@
-const { User, query_search } = require("../../../components/User.js");
+const { User, querySearch } = require("../../../components/User.js");
 const { log } = require("../../../utils/log.js");
 const sendStatusIf = require("../../../utils/resStatus.js");
 
 module.exports = async (req, res) => {
-    const userProperties = await query_search(req.body.email, "email");
+    const userProperties = await querySearch(req.body.email, "email");
 
     if (sendStatusIf(res, !userProperties, 404, "User not found.")) return;
 

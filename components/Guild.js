@@ -9,7 +9,7 @@ const query = `
 CREATE TABLE IF NOT EXISTS guilds (
     id TEXT PRIMARY KEY,
     name TEXT DEFAULT "New guild",
-    ownerID TEXT,
+    ownerId TEXT,
     channels TEXT DEFAULT "[]",
     roles TEXT DEFAULT "[]",
     members TEXT DEFAULT "[]",
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS guilds (
     creationTime INTEGER,
     pfpURL TEXT DEFAULT "/mainpage/images/logo_transparent.png",
     invitations TEXT DEFAULT "[]",
-    FOREIGN KEY(ownerID) REFERENCES users(id)
+    FOREIGN KEY(ownerId) REFERENCES users(id)
 )`;
 db.run(query, function(err) {
     if(err) {
@@ -32,7 +32,7 @@ class Guild {
     /**
      * @property {string} id - The ID of the guild.
      * @property {string} name - The name of the guild.
-     * @property {string} ownerID - The ID of the owner of the guild.
+     * @property {string} ownerId - The ID of the owner of the guild.
      * @property {string} channels - The channels in the guild.
      * @property {string} roles - The roles in the guild.
      * @property {string} members - The members in the guild.
@@ -47,14 +47,14 @@ class Guild {
      * Initialize a guild with options.
      * @param {Object} options - The options for initialization.
      * @param {string} options.id - The ID of the guild.
-     * @param {string} options.ownerID - The ID of the owner of the guild.
+     * @param {string} options.ownerId - The ID of the owner of the guild.
      * @param {string} options.name - The name of the guild to create a new one with.
      */
     async init(options) {
         if (options.id) {
-            await this.initWithID(options.id);
-        } else if (options.ownerID) {
-            await this.initWithOwnerID(options.ownerID);
+            await this.initWithId(options.id);
+        } else if (options.ownerId) {
+            await this.initWithOwnerId(options.ownerId);
         } else if (options.name) {
             await this.initWithName(options.name);
         } else {
@@ -66,7 +66,7 @@ class Guild {
      * Load a guild with the given ID.
      * @param {string} id - The ID of the guild.
      */
-    async initWithID(id) {
+    async initWithId(id) {
         try {
             const guildData = await this.querySearch(id, "id");
             this.assignGuildData(guildData);
@@ -77,11 +77,11 @@ class Guild {
 
     /**
      * Load a guild with the given owner ID.
-     * @param {string} ownerID - The ID of the owner.
+     * @param {string} ownerId - The ID of the owner.
      */
-    async initWithOwnerID(ownerID) {
+    async initWithOwnerId(ownerId) {
         try {
-            const guildData = await this.querySearch(ownerID, "ownerID");
+            const guildData = await this.querySearch(ownerId, "ownerId");
             this.assignGuildData(guildData);
         } catch (err) {
             log("ERROR", "Failed to fetch guild data with owner ID:", err.message);
@@ -93,14 +93,14 @@ class Guild {
      * @param {string} name - The name of the guild.
      */
     async initWithName(name) {
-        this.id = stealth.id_manager.getNextID();
+        this.id = stealth.idManager.getNextID();
         this.name = name;
-        this.ownerID = null; // Owner to be assigned later
+        this.ownerId = null; // Owner to be assigned later
         this.maxMembers = 16;
-        this.members = "[]";
-        this.channels = "[]";
-        this.roles = "[]";
-        this.invitations = "[]";
+        this.members = JSON.stringify([]);
+        this.channels = JSON.stringify([]);
+        this.roles = JSON.stringify([]);
+        this.invitations = JSON.stringify([]);
         this.pfpURL = '/mainpage/images/logo_transparent.png';
         this.creationTime = Date.now();
     }
@@ -182,12 +182,12 @@ class Guild {
         }
 
         const user = new User();
-        await user.initWithID(userID);
+        await user.initWithId(userID);
         const oldGuilds = user.get("guilds");
         user.set("guilds", [...oldGuilds, this.id]);
 
         const member = new Member();
-        await member.init({ id: userID, guild_id: this.id, new: true, owner: options.owner });
+        await member.init({ id: userID, guildId: this.id, new: true, owner: options.owner });
         await member.save();
 
         return member;
@@ -203,7 +203,7 @@ class Guild {
         this.set("members", members);
 
         const user = new User();
-        user.initWithID(userID);
+        user.initWithId(userID);
     }
 
     /**
@@ -211,10 +211,10 @@ class Guild {
      * @param {string} userID - The ID of the new owner.
      */
     async setOwner(userID) {
-        this.set("ownerID", userID);
+        this.set("ownerId", userID);
 
         const member = new Member();
-        await member.init({ id: userID, guild_id: this.id });
+        await member.init({ id: userID, guildId: this.id });
         member.owner = true;
         await member.save();
     }
@@ -224,9 +224,9 @@ class Guild {
      * @returns {Promise<void>} A promise that resolves when the guild data is successfully saved.
      */
     async save() {
-        const query = `INSERT INTO guilds (id, name, ownerID, channels, roles, members, maxMembers, creationTime, pfpURL, invitations) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        const query = `INSERT INTO guilds (id, name, ownerId, channels, roles, members, maxMembers, creationTime, pfpURL, invitations) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
         return new Promise((resolve, reject) => {
-            db.run(query, [this.id, this.name, this.ownerID, this.channels, this.roles, this.members, this.maxMembers, this.creationTime, this.pfpURL, this.invitations], function(err) {
+            db.run(query, [this.id, this.name, this.ownerId, this.channels, this.roles, this.members, this.maxMembers, this.creationTime, this.pfpURL, this.invitations], function(err) {
                 if (err) {
                     reject(err);
                 } else {

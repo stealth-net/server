@@ -4,10 +4,10 @@ const db = stealth.database;
 
 const query = `
 CREATE TABLE IF NOT EXISTS invites (
-    guild_id INT NOT NULL,
+    guildId INT NOT NULL,
     code VARCHAR(255) NOT NULL,
     expiresAt TIMESTAMP NOT NULL,
-    PRIMARY KEY (guild_id, code)
+    PRIMARY KEY (guildId, code)
 )`;
 db.run(query, function(err) {
     if (err) {
@@ -43,12 +43,12 @@ function generateCode() {
 }
 
 /**
- * Represents an invite to join the server.
+ * Represents an invite to join the guild.
  */
 class Invite {
     /**
      * @property {string} code - The code of the invite.
-     * @property {string} guild_id - The ID of the guild the invite is for.
+     * @property {string} guildId - The ID of the guild the invite is for.
      * @property {string} expiresAt - The expiration date of the invite.
      */
     constructor() {}
@@ -87,7 +87,7 @@ class Invite {
      * @param {string} guildID - The ID of the guild the invite is for.
      */
     async initWithGuildID(guildID) {
-        this.guild_id = guildID;
+        this.guildId = guildID;
         this.code = generateCode();
         this.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24); // 24 hours from now
     }
@@ -117,7 +117,7 @@ class Invite {
     async getGuild() {
         return new Promise((resolve, reject) => {
             const query = `SELECT * FROM guilds WHERE id = ?`;
-            db.get(query, [this.guild_id], (err, row) => {
+            db.get(query, [this.guildId], (err, row) => {
                 if (err) {
                     reject(err);
                 } else {

@@ -43,7 +43,7 @@ let db = new sqlite3.Database(config.databasePath, sqlite3.OPEN_READWRITE, err =
  * @property {http.Server} server - HTTP server instance
  * @property {socketIO.Server} io - Socket.IO server instance
  * @property {Object} config - Configuration object
- * @property {Object} id_manager - ID manager object
+ * @property {Object} idManager - ID manager object
  * @property {sqlite3.Database} database - SQLite database instance
  * @property {Object} env - Process environment variables
  * @property {Function} log - Logging function
@@ -56,7 +56,7 @@ global.stealth = {
     server,
     io,
     config,
-    id_manager: new (require("./utils/id_manager.js"))("./database/last_id.txt"),
+    idManager: new (require("./utils/idManager.js"))("./database/lastId.txt"),
     database: db,
     env: process.env,
     log,
@@ -68,8 +68,8 @@ require("./api/user-api.js")(app);
 require("./api/admin-api.js")(app);
 
 if(config.collectAnalytics) require("./utils/analytics.js");
-const { User, fetch_users, query_search } = require("./components/User.js");
-const { get_badge } = require("./components/Badge.js");
+const { User, fetchUsers, querySearch } = require("./components/User.js");
+const { getBadge } = require("./components/Badge.js");
 
 app.get('/', (req, res) => {
     if(!req.cookies.token) {
@@ -80,7 +80,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(publicDir, "/mainpage/index.html"));
 });
 
-app.get('/mainpage/css/main.css', (req, res) => {
+app.get("/mainpage/css/main.css", (req, res) => {
     res.sendFile(path.join(publicDir, "/mainpage/css/main.css"));
 });
 
@@ -102,7 +102,7 @@ io.on("connection", async socket => {
     const cookies = parseCookies(socket.request.headers.cookie);
     const token = cookies.token;
 
-    if (!token || !(await query_search(token, "token"))) {
+    if (!token || !(await querySearch(token, "token"))) {
         socket.disconnect();
         return;
     }
@@ -127,7 +127,7 @@ io.on("connection", async socket => {
     stealth.sockets[user.id] = socket;
 
     socket.on("registerAdmin", async () => {
-        const developerBadgeId = get_badge("Developer").id.toString();
+        const developerBadgeId = getBadge("Developer").id.toString();
         if(user.badges && user.badges.includes(developerBadgeId)) {
             log("INFO", `Admin ${user.username} (${user.id}) registered`);
             socket.join("admin");
@@ -144,7 +144,7 @@ io.on("connection", async socket => {
 
     const friendsList = user.get("friends");
     if(friendsList.length > 0) {
-        const friendsToSend = await fetch_users(friendsList);
+        const friendsToSend = await fetchUsers(friendsList);
         friendsToSend.forEach(async (friend) => {
             const friendUser = new User();
             await friendUser.initWithToken(friend.token);
@@ -153,7 +153,7 @@ io.on("connection", async socket => {
         });
 
         socket.on("disconnect", async () => {
-            const newFriendsToSend = await fetch_users(friendsList);
+            const newFriendsToSend = await fetchUsers(friendsList);
             newFriendsToSend.forEach(async (newFriend) => {
                 const newFriendUser = new User();
                 await newFriendUser.initWithToken(newFriend.token);

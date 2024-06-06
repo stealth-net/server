@@ -18,7 +18,7 @@ db.run(query, function(err) {
  * @param {string} recipientId - The ID of the recipient.
  * @returns {string} The generated conversation ID.
 */
-function get_conversation_id(senderId, recipientId) {
+function getConversationId(senderId, recipientId) {
     return [senderId, recipientId].sort((a, b) => b.localeCompare(a)).join("-");
 }
 
@@ -27,7 +27,7 @@ function get_conversation_id(senderId, recipientId) {
  * @param {string} id - The ID of the conversation to retrieve.
  * @returns {Promise<Object>} A promise that resolves with the conversation data if found, or rejects with an error.
 */
-function get_conversation(id) {
+function getConversation(id) {
     return new Promise((resolve, reject) => {
         let query = `SELECT * FROM conversations WHERE id = ?`;
         db.get(query, [id], (err, row) => {
@@ -53,7 +53,7 @@ class Conversation {
      * @param {string} recipientId - The ID of the recipient.
     */
     constructor(senderId, recipientId) {
-        this.id = get_conversation_id(senderId, recipientId);
+        this.id = getConversationId(senderId, recipientId);
         this.messages = JSON.stringify([]);
     }
 
@@ -86,4 +86,4 @@ class Conversation {
     }
 }
 
-module.exports = { Conversation, get_conversation, get_conversation_id };
+module.exports = { Conversation, getConversation, getConversationId };

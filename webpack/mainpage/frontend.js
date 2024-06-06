@@ -90,7 +90,7 @@ export function addDM(userData) {
 
     document.getElementById("dm-list").appendChild(friendContainer);
 
-    // Save the DM ID to localStorage immediately after adding to the list
+    // Save the DM Id to localStorage immediately after adding to the list
     let activeDMs = JSON.parse(localStorage.getItem('activeDMs') || '[]');
     if (!activeDMs.includes(userData.id)) {
         activeDMs.push(userData.id);
@@ -467,7 +467,7 @@ function isdmChat() {
     return document.querySelector("div.dm-user").hidden === false;
 }
 
-function getRecipientID() {
+function getRecipientId() {
     const activeFriendContainer = document.querySelector("#dm-list > .friend-container[state='active']");
     return activeFriendContainer ? activeFriendContainer.getAttribute('id') : null;
 }
@@ -478,7 +478,7 @@ document.getElementById("user-message-content").addEventListener("keydown", even
         const messageContent = document.getElementById("user-message-content").value.trim();
 
         if (messageContent) {
-            const recipientId = getRecipientID();
+            const recipientId = getRecipientId();
 
             if (recipientId) {
                 postData("/user-api/v1/send-message", { recipientId, text: messageContent }, "POST")
@@ -495,7 +495,7 @@ document.getElementById("dm-send-message").addEventListener("click", event => {
         const messageContent = document.getElementById("user-message-content").value.trim();
 
         if (messageContent) {
-            const recipientId = getRecipientID();
+            const recipientId = getRecipientId();
 
             if (recipientId) {
                 postData("/user-api/v1/send-message", { recipientId, text: messageContent }, "POST")
@@ -569,10 +569,11 @@ document.getElementById("dm-attachfile").addEventListener("click", () => {
 
 document.getElementById("file-input").addEventListener("change", function() {
     const file = this.files[0];
+    
     if (file) {
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("recipientId", getRecipientID());
+        formData.append("recipientId", getRecipientId());
 
         fetch("/user-api/v1/upload-file", {
             method: "POST",
@@ -612,7 +613,7 @@ function loadInitialMessages(recipientId) {
 
 async function loadMoreMessages() {
     const currentMessagesCount = document.querySelectorAll(".message-container").length;
-    const recipientId = getRecipientID();
+    const recipientId = getRecipientId();
     if (recipientId) {
         const oldScrollHeight = document.getElementById("dm-messages").scrollHeight;
         const response = await fetch(`/user-api/v1/get-messages?recipientId=${recipientId}&start=${currentMessagesCount}&end=${currentMessagesCount + 20}`);
@@ -696,8 +697,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        user.guilds.forEach(guildID => {
-            fetch(`/user-api/v1/get-guild?guildID=${guildID}`)
+        user.guilds.forEach(guildId => {
+            fetch(`/user-api/v1/get-guild?guildId=${guildId}`)
                 .then(response => response.json())
                 .then(guildData => {
                     addGuild(guildData);

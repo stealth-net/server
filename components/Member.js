@@ -4,13 +4,13 @@ const db = stealth.database;
 const query = `
 CREATE TABLE IF NOT EXISTS members (
     id TEXT NOT NULL,
-    guild_id TEXT NOT NULL,
+    guildId TEXT NOT NULL,
     roles TEXT,
-    joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    joinedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     owner BOOLEAN DEFAULT FALSE,
-    PRIMARY KEY (id, guild_id),
+    PRIMARY KEY (id, guildId),
     FOREIGN KEY (id) REFERENCES users(id),
-    FOREIGN KEY (guild_id) REFERENCES guilds(id)
+    FOREIGN KEY (guildId) REFERENCES guilds(id)
 )`;
 db.run(query, function(err) {
     if(err) {
@@ -18,8 +18,8 @@ db.run(query, function(err) {
     }
 });
 
-function get_member(userId, guildId) {
-    const query = 'SELECT * FROM members WHERE id = ? AND guild_id = ?';
+function getMember(userId, guildId) {
+    const query = 'SELECT * FROM members WHERE id = ? AND guildId = ?';
     return new Promise((resolve, reject) => {
         db.get(query, [userId, guildId], (err, row) => {
             if (err) {
@@ -40,8 +40,8 @@ function get_member(userId, guildId) {
 class Member {
     /**
      * @property {string} id - The unique identifier for the member.
-     * @property {string} guild_id - The unique identifier for the guild.
-     * @property {Date} joined_at - The date when the member joined the guild.
+     * @property {string} guildId - The unique identifier for the guild.
+     * @property {Date} joinedAt - The date when the member joined the guild.
      * @property {boolean} owner - Specifies if the member is the owner of the guild.
      */
     constructor() {}
@@ -51,20 +51,20 @@ class Member {
      * @param {Object} options - The options for initializing the member.
      * @param {boolean} options.new - Specifies if the member is new.
      * @param {string} [options.id] - The member's ID.
-     * @param {string} [options.guild_id] - The guild ID of the member.
+     * @param {string} [options.guildId] - The guild ID of the member.
      * @param {boolean} [options.owner] - Specifies if the member is the owner of the guild.
      * @throws {Error} Throws an error if both user ID and guild ID are not provided for existing members.
      */
     async init(options) {
         if (options.new) {
             this.id = options.id || null;
-            this.guild_id = options.guild_id || null;
-            this.joined_at = new Date();
+            this.guildId = options.guildId || null;
+            this.joinedAt = new Date();
             this.roles = "[]";
             this.owner = false;
-        } else if (options.id && options.guild_id && !options.new) {
+        } else if (options.id && options.guildId && !options.new) {
             try {
-                const memberData = await this.queryMember(options.id, options.guild_id);
+                const memberData = await this.queryMember(options.id, options.guildId);
                 this.assignMemberData(memberData);
             } catch (err) {
                 log("ERROR", "Failed to initialize member with ID and Guild ID:", err.message);
@@ -81,7 +81,7 @@ class Member {
      * @returns {Promise<Object|null>} A promise that resolves to the member data or null if not found.
      */
     async queryMember(userId, guildId) {
-        const query = 'SELECT * FROM members WHERE id = ? AND guild_id = ?';
+        const query = 'SELECT * FROM members WHERE id = ? AND guildId = ?';
         return new Promise((resolve, reject) => {
             db.get(query, [userId, guildId], (err, row) => {
                 if (err) {
@@ -103,9 +103,9 @@ class Member {
     assignMemberData(memberData) {
         if (memberData) {
             this.id = memberData.id;
-            this.guild_id = memberData.guild_id;
+            this.guildId = memberData.guildId;
             this.roles = memberData.roles;
-            this.joined_at = new Date(memberData.joined_at);
+            this.joinedAt = new Date(memberData.joinedAt);
             this.owner = memberData.owner;
         }
     }
@@ -116,11 +116,11 @@ class Member {
      */
     async save() {
         const insertQuery = `
-            INSERT INTO members (id, guild_id, roles, joined_at, owner) VALUES (?, ?, ?, ?, ?)
-            ON CONFLICT(id, guild_id) DO UPDATE SET roles = excluded.roles, joined_at = excluded.joined_at, owner = excluded.owner
+            INSERT INTO members (id, guildId, roles, joinedAt, owner) VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT(id, guildId) DO UPDATE SET roles = excluded.roles, joinedAt = excluded.joinedAt, owner = excluded.owner
         `;
         return new Promise((resolve, reject) => {
-            db.run(insertQuery, [this.id, this.guild_id, this.roles, this.joined_at, this.owner], function(err) {
+            db.run(insertQuery, [this.id, this.guildId, this.roles, this.joinedAt, this.owner], function(err) {
                 if(err) {
                     log("ERROR", "Failed to save member to database:", err.message);
                     reject(err);
@@ -132,4 +132,4 @@ class Member {
     }
 }
 
-module.exports = { Member, get_member };
+module.exports = { Member, getMember };

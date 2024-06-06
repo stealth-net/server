@@ -14,10 +14,10 @@ module.exports = async (req, res) => {
     const user = new User();
     await user.initWithToken(req.cookies.token);
 
-    if (sendStatusIf(res, user.get("guilds").includes(invite.guild_id), 400)) return;
-    user.set("guilds", [...user.guilds, invite.guild_id]);
+    if (sendStatusIf(res, user.get("guilds").includes(invite.guildId), 400)) return;
+    user.set("guilds", [...user.guilds, invite.guildId]);
 
     const guild = await invite.getGuild();
     
-    res.status(200).send({ id: invite.guild_id, name: invite.guild_name, pfpURL: guild.pfpURL });
+    res.status(200).send({ id: invite.guildId, name: invite.guildName, pfpURL: guild.pfpURL });
 }

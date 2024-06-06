@@ -1,9 +1,9 @@
 const path = require("path");
 const fs = require("fs");
 
-function validate_directories() {
+function validateDirectories() {
     Object.entries({
-        "./database/last_id.txt": '1',
+        "./database/lastId.txt": '1',
         "./database/data.db": ''
     }).forEach(([filePath, defaultContent]) => {
         const absolutePath = path.resolve(filePath);
@@ -14,4 +14,4 @@ function validate_directories() {
     });
 }
 
-module.exports = validate_directories;
+module.exports = validateDirectories;

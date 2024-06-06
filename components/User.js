@@ -1,4 +1,4 @@
-const gen_token = require("../utils/gen_token.js");
+const getToken = require("../utils/getToken.js");
 const { log } = require("../utils/log.js");
 
 const db = stealth.database;
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS users (
     guilds TEXT,
     status TEXT,
     pfpURL TEXT,
-    display_name TEXT,
+    displayName TEXT,
     creationTime INTEGER
 )`;
 db.run(query, function(err) {
@@ -32,7 +32,7 @@ db.run(query, function(err) {
  * @param {string} key - The key to search for in the database.
  * @returns {Promise<Object>} A promise that resolves with the user row if found, or rejects with an error.
 */
-function query_search(queue, key) {
+function querySearch(queue, key) {
     return new Promise((resolve, reject) => {
         let query = `SELECT * FROM users WHERE ${key} = ?`;
         db.get(query, [queue], (err, row) => {
@@ -50,7 +50,7 @@ function query_search(queue, key) {
  * @param {Object} user - The user object to make safe.
  * @returns {Object} A safe user object with limited properties.
 */
-function safe_user(user) {
+function safeUser(user) {
     return {
         username: user.username,
         pfpURL: user.pfpURL,
@@ -65,16 +65,16 @@ function safe_user(user) {
  * @param {boolean} safe - A flag to determine if fetching should be safe.
  * @returns {Array} An array of fetched users.
 */
-async function fetch_users(ids, safe) {
+async function fetchUsers(ids, safe) {
     const users = [];
     for (let id of ids) {
         try {
-            const userRow = await query_search(id.toString(), "id");
+            const userRow = await querySearch(id.toString(), "id");
             if(userRow) {
                 const user = new User();
                 await user.initWithToken(userRow.token);
 
-                users.push(safe ? safe_user(user) : await user.getAllProperties());
+                users.push(safe ? safeUser(user) : await user.getAllProperties());
             }
         } catch (error) {
             console.error("Failed to fetch user:", error.message);
@@ -99,7 +99,7 @@ class User {
      * @property {string} pfpURL - The profile picture URL of the user.
      * @property {number} creationTime - The timestamp of user creation.
      * @property {string} username - The username of the user.
-     * @property {string} display_name - The display name of the user.
+     * @property {string} displayName - The display name of the user.
      * @property {string} email - The email address of the user.
      * @property {string} password - The password of the user.
     */
@@ -118,7 +118,7 @@ class User {
         } else if(options.password) {
             this.initWithCredentials(options);
         } else if(options.id) {
-            this.initWithID(options.id);
+            this.initWithId(options.id);
         } else {
             throw new Error("Invalid user initialization options");
         }
@@ -128,9 +128,9 @@ class User {
      * Initialize user with ID.
      * @param {string} id - The ID for user initialization.
     */
-    async initWithID(id) {
+    async initWithId(id) {
         try {
-            const userData = await query_search(id, "id");
+            const userData = await querySearch(id, "id");
             this.assignUserData(userData);
         } catch (err) {
             log("ERROR", "Failed to fetch user data with ID:", err.message);
@@ -143,7 +143,7 @@ class User {
     */
     async initWithToken(token) {
         try {
-            const userData = await query_search(token, "token");
+            const userData = await querySearch(token, "token");
             this.assignUserData(userData);
         } catch (err) {
             log("ERROR", "Failed to fetch user data with token:", err.message);
@@ -168,8 +168,8 @@ class User {
      * @param {string} options.password - The password of the user.
     */
     initWithCredentials(options) {
-        this.id = stealth.id_manager.getNextID();
-        this.token = options.token || gen_token(this.id);
+        this.id = stealth.idManager.getNextID();
+        this.token = options.token || getToken(this.id);
 
         this.badges = JSON.stringify([]);
         this.friends = JSON.stringify([]);
@@ -181,7 +181,7 @@ class User {
         this.creationTime = Date.now();
         
         this.username = options.username;
-        this.display_name = options.username;
+        this.displayName = options.username;
         this.email = options.email;
         this.password = options.password;
     }
@@ -235,7 +235,7 @@ class User {
             }
         }
 
-        properties.friends = await fetch_users(JSON.parse(this.friends), true);
+        properties.friends = await fetchUsers(JSON.parse(this.friends), true);
 
         return properties;
     }
@@ -276,10 +276,10 @@ class User {
      */
     async save() {
         let query = `
-            INSERT OR REPLACE INTO users (id, token, badges, friends, friendRequests, friendRequestsOwn, guilds, status, pfpURL, creationTime, username, display_name, email, password) 
+            INSERT OR REPLACE INTO users (id, token, badges, friends, friendRequests, friendRequestsOwn, guilds, status, pfpURL, creationTime, username, displayName, email, password) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
-        db.run(query, [this.id, this.token, this.badges, this.friends, this.friendRequests, this.friendRequestsOwn, this.guilds, this.status, this.pfpURL, this.creationTime, this.username, this.display_name, this.email, this.password], function(err) {
+        db.run(query, [this.id, this.token, this.badges, this.friends, this.friendRequests, this.friendRequestsOwn, this.guilds, this.status, this.pfpURL, this.creationTime, this.username, this.displayName, this.email, this.password], function(err) {
             if(err) {
                 console.error("Failed to save user:", err.message);
             }
@@ -287,4 +287,4 @@ class User {
     }
 }
 
-module.exports = { User, query_search, fetch_users, safe_user }
+module.exports = { User, querySearch, fetchUsers, safeUser }

@@ -7,7 +7,7 @@ class Message {
         this.content = options.content;
         this.conversationId = options.conversationId;
         this.attachments = options.attachments || [];
-        this.id = stealth.id_manager.getNextID();
+        this.id = stealth.idManager.getNextID();
         this.creationTime = Date.now();
     }
 

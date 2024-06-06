@@ -10,7 +10,7 @@ const Badges = {
     }
 }
 
-async function promote_badge(queue, badgeID) {
+async function promoteBadge(queue, badgeID) {
     const userProperties = await query_search(queue, "id");
     const user = new User();
     await user.initWithToken(userProperties.token);
@@ -22,7 +22,7 @@ async function promote_badge(queue, badgeID) {
     }
 }
 
-async function demote_badge(queue, badgeID) {
+async function demoteBadge(queue, badgeID) {
     const userProperties = await query_search(queue, "id");
     const user = new User();
     await user.initWithToken(userProperties.token);
@@ -32,13 +32,13 @@ async function demote_badge(queue, badgeID) {
     user.set("badges", badges);
 }
 
-function get_badge(badgeName) {
+function getBadge(badgeName) {
     return Object.values(Badges).find(badge => badge.name === badgeName);
 }
 
 module.exports = {
-    promote_badge,
-    demote_badge,
+    promoteBadge,
+    demoteBadge,
     Badges,
-    get_badge
+    getBadge
 }

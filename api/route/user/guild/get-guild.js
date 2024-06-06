@@ -2,7 +2,7 @@ const sendStatusIf = require("../../../../utils/resStatus.js");
 const db = stealth.database;
 
 module.exports = async (req, res) => {
-    const guildID = req.query.guildID;
+    const guildID = req.query.guildId;
     if (sendStatusIf(res, !guildID, 400, 'Guild ID is required')) return;
 
     try {

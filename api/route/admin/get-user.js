@@ -1,4 +1,4 @@
-const { User, query_search } = require("../../../components/User.js");
+const { User, querySearch } = require("../../../components/User.js");
 
 module.exports = async (req, res) => {
     const userIdOrUsername = req.params.userId;
@@ -7,9 +7,9 @@ module.exports = async (req, res) => {
         return;
     }
 
-    let userProperties = await query_search(userIdOrUsername, "id");
+    let userProperties = await querySearch(userIdOrUsername, "id");
     if(!userProperties) {
-        userProperties = await query_search(userIdOrUsername, "username");
+        userProperties = await querySearch(userIdOrUsername, "username");
         if(!userProperties) {
             res.sendStatus(404);
             return;

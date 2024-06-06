@@ -1,6 +1,6 @@
-const { User, query_search } = require("../../../components/User.js");
+const { User, querySearch } = require("../../../components/User.js");
 const { Message } = require("../../../components/Message.js");
-const { Conversation, get_conversation, get_conversation_id } = require("../../../components/Conversation.js");
+const { Conversation, getConversation, getConversationId } = require("../../../components/Conversation.js");
 const sendStatusIf = require("../../../utils/resStatus.js");
 
 module.exports = async (req, res) => {
@@ -13,13 +13,13 @@ module.exports = async (req, res) => {
     await sender.initWithToken(req.cookies.token);
     if (sendStatusIf(res, !sender, 404, "Sender not found.")) return;
 
-    const recipientProperties = await query_search(recipientId, "id");
+    const recipientProperties = await querySearch(recipientId, "id");
     const recipient = new User();
     await recipient.initWithToken(recipientProperties.token);
     if (sendStatusIf(res, !recipient, 404, "Recipient not found.")) return;
 
-    const conversationId = get_conversation_id(sender.id, recipient.id);
-    let conversation = await get_conversation(conversationId);
+    const conversationId = getConversationId(sender.id, recipient.id);
+    let conversation = await getConversation(conversationId);
 
     if (!conversation) {
         conversation = new Conversation(sender.id, recipient.id);
