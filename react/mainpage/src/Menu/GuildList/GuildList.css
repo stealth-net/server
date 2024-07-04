@@ -1,0 +1,19 @@
+.guild-list {
+	background-color: var(--guildlist-background);
+	text-align: center;
+	width: 64px;
+	height: 100%;
+	text-align: center;
+}
+
+.guildlist-logo {
+	background-color: transparent;
+	transition: filter 0.5s;
+	object-fit: cover;
+	height: 62px;
+	width: 62px;
+}
+
+.guildlist-logo:hover {
+	filter: brightness(1.5);
+}

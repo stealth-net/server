@@ -1,0 +1,5 @@
+.side-menu-left {
+    background-color: var(--menu-background);
+    max-width: 356px;
+    width: 100%;
+}

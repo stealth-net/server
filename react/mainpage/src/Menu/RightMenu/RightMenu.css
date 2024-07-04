@@ -1,0 +1,9 @@
+.side-menu-right {
+    background-color: var(--menu-background);
+    max-width: 350px;
+    width: 100%;
+}
+
+.side-menu-right>div>div>img {
+	padding: 50;
+}

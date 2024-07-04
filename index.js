@@ -78,24 +78,18 @@ app.get('/', (req, res) => {
     }
 
     res.sendFile(path.join(publicDir, "/mainpage/index.html"));
+}); 
+
+app.use(express.static(path.join(publicDir, "/mainpage")));
+app.get("/mainpage/*", (req, res) => {
+    res.sendFile(path.join(publicDir, "/mainpage/index.html"));
 });
-
-app.get("/mainpage/css/main.css", (req, res) => {
-    res.sendFile(path.join(publicDir, "/mainpage/css/main.css"));
+app.use(express.static(publicDir));
+app.get("/sign-up", (req, res) => {
+    res.sendFile(path.join(publicDir, "/sign-up/index.html"));
 });
-
-fs.readdirSync(publicDir).forEach(fileOrFolder => {
-    if(fileOrFolder == "index.html") return;
-
-    const filePath = path.join(publicDir, fileOrFolder);
-
-    if(fs.statSync(filePath).isDirectory()) {
-        app.use(`/${fileOrFolder}`, express.static(filePath));
-    } else {
-        app.get(`/${fileOrFolder}`, (req, res) => {
-            res.sendFile(filePath);
-        });
-    }
+app.get("/sign-in", (req, res) => {
+    res.sendFile(path.join(publicDir, "/sign-in/index.html"));
 });
 
 io.on("connection", async socket => {

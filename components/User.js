@@ -177,7 +177,7 @@ class User {
         this.friendRequestsOwn = JSON.stringify([]);
         this.guilds = JSON.stringify([]);
         this.status = "offline";
-        this.pfpURL = "/mainpage/images/logo_transparent.png";
+        this.pfpURL = "/static/img/logo_transparent.png";
         this.creationTime = Date.now();
         
         this.username = options.username;
