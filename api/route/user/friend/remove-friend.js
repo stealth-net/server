@@ -1,4 +1,5 @@
 const { User, querySearch } = require("../../../../components/User.js");
+const sendStatusIf = require("../../../../utils/resStatus.js");
 
 module.exports = async (req, res) => {
     if (sendStatusIf(res, !req.cookies.token, 401)) return;

@@ -1,0 +1,24 @@
+.container-actions {
+	width: -webkit-fill-available;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	margin-right: 1%;
+	position: static;
+}
+
+.container-actions>button:first-child {
+	margin-right: 5px;
+}
+
+.container-actions>button {
+	width: 32px;
+	height: 32px;
+}
+
+.action {
+	background-color: var(--action-background);
+	border: solid 1px var(--action-border);
+	width: 45px;
+	height: 45px;
+}

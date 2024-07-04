@@ -13,6 +13,7 @@
 	/* Button Colors */
 	--button-background: #1d1d2f;
 	--button-hover-background: #2828419c;
+	--button-active-background: #252546;
 	--lside-button-background: #1D1D3080;
 	--lside-button-hover-background: #26263b;
 	--action-background: #1D1D2F;
@@ -59,7 +60,7 @@ body {
 button {
 	transition: background-color 0.15s linear;
     background-color: var(--button-background);
-    color: var(--text-color);
+    color: var(--active-color);
 	font-family: Inria Sans;
 	font-weight: Regular;
 	font-size: 18px;
@@ -180,28 +181,6 @@ dialog {
 	margin: 10;
 }
 
-.mid-tablist {
-	padding-bottom: 10px;
-}
-
-.mid-tabbutton:not([state="active"]) {
-	transition: color 0.4s cubic-bezier(1, -0.44, 0.99, 1.13);
-	color: var(--placeholder-color);
-}
-
-.mid-tabbutton[state="active"] {
-	transition: color 0.3s cubic-bezier(1, -0.44, 0.99, 1.13);
-	background-color: var(--button-background);
-}
-
-.mid-tabbutton:hover {
-	background-color: var(--lside-button-hover-background);
-}
-
-.mid-tabbutton[state="active"]:hover {
-	background-color: var(--button-hover-background);
-}
-
 div[class^="midsubtab-"]>label {
 	margin-left: 10px;
 }
@@ -225,23 +204,6 @@ div[class^="midsubtab-"]>label {
 	background-color: var(--scrollbar-thumb-hover);
 }
 
-.container-actions {
-	width: -webkit-fill-available;
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	margin-right: 1%;
-}
-
-.container-actions>button:first-child {
-	margin-right: 5px;
-}
-
-.container-actions>button {
-	width: 32px;
-	height: 32px;
-}
-
 #dm-messages {
 	height: calc(100% - (50px * 1.5));
 	overflow-x: hidden;
@@ -254,13 +216,6 @@ div[class^="midsubtab-"]>label {
 	display: flex;
 	bottom: 0;
 	gap: 1px;
-}
-
-.action {
-	background-color: var(--action-background);
-	border: solid 1px var(--action-border);
-	width: 45px;
-	height: 45px;
 }
 
 .brightness-effect {

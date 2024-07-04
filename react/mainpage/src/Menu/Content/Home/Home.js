@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useState } from 'react';
+import { FriendsProvider } from './Friends/FriendsContext';
+import TabButton from "./TabButton";
+import Friends from "./Friends/Friends";
+import PendingRequests from "./PendingRequests/PendingRequests";
 
 function Home() {
+    const [activeTab, setActiveTab] = useState('Friends');
+
     return (
-        <div className="home">
-            <h1>Home</h1>
-        </div>
+        <FriendsProvider>
+            <>
+                <div className="menucontent-tablist" style={{paddingBottom: '10px'}}>
+                    <TabButton name="Friends" active={activeTab === "Friends"} onClick={() => setActiveTab("Friends")} />
+                    <TabButton name="Pending requests" active={activeTab === "Pending requests"} onClick={() => setActiveTab("Pending requests")} />
+                </div>
+                <div>
+                    {activeTab === "Friends" && <Friends />}
+                    {activeTab === "Pending requests" && <PendingRequests />}
+                </div>
+            </>
+        </FriendsProvider>
     );
 }
 

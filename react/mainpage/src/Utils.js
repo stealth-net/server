@@ -29,6 +29,44 @@ export async function getData(url) {
     });
 }
 
+export async function postData(url, data, method) {
+    return new Promise((resolve, reject) => {
+        var xhr = new XMLHttpRequest();
+
+        xhr.open(method, url, true);
+
+        xhr.onload = () => {
+            if(xhr.status >= 200 && xhr.status < 300) {
+                let jsonResponse;
+
+                try {
+                    jsonResponse = JSON.parse(xhr.responseText);
+                } catch(error) {
+                    resolve(xhr.responseText);
+                    return;
+                }
+
+                resolve(jsonResponse);
+            } else {
+                reject(new Error(`HTTP Error: ${xhr.status}`));
+            }
+        }
+
+        xhr.onerror = () => {
+            reject(new Error('Network request failed'));
+        }
+
+        const requestData = typeof data === 'object' ? JSON.stringify(data) : data;
+
+        if(typeof data === "object")
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        if(typeof data === "string")
+            xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+
+        xhr.send(requestData);
+    });
+}
+
 export function getFormattedDates(chartData) {
     return chartData.map(timestamp => {
         const date = new Date(timestamp.time);
