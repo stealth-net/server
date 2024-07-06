@@ -204,20 +204,6 @@ div[class^="midsubtab-"]>label {
 	background-color: var(--scrollbar-thumb-hover);
 }
 
-#dm-messages {
-	height: calc(100% - (50px * 1.5));
-	overflow-x: hidden;
-	overflow-y: scroll;
-}
-
-.dm-bottombar {
-	background-color: var(--dm-bottombar-background);
-	margin-top: 10px;
-	display: flex;
-	bottom: 0;
-	gap: 1px;
-}
-
 .brightness-effect {
 	transition: 0.4s;
 }
@@ -225,35 +211,6 @@ div[class^="midsubtab-"]>label {
 .brightness-effect:hover {
 	filter: brightness(1.5);
 	transition: 0.4s;
-}
-
-.message-content {
-	width: -webkit-fill-available;
-	height: 45px;
-}
-
-.message-container {
-	padding: 2 0 2 0;
-	clear: both;
-	/* Clear floats*/
-}
-
-.message-container:hover {
-	background-color: var(--lside-button-background);
-}
-
-.message-container>img {
-	margin-left: 20px;
-	float: left;
-}
-
-.message-author>label:first-child,
-.message-group>* {
-	margin-left: 5px;
-}
-
-.message-author>label:nth-child(2) {
-	color: var(--placeholder-color);
 }
 
 #side-server-menu>div:first-child {

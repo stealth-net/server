@@ -1,0 +1,28 @@
+.message-content {
+	width: -webkit-fill-available;
+	height: 45px;
+}
+
+.message-container {
+	padding: 2 0 2 0;
+	clear: both;
+	/* Clear floats*/
+}
+
+.message-container:hover {
+	background-color: var(--lside-button-background);
+}
+
+.message-container>img {
+	margin-left: 20px;
+	float: left;
+}
+
+.message-author>label:first-child,
+.message-group>* {
+	margin-left: 5px;
+}
+
+.message-author>label:nth-child(2) {
+	color: var(--placeholder-color);
+}

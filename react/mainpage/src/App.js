@@ -6,9 +6,10 @@ import { useState } from 'react';
 import socket from './Network/socket';
 import { getData } from './Utils';
 import events from './events';
+import { DMProvider } from './Menu/Content/Home/Direct/DMContext';
 
 function App() {
-	const [activeTab, setActiveTab] = useState("Home");
+	const [activeTab, setActiveTab] = useState({ tab: "Home", params: {} });
 	const [rightMenuContent, setRightMenuContent] = useState("Profile");
 
 	socket.connect();
@@ -19,12 +20,14 @@ function App() {
 	});
 
 	return (
-		<>
-			<GuildList />
-			<LeftMenu activeTab={activeTab} setActiveTab={setActiveTab} />
-			<Content activeTab={activeTab} />
-			<RightMenu rightMenuContent={rightMenuContent} />
-		</>
+		<DMProvider>
+			<>
+				<GuildList />
+				<LeftMenu activeTab={activeTab} setActiveTab={setActiveTab} />
+				{activeTab.tab === "DirectMessages" ? <Content activeTab={activeTab} userId={activeTab.params.userId} /> : <Content activeTab={activeTab} />}
+				<RightMenu rightMenuContent={rightMenuContent} />
+			</>
+		</DMProvider>
 	);
 }
 

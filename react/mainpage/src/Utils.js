@@ -100,3 +100,21 @@ export function formatTimestamp(timestamp) {
   
     return `[${year}-${month}-${day}] ${hours}:${minutes}:${seconds}`;
 }
+
+export function formatMessage(message) {
+    return message
+        // Replace less-than signs with HTML entity
+        .replace(/</g, "&lt;")
+        // Replace greater-than signs with HTML entity
+        .replace(/>/g, "&gt;")
+        // Convert double asterisks to bold tags
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        // Convert single asterisks to italic tags
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        // Convert double pipes to a span with transparent text and shadow (used for spoilers)
+        .replace(/\|\|(.*?)\|\|/g, '<span style="color: transparent; text-shadow: 0 0 8px rgba(0,0,0,0.5);">$1</span>')
+        // Convert double tildes to strikethrough tags
+        .replace(/~~(.*?)~~/g, '<del>$1</del>')
+        // Convert double underscores to underline tags
+        .replace(/__(.*?)__/g, '<u>$1</u>');
+}

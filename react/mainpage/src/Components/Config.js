@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     initializeSettings();
-    applySettingsToUI();
     attachEventListeners();
 });
 
@@ -21,26 +20,6 @@ function initializeSettings() {
     const currentConfig = JSON.parse(localStorage.getItem("config")) || {};
     const config = { ...defaultConfig, ...currentConfig };
     localStorage.setItem('config', JSON.stringify(config));
-}
-
-function applySettingsToUI() {
-    const config = JSON.parse(localStorage.getItem('config'));
-    for (const [key, value] of Object.entries(config)) {
-        const input = document.querySelector(`[data-setting="${key}"]`);
-        if (input) {
-            if (input.type === 'checkbox') {
-                input.checked = value;
-            } else if (input.type === 'range') {
-                input.value = value;
-                const sliderValueDisplay = input.closest('.slider-container').querySelector('.slider-value');
-                if (sliderValueDisplay) {
-                    sliderValueDisplay.textContent = value;
-                }
-            }
-        } else {
-            console.error(`Input element for setting '${key}' not found.`);
-        }
-    }
 }
 
 function attachEventListeners() {

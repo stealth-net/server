@@ -3,7 +3,7 @@ import { FriendsProvider } from './Friends/FriendsContext';
 import TabButton from "./TabButton";
 import Friends from "./Friends/Friends";
 import PendingRequests from "./PendingRequests/PendingRequests";
-import Direct from "./Direct/Direct";
+import Direct from "./Direct/DirectMessages";
 
 function Home() {
     const [activeTab, setActiveTab] = useState('Friends');

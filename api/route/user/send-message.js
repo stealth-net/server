@@ -6,7 +6,7 @@ const sendStatusIf = require("../../../utils/resStatus.js");
 module.exports = async (req, res) => {
     if (sendStatusIf(res, !req.cookies.token, 401)) return;
 
-    const { recipientId, text } = req.body;
+    const { recipientId, text, saveMessage } = req.body;
     if (sendStatusIf(res, !recipientId || !text, 400, "Missing recipient ID or message text.")) return;
 
     const sender = new User();
@@ -33,8 +33,7 @@ module.exports = async (req, res) => {
         conversationId
     });
 
-    const socket = sender.getSocket();
-    if (socket && socket.handshake.headers.savemessages === "true") {
+    if (saveMessage) {
         await message.save();
     }
 
