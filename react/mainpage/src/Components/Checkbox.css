@@ -1,0 +1,36 @@
+.checkbox-container {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	margin-bottom: 5px;
+	/* Add space below each checkbox */
+}
+
+.checkbox-input {
+	display: none;
+}
+
+.checkbox-custom {
+	width: 30px;
+	height: 30px;
+	display: inline-block;
+	border-radius: 4.5px;
+	background-color: var(--checkbox-custom-background);
+	border: 1px solid var(--checkbox-custom-border);
+	position: relative;
+	margin-right: 5px;
+	/* Adds some space between the checkbox and the text*/
+}
+
+.checkbox-input:checked+.checkbox-custom::after {
+	content: '';
+	position: absolute;
+	left: 8px;
+	top: 10px;
+	width: 14px;
+	height: 6px;
+	background-color: transparent;
+	border: solid var(--checkbox-checked);
+	border-width: 0 0 4px 4px;
+	transform: rotate(-60deg);
+}

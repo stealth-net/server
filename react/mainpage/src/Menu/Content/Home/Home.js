@@ -3,6 +3,7 @@ import { FriendsProvider } from './Friends/FriendsContext';
 import TabButton from "./TabButton";
 import Friends from "./Friends/Friends";
 import PendingRequests from "./PendingRequests/PendingRequests";
+import Direct from "./Direct/Direct";
 
 function Home() {
     const [activeTab, setActiveTab] = useState('Friends');
@@ -17,6 +18,7 @@ function Home() {
                 <div>
                     {activeTab === "Friends" && <Friends />}
                     {activeTab === "Pending requests" && <PendingRequests />}
+                    {activeTab === "Direct" && <Direct />}
                 </div>
             </>
         </FriendsProvider>
