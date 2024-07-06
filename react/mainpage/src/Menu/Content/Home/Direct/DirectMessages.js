@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import ReactDOM from "react-dom";
 import ChatInput from "../../../../Components/ChatInput";
 import "./DirectMessages.css";
@@ -17,9 +17,9 @@ function AttachFileButton({ getRecipientId, onFileUpload }) {
             fileInput.click();
         });
 
-        fileInput.addEventListener("change", function() {
+        fileInput.addEventListener("change", function () {
             const file = this.files[0];
-            
+
             if (file) {
                 const formData = new FormData();
                 formData.append("file", file);
@@ -32,11 +32,11 @@ function AttachFileButton({ getRecipientId, onFileUpload }) {
                         'save-attachments': Config.getValue("save-attachments")
                     }
                 })
-                .then(response => response.json())
-                .then(data => {
-                    onFileUpload(data.file);
-                })
-                .catch(error => console.error("Error uploading file:", error));
+                    .then(response => response.json())
+                    .then(data => {
+                        onFileUpload(data.file);
+                    })
+                    .catch(error => console.error("Error uploading file:", error));
             }
         });
     }, [getRecipientId, onFileUpload]);
@@ -45,7 +45,7 @@ function AttachFileButton({ getRecipientId, onFileUpload }) {
         <>
             <button id="dm-attach-file" className="action brightness-effect">
                 <svg width="27" height="31" viewBox="0 0 27 31" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M13.5 1H21L26 5.57895C26 6.9762 26 14.7368 26 14.7368M13.5 1H1V30H26V14.7368M13.5 1L21 9.39474L26 14.7368M4.33333 5.57895H12.6667M4.33333 10.1579H17.6667M4.33333 13.2105H14.3333M4.33333 16.2632H19.3333" stroke="#51567C" strokeWidth="2"/>
+                    <path d="M13.5 1H21L26 5.57895C26 6.9762 26 14.7368 26 14.7368M13.5 1H1V30H26V14.7368M13.5 1L21 9.39474L26 14.7368M4.33333 5.57895H12.6667M4.33333 10.1579H17.6667M4.33333 13.2105H14.3333M4.33333 16.2632H19.3333" stroke="#51567C" strokeWidth="2" />
                 </svg>
             </button>
             <input type="file" id="file-input" hidden accept="*/*" />
@@ -57,7 +57,7 @@ function SendMessageButton({ onClick }) {
     return (
         <button id="dm-send-message" className="action brightness-effect" onClick={onClick}>
             <svg width="32" height="26" viewBox="0 0 32 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12.75 13H29M29 13L3 3L9.5 13L3 23L29 13Z" stroke="#51567C" strokeWidth="2"/>
+                <path d="M12.75 13H29M29 13L3 3L9.5 13L3 23L29 13Z" stroke="#51567C" strokeWidth="2" />
             </svg>
         </button>
     );
@@ -72,7 +72,7 @@ function DirectMessages({ userId }) {
         const container = document.createElement('div');
         container.className = "message-container";
         ReactDOM.createRoot(container).render(messageElement);
-        if(onTop) {
+        if (onTop) {
             messageContainer.insertBefore(container, messageContainer.firstChild);
         } else {
             messageContainer.appendChild(container);
@@ -88,7 +88,8 @@ function DirectMessages({ userId }) {
                     addMessage({
                         author: {
                             username: window.user.username,
-                            pfpURL: window.user.pfpURL },
+                            pfpURL: window.user.pfpURL
+                        },
                         content: messageContent,
                         creationTime: new Date().toISOString()
                     });
@@ -119,14 +120,14 @@ function DirectMessages({ userId }) {
                     throw new Error(`Error fetching messages: ${response.statusText}`);
                 }
                 const data = await response.json();
-                if(data.messages) {
+                if (data.messages) {
                     ReactDOM.unstable_batchedUpdates(() => {
                         data.messages.reverse().forEach(message => {
                             addMessage(message, true);
                         });
                     });
                 }
-                if(!data.hasMore) {
+                if (!data.hasMore) {
                     document.getElementById("dm-messages").removeEventListener("scroll", loadMoreMessages);
                 }
             } catch (error) {
@@ -137,8 +138,8 @@ function DirectMessages({ userId }) {
 
     useEffect(() => {
         const dmMessages = document.getElementById("dm-messages");
-        dmMessages.addEventListener("scroll", async function() {
-            if(this.scrollTop === 0) {
+        dmMessages.addEventListener("scroll", async function () {
+            if (this.scrollTop === 0) {
                 await loadMoreMessages();
             }
         });
@@ -165,10 +166,10 @@ function DirectMessages({ userId }) {
             </div>
             <div className="dm-bottom-bar">
                 <AttachFileButton getRecipientId={() => recipientId} onFileUpload={handleFileUpload} />
-                <ChatInput 
+                <ChatInput
                     inputId="chat-input"
-                    placeholder="Type a message..." 
-                    onEnterPress={handleEnterPress} 
+                    placeholder="Type a message..."
+                    onEnterPress={handleEnterPress}
                 />
                 {Config.getValue("show-send-message-button") && <SendMessageButton onClick={() => handleEnterPress(document.getElementById("chat-input").value)} />}
             </div>

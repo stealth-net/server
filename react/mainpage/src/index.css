@@ -59,13 +59,13 @@ body {
 
 button {
 	transition: background-color 0.15s linear;
-    background-color: var(--button-background);
-    color: var(--active-color);
+	background-color: var(--button-background);
+	color: var(--active-color);
 	font-family: Inria Sans;
 	font-weight: Regular;
 	font-size: 18px;
 	border: none;
-    border-radius: 5px;
+	border-radius: 5px;
 	cursor: pointer;
 }
 
@@ -229,10 +229,6 @@ label {
 	cursor: url('data:image/svg+xml;utf8,<svg width="26" height="27" viewBox="0 0 26 27" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M23.5 12.5L16 16L12.5 24L3 3L23.5 12.5Z" stroke="%2351567C" stroke-width="2"/></svg>'), auto;
 }
 
-.message-author>label:last-child {
-	margin-left: 5px;
-}
-
 .guild-name {
 	display: none;
 	position: absolute;
@@ -253,4 +249,14 @@ label {
 	padding: 20px;
 	background-color: var(--modal-window-background);
 	box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5);
+}
+
+.spoiler {
+	color: transparent;
+	text-shadow: 0 0 8px rgba(0,0,0,0.5);
+}
+
+.spoiler:hover {
+	color: var(--text-color);
+	text-shadow: none;
 }

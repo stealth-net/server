@@ -42,6 +42,6 @@ module.exports = async (req, res) => {
         content: text,
         creationTime: message.creationTime
     });
-    
+
     res.sendStatus(200);
 }

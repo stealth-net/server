@@ -5,12 +5,12 @@ export async function getData(url) {
         xhr.open("GET", url, true);
 
         xhr.onload = () => {
-            if(xhr.status >= 200 && xhr.status < 300) {
+            if (xhr.status >= 200 && xhr.status < 300) {
                 let jsonResponse;
 
                 try {
                     jsonResponse = JSON.parse(xhr.responseText);
-                } catch(error) {
+                } catch (error) {
                     resolve(xhr.responseText);
                     return;
                 }
@@ -36,12 +36,12 @@ export async function postData(url, data, method) {
         xhr.open(method, url, true);
 
         xhr.onload = () => {
-            if(xhr.status >= 200 && xhr.status < 300) {
+            if (xhr.status >= 200 && xhr.status < 300) {
                 let jsonResponse;
 
                 try {
                     jsonResponse = JSON.parse(xhr.responseText);
-                } catch(error) {
+                } catch (error) {
                     resolve(xhr.responseText);
                     return;
                 }
@@ -58,9 +58,9 @@ export async function postData(url, data, method) {
 
         const requestData = typeof data === 'object' ? JSON.stringify(data) : data;
 
-        if(typeof data === "object")
+        if (typeof data === "object")
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        if(typeof data === "string")
+        if (typeof data === "string")
             xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
 
         xhr.send(requestData);
@@ -89,30 +89,35 @@ export function getScore(chartData) {
 
 export function formatTimestamp(timestamp) {
     const date = new Date(timestamp);
-  
+
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
-    
+
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const seconds = String(date.getSeconds()).padStart(2, '0');
-  
+
     return `[${year}-${month}-${day}] ${hours}:${minutes}:${seconds}`;
 }
 
-export function formatMessage(message) {
+export function escapeHTML(message) {
     return message
         // Replace less-than signs with HTML entity
         .replace(/</g, "&lt;")
         // Replace greater-than signs with HTML entity
-        .replace(/>/g, "&gt;")
+        .replace(/>/g, "&gt;");
+}
+
+export function formatMessage(message, antiXSS = true) {
+    const escapedMessage = antiXSS ? escapeHTML(message) : message;
+    return escapedMessage
         // Convert double asterisks to bold tags
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         // Convert single asterisks to italic tags
         .replace(/\*(.*?)\*/g, '<em>$1</em>')
         // Convert double pipes to a span with transparent text and shadow (used for spoilers)
-        .replace(/\|\|(.*?)\|\|/g, '<span style="color: transparent; text-shadow: 0 0 8px rgba(0,0,0,0.5);">$1</span>')
+        .replace(/\|\|(.*?)\|\|/g, '<span class="spoiler">$1</span>')
         // Convert double tildes to strikethrough tags
         .replace(/~~(.*?)~~/g, '<del>$1</del>')
         // Convert double underscores to underline tags

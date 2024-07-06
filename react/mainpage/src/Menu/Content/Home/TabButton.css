@@ -1,13 +1,13 @@
 .home-tabbutton:not(.active) {
 	transition: color 0.4s cubic-bezier(1, -0.44, 0.99, 1.13);
 	color: var(--placeholder-color);
-    background-color: var(--button-background);
+	background-color: var(--button-background);
 }
 
 .home-tabbutton.active {
 	transition: color 0.3s cubic-bezier(1, -0.44, 0.99, 1.13);
 	background-color: var(--button-active-background);
-    color: var(--text-color);
+	color: var(--text-color);
 }
 
 .home-tabbutton:hover {
