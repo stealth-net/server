@@ -15,7 +15,7 @@
 	--button-hover-background: #2828419c;
 	--button-active-background: #252546;
 	--action-background: #1D1D2F;
-	
+
 	/* Left Menu Colors */
 	--left-menu-active-background: #1D1D30;
 	--left-menu-active-color: #8B91C3;
@@ -212,7 +212,7 @@ label {
 
 .spoiler {
 	color: transparent;
-	text-shadow: 0 0 8px rgba(0,0,0,0.5);
+	text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
 }
 
 .spoiler:hover {
@@ -221,30 +221,26 @@ label {
 }
 
 .avatar {
-    display: flex;
-    align-items: center;
-    position: relative;
+	display: flex;
+	align-items: center;
+	position: relative;
+	border-radius: 5px;
 }
 
 .status {
-    border-radius: 50%;
-    position: absolute;
-    bottom: 4px;
-    border: 2px solid var(--background-color); /* Adjust the border color to match the background */
+	border-radius: 50%;
+	position: absolute;
+	border: 2px solid var(--menu-content-background);
 }
 
 .status[state="online"] {
-    background-color: var(--online-status);
+	background-color: var(--online-status);
 }
 
 .status[state="dnd"] {
-    background-color: var(--dnd-status);
+	background-color: var(--dnd-status);
 }
 
 .status[state="offline"] {
-    background-color: var(--offline-status);
-}
-
-.status {
-	border: 2px solid var(--menu-content-background);
+	background-color: var(--offline-status);
 }

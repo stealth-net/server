@@ -16,6 +16,6 @@
 }
 
 #friend-list {
-    /* margin-top: 3px;*/
     overflow-y: scroll;
+    height: calc(100vh - 35px * 2.25)
 }

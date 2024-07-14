@@ -1,3 +1,5 @@
+import React from "react";
+
 export async function getData(url) {
     return new Promise((resolve, reject) => {
         var xhr = new XMLHttpRequest();
@@ -105,7 +107,6 @@ export function escapeHTML(message) {
     return message
         // Replace less-than signs with HTML entity
         .replace(/</g, "&lt;")
-        // Replace greater-than signs with HTML entity
         .replace(/>/g, "&gt;");
 }
 

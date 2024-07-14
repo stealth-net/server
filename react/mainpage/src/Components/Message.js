@@ -25,7 +25,7 @@ function Message({ messageData }) {
                 <label>{formatTimestamp(messageData.creationTime)}</label>
             </div>
             <div className="message-group">
-                {messageData.content && <label dangerouslySetInnerHTML={{ __html: formatMessage(messageData.content) }} />}
+                {messageData.content && <label>{formatMessage(messageData.content)}</label>}
                 {messageData.attachments && messageData.attachments.map((attachment, index) => {
                     if (/\.(jpeg|jpg|gif|png)$/.test(attachment.url)) {
                         return <img key={index} src={attachment.url} alt="" style={{ maxWidth: "520px", maxHeight: "260px", marginTop: "3px" }} />;

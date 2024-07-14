@@ -68,15 +68,14 @@ function DirectMessages({ userId }) {
 
     const addMessage = (messageData, onTop = false) => {
         const messageContainer = document.getElementById("dm-messages");
-        const messageElement = React.createElement(Message, { messageData });
-        const container = document.createElement('div');
-        container.className = "message-container";
-        container.style.marginBottom = config.getValue("space-between-messages") + "px";
-        ReactDOM.createRoot(container).render(messageElement);
+        const messageWrapper = document.createElement('div');
+        const messageElement = React.createElement(Message, { messageData, className: "message-container", style: { marginBottom: config.getValue("space-between-messages") + "px" } });
+        ReactDOM.createRoot(messageWrapper).render(messageElement);
+        
         if (onTop) {
-            messageContainer.insertBefore(container, messageContainer.firstChild);
+            messageContainer.insertBefore(messageWrapper, messageContainer.firstChild);
         } else {
-            messageContainer.appendChild(container);
+            messageContainer.appendChild(messageWrapper);
             messageContainer.scrollTop = messageContainer.scrollHeight;
         }
     };

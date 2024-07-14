@@ -15,6 +15,37 @@ function Profile() {
         };
     }, []);
 
+    const handleProfilePicChange = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onloadend = async () => {
+            const base64 = reader.result;
+            const payload = JSON.stringify({ base64 });
+
+            try {
+                const response = await fetch('/user-api/v1/edit-pfp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: payload,
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    setUser(prevState => ({ ...prevState, pfpURL: data.pfpURL }));
+                } else {
+                    throw new Error(data.message || 'Failed to update profile picture');
+                }
+            } catch (error) {
+                console.error('Error updating profile picture:', error);
+            }
+        };
+        reader.readAsDataURL(file);
+    };
+
     if (!user) {
         return <div>Loading...</div>;
     }
@@ -26,7 +57,8 @@ function Profile() {
             </div>
             <hr />
             <div className="centered">
-                <img src={user.pfpURL} width="128" height="128" alt="Profile" />
+                <input type="file" id="profile-pic-input" style={{ display: 'none' }} onChange={handleProfilePicChange} />
+                <img src={user.pfpURL} width="128" height="128" alt="Profile" onClick={() => document.getElementById('profile-pic-input').click()} />
                 <br />
                 <label>StealthNet member since:</label>
                 <br />
