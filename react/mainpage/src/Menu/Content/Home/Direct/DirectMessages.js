@@ -5,7 +5,7 @@ import "./DirectMessages.css";
 import "../../../../Components/Action.css";
 import { postData } from "../../../../Utils";
 import Message from "../../../../Components/Message";
-import Config from "../../../../Components/Config";
+import config from "../../../../Components/Config";
 import socket from "../../../../Network/socket";
 
 function AttachFileButton({ getRecipientId, onFileUpload }) {
@@ -29,7 +29,7 @@ function AttachFileButton({ getRecipientId, onFileUpload }) {
                     method: "POST",
                     body: formData,
                     headers: {
-                        'save-attachments': Config.getValue("save-attachments")
+                        'save-attachments': config.getValue("save-attachments")
                     }
                 })
                     .then(response => response.json())
@@ -71,6 +71,7 @@ function DirectMessages({ userId }) {
         const messageElement = React.createElement(Message, { messageData });
         const container = document.createElement('div');
         container.className = "message-container";
+        container.style.marginBottom = config.getValue("space-between-messages") + "px";
         ReactDOM.createRoot(container).render(messageElement);
         if (onTop) {
             messageContainer.insertBefore(container, messageContainer.firstChild);
@@ -82,7 +83,7 @@ function DirectMessages({ userId }) {
 
     const handleEnterPress = (messageContent) => {
         if (messageContent.trim() !== "") {
-            postData("/user-api/v1/send-message", { recipientId, text: messageContent, saveMessage: Config.getValue("save-messages") }, "POST")
+            postData("/user-api/v1/send-message", { recipientId, text: messageContent, saveMessage: config.getValue("save-messages") }, "POST")
                 .then(() => {
                     document.getElementById("chat-input").value = "";
                     addMessage({
@@ -108,7 +109,7 @@ function DirectMessages({ userId }) {
             },
             attachments: [file],
             creationTime: new Date().toISOString()
-        });;
+        });
     };
 
     const loadMoreMessages = useCallback(async () => {
@@ -159,11 +160,7 @@ function DirectMessages({ userId }) {
 
     return (
         <>
-            <div id="dm-messages" style={{ display: 'flex', flexDirection: 'column' }}>
-                {Array.from(document.querySelectorAll('#dm-messages > *')).forEach(child => {
-                    child.style.marginBottom = Config.getValue("space-between-messages") + "px";
-                })}
-            </div>
+            <div id="dm-messages" style={{ display: 'flex', flexDirection: 'column' }}></div>
             <div className="dm-bottom-bar">
                 <AttachFileButton getRecipientId={() => recipientId} onFileUpload={handleFileUpload} />
                 <ChatInput
@@ -171,7 +168,7 @@ function DirectMessages({ userId }) {
                     placeholder="Type a message..."
                     onEnterPress={handleEnterPress}
                 />
-                {Config.getValue("show-send-message-button") && <SendMessageButton onClick={() => handleEnterPress(document.getElementById("chat-input").value)} />}
+                {config.getValue("show-send-message-button") && <SendMessageButton onClick={() => handleEnterPress(document.getElementById("chat-input").value)} />}
             </div>
         </>
     );
