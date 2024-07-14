@@ -38,6 +38,7 @@ module.exports = async (req, res) => {
     }
 
     recipient.send("newMessage", {
+        id: message.id,
         author: { username: sender.username, pfpURL: sender.pfpURL },
         content: text,
         creationTime: message.creationTime

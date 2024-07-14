@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import './Slider.css';
 import Config from "./Config";
 
-const Slider = ({ dataSetting, dataDefault, label, min, max }) => {
+const Slider = ({ 
+    dataSetting = "data-example", 
+    dataDefault = "0", 
+    label = "Label", 
+    min = 0, 
+    max = 10 
+}) => {
     const [value, setValue] = useState(0);
 
     useEffect(() => {
@@ -41,8 +47,8 @@ const Slider = ({ dataSetting, dataDefault, label, min, max }) => {
             </label>
             <input
                 type="range"
-                min={min}
-                max={max}
+                min={parseInt(min, 10)}
+                max={parseInt(max, 10)}
                 value={value}
                 className="slider"
                 data-setting={dataSetting}
@@ -57,16 +63,8 @@ Slider.propTypes = {
     dataSetting: PropTypes.string,
     dataDefault: PropTypes.string,
     label: PropTypes.string,
-    min: PropTypes.number,
-    max: PropTypes.number
-};
-
-Slider.defaultProps = {
-    dataSetting: "data-example",
-    dataDefault: "0",
-    label: "Label",
-    min: 0,
-    max: 10
+    min: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    max: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 export default Slider;

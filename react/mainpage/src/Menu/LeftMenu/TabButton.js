@@ -2,7 +2,7 @@ import './TabButton.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function TabButton({ name, state, onClick }) {
+function TabButton({ name, state = '', onClick }) {
     return (
         <button state={state} onClick={onClick}>
             {name}
@@ -15,11 +15,6 @@ TabButton.propTypes = {
     active: PropTypes.bool,
     state: PropTypes.string,
     onClick: PropTypes.func.isRequired
-};
-
-TabButton.defaultProps = {
-    active: false,
-    state: ''
 };
 
 export default TabButton;

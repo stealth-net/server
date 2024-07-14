@@ -40,6 +40,11 @@
 	/* Checkbox Colors */
 	--checkbox-custom-background: #1D1D2F;
 	--checkbox-checked: #5e8a48;
+
+	/* Vector */
+	--vector: #51567C;
+	--vector-background: #1D1D2F;
+	--vector-border: #131320;
 }
 
 html,

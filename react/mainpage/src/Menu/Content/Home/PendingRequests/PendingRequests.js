@@ -11,8 +11,8 @@ function PendingRequests() {
 
     useEffect(() => {
         const handleFetchedProfile = (profile) => {
-            const receivedRequests = profile.friendRequests.map(request => ({ ...request, ownRequest: false }));
-            const sentRequests = profile.friendRequestsOwn.map(request => ({ ...request, ownRequest: true }));
+            const receivedRequests = (profile.friendRequests || []).map(request => ({ ...request, ownRequest: false }));
+            const sentRequests = (profile.friendRequestsOwn || []).map(request => ({ ...request, ownRequest: true }));
             setPendingRequests([...receivedRequests, ...sentRequests]);
         };
 

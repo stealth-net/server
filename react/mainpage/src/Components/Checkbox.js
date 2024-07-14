@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import './Checkbox.css';
 import Config from "./Config"
 
-const Checkbox = ({ title, dataSetting, dataDefault, label }) => {
+const Checkbox = ({ 
+    title = "Enable this option", 
+    dataSetting = "data-example", 
+    dataDefault = "false", 
+    label = "Label" 
+}) => {
     const [checked, setChecked] = useState(false);
 
     useEffect(() => {
@@ -55,13 +60,6 @@ Checkbox.propTypes = {
     dataSetting: PropTypes.string,
     dataDefault: PropTypes.string,
     label: PropTypes.string
-};
-
-Checkbox.defaultProps = {
-    title: "Enable this option",
-    dataSetting: "data-example",
-    dataDefault: "false",
-    label: "Label"
 };
 
 export default Checkbox;

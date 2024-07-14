@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     attachEventListeners();
 });
 
+const subscribers = [];
+
 function initializeSettings() {
     const defaultConfig = {};
     document.querySelectorAll(".checkbox-input[data-setting]").forEach(input => {
@@ -36,6 +38,7 @@ function attachEventListeners() {
                     sliderValueDisplay.textContent = newValue;
                 }
             }
+            notifySubscribers();
         });
     });
 }
@@ -51,6 +54,27 @@ function getValue(key) {
     return value;
 }
 
-export default {
-    getValue
+function subscribe(callback) {
+    if (typeof callback === 'function') {
+        subscribers.push(callback);
+    }
 }
+
+function unsubscribe(callback) {
+    const index = subscribers.indexOf(callback);
+    if (index !== -1) {
+        subscribers.splice(index, 1);
+    }
+}
+
+function notifySubscribers() {
+    subscribers.forEach(callback => callback());
+}
+
+const configModule = {
+    getValue,
+    subscribe,
+    unsubscribe
+};
+
+export default configModule;

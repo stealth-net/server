@@ -17,6 +17,7 @@
 .slider-container {
 	display: block;
 	margin: inherit;
+	margin-bottom: 10px;
 }
 
 .slider-container label {

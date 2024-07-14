@@ -1,5 +1,5 @@
 import "../../../../Components/Action.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import events from "../../../../events";
 import { useFriends } from './FriendsContext';
 import { postData } from "../../../../Utils";
@@ -7,12 +7,26 @@ import socket from "../../../../Network/socket";
 import { useDM } from '../Direct/DMContext';
 
 function Friends() {
-    const { friends, setFriends } = useFriends();
+    const { friends = [], setFriends } = useFriends(); // Default to an empty array
     const { dmList, setDmList } = useDM();
+
+    const removeFriend = useCallback((id) => {
+        setFriends(prevFriends => prevFriends.filter(friend => friend.id !== id));
+    }, [setFriends]);
+
+    const updateOnlineCount = useCallback(() => {
+        if (friends) {
+            document.getElementById("online-count").textContent = friends.filter(friend => friend.status === "online").length;
+        }
+    }, [friends]);
 
     useEffect(() => {
         const handleFetchedProfile = (profile) => {
-            setFriends(profile.friends);
+            if (profile && profile.friends && Array.isArray(profile.friends)) {
+                setFriends(profile.friends);
+            } else {
+                setFriends([]);
+            }
         };
 
         const handleFriendAdded = (userData) => {
@@ -47,21 +61,13 @@ function Friends() {
             socket.off("friendRemove");
             socket.off("statusChanged");
         };
-    }, [setFriends]);
-
-    const removeFriend = (id) => {
-        setFriends(prevFriends => prevFriends.filter(friend => friend.id !== id));
-    };
+    }, [setFriends, removeFriend, updateOnlineCount]);
 
     const addDM = (userData) => {
         const existingDM = dmList.find(dm => dm.id === userData.id);
         if (!existingDM) {
             setDmList([...dmList, userData]);
         }
-    };
-
-    const updateOnlineCount = () => {
-        document.getElementById("online-count").textContent = friends.filter(friend => friend.status === "online").length;
     };
 
     const DMButton = ({ friend }) => (
@@ -86,9 +92,9 @@ function Friends() {
 
     return (
         <>
-            <label>Online: </label><span id="online-count">{friends.filter(friend => friend.status === "online").length}</span>
+            <label>Online: </label><span id="online-count">{Array.isArray(friends) ? friends.filter(friend => friend.status === "online").length : 0}</span>
             <div id="friend-list">
-                {friends.map((friend, index) => (
+                {Array.isArray(friends) ? friends.map((friend, index) => (
                     <div key={index} id={"friend-" + friend.id} className="friend-container" style={{ position: 'relative' }}
                         onMouseEnter={() => {
                             document.querySelector(`#friend-${friend.id} .container-actions`).style.display = 'flex';
@@ -104,7 +110,7 @@ function Friends() {
                             <RemoveButton friend={friend} />
                         </div>
                     </div>
-                ))}
+                )) : null}
             </div>
         </>
     );
