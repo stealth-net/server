@@ -2,9 +2,12 @@ import "./LeftMenu.css";
 import React from "react";
 import TabButton from "./TabButton";
 import { useDM } from '../Content/Home/Direct/DMContext';
+import Avatar from "../../Components/Avatar";
+import config from "../../Components/Config";
 
 function LeftMenu({ setActiveTab, activeTab }) {
 	const { dmList } = useDM();
+	const reducedAnimations = config.getValue("reduced-animations");
 
 	const handleTabChange = (newTab, params = {}) => {
 		if (activeTab.tab === newTab && activeTab.params.userId === params.userId) {
@@ -17,13 +20,15 @@ function LeftMenu({ setActiveTab, activeTab }) {
 		<div className="side-menu-left">
 			<TabButton
 				name="Home"
-				className={activeTab.tab === "Home" ? 'active' : ''}
+				state={activeTab.tab === "Home" ? 'active' : ''}
 				onClick={() => handleTabChange("Home")}
+				className={reducedAnimations ? '' : 'animated'}
 			/>
 			<TabButton
 				name="Settings"
-				className={activeTab.tab === "Settings" ? 'active' : ''}
+				state={activeTab.tab === "Settings" ? 'active' : ''}
 				onClick={() => handleTabChange("Settings")}
+				className={reducedAnimations ? '' : 'animated'}
 			/>
 			<div className="menu-separator">
 				<label>Direct Messages</label>
@@ -31,8 +36,7 @@ function LeftMenu({ setActiveTab, activeTab }) {
 			<div id="dm-list">
 				{dmList.map(dm => (
 					<div key={dm.id} className="friend-container" onClick={() => handleTabChange("DirectMessages", { userId: dm.id })}>
-						<img src={dm.pfpURL} alt={dm.username} width="46" height="46" />
-						<div className="friend-status" state={dm.status}></div>
+						<Avatar pfpURL={dm.pfpURL} status={dm.status} width="46" height="46" />
 						<label>{dm.username}</label>
 					</div>
 				))}

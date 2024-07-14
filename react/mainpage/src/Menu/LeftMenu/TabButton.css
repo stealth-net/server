@@ -1,6 +1,6 @@
 .side-menu-left button {
-	background-color: var(--lside-button-background);
-	color: var(--text-color);
+	background-color: var(--left-menu-background);
+	color: var(--left-menu-color);
 	text-align: left;
 	height: 33px;
 	width: 356px;
@@ -8,27 +8,27 @@
 	border-radius: 0;
 }
 
+.side-menu-left button.animated {
+	transition: background-color 0.25s cubic-bezier(1, -0.44, 0.99, 1.13), color 0.25s cubic-bezier(1, -0.44, 0.99, 1.13);
+}
+
 .side-menu-left button:hover {
-	background-color: var(--lside-button-hover-background);
+	background-color: var(--left-menu-hover-background);
 }
 
-.side-menu-left button.active:hover {
-	background-color: var(--button-hover-background);
+.side-menu-left button[state="active"]:hover {
+	background-color: var(--left-menu-hover-background);
 }
 
-.side-menu-left button.active {
-	background-color: var(--button-background);
+.side-menu-left button[state="active"] {
+	background-color: var(--left-menu-active-background);
+	color: var(--left-menu-active-color);
 }
 
 .side-menu-left button>label {
 	transition: color 0.25s cubic-bezier(1, -0.44, 0.99, 1.13);
 	position: absolute;
-	color: var(--placeholder-color);
 	border: none;
 	left: 1px;
 	top: 7px;
-}
-
-.side-menu-left button.active>label {
-	color: var(--active-color);
 }

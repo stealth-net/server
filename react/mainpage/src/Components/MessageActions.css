@@ -1,7 +1,6 @@
 .message-actions {
     display: none;
     float: inline-end;
-    background-color: #131320;
 }
 
 .message-actions.animated {
@@ -46,7 +45,7 @@
     background-color: var(--vector-background);
     color: var(--text-color);
     padding: 5px;
-    border-radius: 3px;
+    border-radius: 5px;
     font-size: 12px;
     white-space: nowrap;
     opacity: 0;

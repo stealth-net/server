@@ -1,10 +1,12 @@
 import "../../../../Components/Action.css";
+import "./Friends.css";
 import React, { useEffect, useCallback } from "react";
 import events from "../../../../events";
 import { useFriends } from './FriendsContext';
 import { postData } from "../../../../Utils";
 import socket from "../../../../Network/socket";
 import { useDM } from '../Direct/DMContext';
+import Avatar from '../../../../Components/Avatar';
 
 function Friends() {
     const { friends = [], setFriends } = useFriends(); // Default to an empty array
@@ -102,8 +104,7 @@ function Friends() {
                         onMouseLeave={() => {
                             document.querySelector(`#friend-${friend.id} .container-actions`).style.display = 'none';
                         }}>
-                        <img src={friend.pfpURL} alt={friend.username} width="64" height="64" />
-                        <div className="friend-status" state={friend.status}></div>
+                        <Avatar pfpURL={friend.pfpURL} status={friend.status} />
                         <label>{friend.username}</label>
                         <div className="container-actions" style={{ right: '10px', top: '10px', display: 'none' }}>
                             <DMButton friend={friend} />

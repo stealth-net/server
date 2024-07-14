@@ -1,0 +1,21 @@
+.friend-container {
+    display: flex;
+    align-items: center;
+}
+
+.friend-container:hover {
+    background-color: var(--lside-button-background)
+}
+
+.friend-container>label {
+    color: var(--active-color);
+}
+
+.friend-container[state="active"]>label {
+    color: var(--text-color);
+}
+
+#friend-list {
+    /* margin-top: 3px;*/
+    overflow-y: scroll;
+}

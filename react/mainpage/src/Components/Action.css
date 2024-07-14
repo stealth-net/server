@@ -12,6 +12,7 @@
 }
 
 .container-actions>button {
+	border: solid 1px var(--action-border);
 	width: 32px;
 	height: 32px;
 }

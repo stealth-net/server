@@ -11,6 +11,7 @@ function Settings() {
             <Slider dataSetting="space-between-messages" dataDefault="0" label="Space between message groups" min="0" max="10" />
             <Checkbox title="Enable this option to require a shift key to perform message actions" dataSetting="message-action-shift-require" dataDefault="false" label="Require shift key for message actions" />
             <Checkbox title="Enable this option to enable animations for message actions" dataSetting="message-action-animations" dataDefault="true" label="Enable animations for message actions" />
+            <Checkbox title="Enable this option to reduce animations" dataSetting="reduced-animations" dataDefault="false" label="Reduced animations" />
         </>
     );
 }

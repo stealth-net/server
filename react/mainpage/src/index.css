@@ -14,9 +14,15 @@
 	--button-background: #1d1d2f;
 	--button-hover-background: #2828419c;
 	--button-active-background: #252546;
-	--lside-button-background: #1D1D3080;
-	--lside-button-hover-background: #26263b;
 	--action-background: #1D1D2F;
+	
+	/* Left Menu Colors */
+	--left-menu-active-background: #1D1D30;
+	--left-menu-active-color: #8B91C3;
+	--left-menu-hover-background: #26263b;
+	--left-menu-hover-color: #26263b;
+	--left-menu-background: #1D1D3080;
+	--left-menu-color: #40446A;
 
 	/* Text Colors */
 	--text-color: #9EA4D6;
@@ -123,53 +129,6 @@ hr {
 	color: var(--active-color);
 }
 
-.friend-container {
-	display: flex;
-	align-items: center;
-}
-
-.friend-container:hover {
-	background-color: var(--lside-button-background)
-}
-
-.friend-container>img {
-	margin: 2 0 2 8;
-	border-radius: 5px;
-}
-
-.friend-container[state="active"] {
-	background-color: var(--lside-button-background);
-}
-
-.friend-status {
-	border-radius: 50%;
-	margin: 0 3 0 3;
-	height: 16px;
-	width: 16px;
-	flex-shrink: 0;
-	/* Prevents the element from shrinking */
-}
-
-.friend-status[state="online"] {
-	background-color: var(--online-status);
-}
-
-.friend-status[state="dnd"] {
-	background-color: var(--dnd-status);
-}
-
-.friend-status[state="offline"] {
-	background-color: var(--offline-status);
-}
-
-.friend-container>label {
-	color: var(--active-color);
-}
-
-.friend-container[state="active"]>label {
-	color: var(--text-color);
-}
-
 .centered {
 	text-align: center;
 }
@@ -188,11 +147,6 @@ dialog {
 
 div[class^="midsubtab-"]>label {
 	margin-left: 10px;
-}
-
-#friend-list {
-	/* margin-top: 3px;*/
-	overflow-y: scroll;
 }
 
 ::-webkit-scrollbar {
@@ -264,4 +218,33 @@ label {
 .spoiler:hover {
 	color: var(--text-color);
 	text-shadow: none;
+}
+
+.avatar {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.status {
+    border-radius: 50%;
+    position: absolute;
+    bottom: 4px;
+    border: 2px solid var(--background-color); /* Adjust the border color to match the background */
+}
+
+.status[state="online"] {
+    background-color: var(--online-status);
+}
+
+.status[state="dnd"] {
+    background-color: var(--dnd-status);
+}
+
+.status[state="offline"] {
+    background-color: var(--offline-status);
+}
+
+.status {
+	border: 2px solid var(--menu-content-background);
 }
