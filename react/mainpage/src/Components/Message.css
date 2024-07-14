@@ -1,17 +1,17 @@
 .message-content {
-	width: -webkit-fill-available;
-	height: 45px;
+    width: -webkit-fill-available;
+    height: 45px;
 }
 
 .message-container {
-	padding: 2 0 2 0;
-	clear: both;
-	/* Clear floats*/
-	position: relative;
+    padding: 2 0 2 0;
+    clear: both;
+    /* Clear floats*/
+    position: relative;
 }
 
 .message-container:hover {
-	background-color: var(--lside-button-background);
+    background-color: var(--lside-button-background);
 }
 
 .message-container:hover .message-actions {
@@ -19,60 +19,15 @@
 }
 
 .message-container>img {
-	margin-left: 20px;
-	float: left;
+    margin-left: 20px;
+    float: left;
 }
 
 .message-author>label:first-child,
 .message-group>* {
-	margin-left: 5px;
+    margin-left: 5px;
 }
 
 .message-author>label:nth-child(2) {
-	color: var(--placeholder-color);
-}
-
-.message-actions {
-    display: none;
-	float: inline-end;
-	background-color: #131320;
-}
-
-.message-action-button {
-    width: 30px;
-    height: 30px;
-    background-color: var(--vector-background);
-    border: 1px solid var(--vector-border);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
-}
-
-.message-action-button:first-child {
-    border-bottom-left-radius: 5px;
-}
-
-.message-action-button:hover .tooltip {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.tooltip {
-    position: absolute;
-    top: -25px;
-    background-color: var(--vector-background);
-    color: var(--text-color);
-    padding: 5px;
-    border-radius: 3px;
-    font-size: 12px;
-    white-space: nowrap;
-    opacity: 0;
-    font-family: Inria Sans;
-    transform: translateY(-10px);
-}
-
-.animated {
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    color: var(--placeholder-color);
 }
