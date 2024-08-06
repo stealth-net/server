@@ -55,6 +55,7 @@ function log(type, ...message) {
  * @returns {Object} An object where each key-value pair corresponds to a cookie name and its decoded value.
  */
 const parseCookies = cookieHeader => {
+    if (!cookieHeader) return {};
     return cookieHeader.split('; ').reduce((acc, cookie) => {
         const [key, value] = cookie.split('=');
         acc[key] = decodeURIComponent(value);

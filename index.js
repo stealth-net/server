@@ -9,10 +9,9 @@ const bodyParser = require("body-parser");
 const sqlite3 = require("sqlite3").verbose();
 const readline = require("readline");
 require('dotenv').config({ path: "./.env" });
-
 const config = require("./config.json");
-
 const { log, parseCookies } = require("./utils/log.js");
+const IdManager = require("./utils/idManager.js");
 
 if(!process.env.databaseKey) {
     log("WARN", "Please provide a database key in the .env");
@@ -23,7 +22,6 @@ const app = express();
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const publicDir = path.join(__dirname, config.publicDirectory);
 const server = http.createServer(app);
 const io = socketIO(server);
 
@@ -56,7 +54,7 @@ global.stealth = {
     server,
     io,
     config,
-    idManager: new (require("./utils/idManager.js"))("./database/lastId.txt"),
+    idManager: new IdManager("./database/lastId.txt"),
     database: db,
     env: process.env,
     log,
@@ -71,25 +69,9 @@ if(config.collectAnalytics) require("./utils/analytics.js");
 const { User, fetchUsers, querySearch } = require("./components/User.js");
 const { getBadge } = require("./components/Badge.js");
 
-app.get('/', (req, res) => {
-    if(!req.cookies.token) {
-        res.redirect("/sign-up");
-        return;
-    }
-
-    res.sendFile(path.join(publicDir, "/mainpage/index.html"));
-}); 
-
-app.use(express.static(path.join(publicDir, "/mainpage")));
-app.get("/mainpage/*", (req, res) => {
-    res.sendFile(path.join(publicDir, "/mainpage/index.html"));
-});
-app.use(express.static(publicDir));
-app.get("/sign-up", (req, res) => {
-    res.sendFile(path.join(publicDir, "/sign-up/index.html"));
-});
-app.get("/sign-in", (req, res) => {
-    res.sendFile(path.join(publicDir, "/sign-in/index.html"));
+app.use(express.static(path.join(__dirname, 'public')));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 io.on("connection", async socket => {

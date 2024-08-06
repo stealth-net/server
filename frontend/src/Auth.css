@@ -1,0 +1,133 @@
+body {
+	background-color: rgba(18, 15, 27);
+}
+
+input[type="password"] {
+	font: small-caption;
+	font-size: 1rem;
+}
+
+.auth-container {
+	background-color: rgba(23, 20, 35);
+	width: 800px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	overflow: hidden;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+}
+
+.auth-submit-button {
+	margin-bottom: 20px;
+}
+
+.auth-header {
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.auth-content {
+	display: flex;
+	width: 100%;
+	height: 100%;
+}
+
+.auth-form-title {
+	display: block;
+	margin-bottom: 15px;
+}
+
+.auth-form-container {
+	flex: 1;
+}
+
+.auth-button {
+	width: 390px;
+	height: 50px;
+	background-color: rgba(33, 28, 48);
+	overflow: hidden;
+	color: rgba(158, 164, 214);
+	font-family: Inria Sans;
+	font-weight: Regular;
+	font-size: 1rem;
+	text-align: center;
+	border: none;
+}
+
+.auth-input {
+	color: rgba(158, 164, 214, 1);
+	width: 390px;
+	height: 50px;
+	background-color: rgba(33, 28, 48);
+	overflow: hidden;
+	border: none;
+	margin-bottom: 10px;
+	font-family: Inria Sans;
+	font-weight: Regular;
+	font-size: 1rem;
+	padding: 0 10px;
+	display: flex;
+	align-items: center;
+}
+
+.auth-input::placeholder {
+	font-family: Inria Sans;
+	font-weight: Regular;
+	font-size: 1rem;
+	color: #40446A;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.auth-logo {
+	background: url("./images/icon.png");
+	background-size: cover;
+}
+
+.auth-logo-container {
+	text-align: center;
+	margin: 4rem 8rem 0 8rem;
+}
+
+.auth-logo-label {
+	font-weight: 400;
+	line-height: 100%;
+	letter-spacing: -0.06em;
+	text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.auth-text {
+	color: rgba(158, 164, 214);
+	font-family: Inria Sans;
+	font-weight: Regular;
+	font-size: 20px;
+}
+
+.auth-title {
+	color: rgba(139, 145, 195);
+	font-family: Inria Sans;
+	font-weight: Regular;
+	font-size: 1.5rem;
+}
+
+.fade-in {
+	opacity: 0;
+	animation: fadeInAnimation ease 1s;
+	animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}

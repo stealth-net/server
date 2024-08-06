@@ -19,17 +19,11 @@
 		"socket.io-client": "^4.7.5",
 		"sqlite3": "^5.1.7"
 	},
-	"devDependencies": {
-		"webpack": "^5.89.0",
-		"webpack-cli": "^5.1.4"
-	},
 	"scripts": {
 		"start": "node index.js",
-		"build-mainpage": "cd react/mainpage && npm run build",
-		"build-admin": "cd react/admin && npm run build",
-		"build": "npm run build-mainpage && npm run build-admin",
-		"serve": "npm run build-mainpage && node index.js",
-		"dev": "concurrently \"cd react/mainpage && npm run start\" \"node index.js\""
+		"build": "cd react && npm run build",
+		"serve": "npm run build && npm run start",
+		"dev": "concurrently \"cd react && npm run start\" \"node index.js\""
 	},
 	"keywords": [
 		"stealthnet",
@@ -37,9 +31,8 @@
 		"express",
 		"socket.io",
 		"sqlite3",
-		"webpack",
-		"webpack-cli",
-		"socket.io-client"
+		"socket.io-client",
+		"social"
 	],
 	"author": "scar17off",
 	"license": "MIT"

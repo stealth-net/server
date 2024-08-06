@@ -70,7 +70,6 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
       - [ ] Change email
       - [ ] Change username
       - [ ] Change language
-      - [x] Change avatar
   - [ ] Guilds
     - [ ] Create guild
     - [ ] Edit guild
@@ -106,15 +105,9 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
     - [ ] Edit server details
     - [ ] View members
   - [ ] System Logs
-    - [x] View logs
     - [ ] Clear logs
     - [ ] Run command
   - [/] Remove XSS vulnerabilities
-- [x] Policy
-  - [x] Privacy policy
-  - [x] Terms of service
-  - [x] Acceptable use policy
-  - [x] Disclaimer
 
 ## Logo
 #### Currently we are using a logo similar to the old [Linkin Park](https://en.wikipedia.org/wiki/Linkin_Park) logo. If you are a member of the rock band, please contact us by mail with a request to change the logo: scar17off@gmail.com.
