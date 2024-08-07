@@ -3,7 +3,9 @@ const { log } = require("../../../utils/log.js");
 const sendStatusIf = require("../../../utils/resStatus.js");
 
 module.exports = async (req, res) => {
-    const userProperties = await querySearch(req.body.email, "email");
+    const { email, password } = req.body;
+
+    const userProperties = await querySearch(email, "email");
 
     if (sendStatusIf(res, !userProperties, 404, "User not found.")) return;
 
@@ -12,7 +14,7 @@ module.exports = async (req, res) => {
 
     log("AUTH", `User ${user.id} signed in`);
 
-    if (sendStatusIf(res, user.password !== req.body.password, 401, "Invalid password.")) return;
+    if (sendStatusIf(res, user.password !== password, 401, "Invalid password.")) return;
 
     res.cookie("token", user.token);
     res.sendStatus(200);
