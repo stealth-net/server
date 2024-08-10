@@ -69,11 +69,22 @@ body {
 	height: 100%;
 }
 
+button,
+input,
+textarea,
+a,
+dialog,
+h2,
+label,
+p,
+span {
+	font-family: "Inria Sans", Helvetica;
+}
+
 button {
 	transition: background-color 0.15s linear;
 	background-color: var(--button-background);
 	color: var(--active-color);
-	font-family: Inria Sans;
 	font-weight: Regular;
 	font-size: 18px;
 	border: none;
@@ -85,7 +96,6 @@ input,
 textarea {
 	background-color: var(--input-background);
 	color: var(--text-color);
-	font-family: Inria Sans;
 	font-weight: Regular;
 	font-size: 18px;
 	border: none;
@@ -125,7 +135,6 @@ hr {
 }
 
 .menu-separator {
-	font-family: "Inria Sans", Helvetica;
 	text-align: center;
 	color: var(--active-color);
 }
@@ -140,7 +149,6 @@ span,
 dialog,
 p,
 h2 {
-	font-family: "Inria Sans", Helvetica;
 	color: var(--active-color);
 }
 

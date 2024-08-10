@@ -29,8 +29,7 @@ export const setLanguage = (language) => {
 }
 
 export const t = (key, params = {}) => {
-  const keys = key.split('.');
-  let translation = keys.reduce((obj, k) => (obj && obj[k] !== undefined ? obj[k] : undefined), translations[currentLanguage]);
+  let translation = translations[currentLanguage][key];
   
   if (translation === undefined) {
     console.warn(`Translation key '${key}' not found for language '${currentLanguage}'.`);
@@ -42,5 +41,4 @@ export const t = (key, params = {}) => {
 }
 
 export const getCurrentLanguage = () => currentLanguage;
-
 export const getSupportedLanguages = () => Object.keys(translations);
