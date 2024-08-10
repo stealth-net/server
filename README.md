@@ -1,5 +1,5 @@
 # StealthNet
-StealthNet is a secure chat application designed to safeguard your privacy and security. Unlike other messaging apps, StealthNet is entirely free from invasive tracking and telemetry, ensuring that your conversations remain confidential and your data is not harvested for any purpose.  
+StealthNet is a secure chat application designed to safeguard your privacy and security. Unlike other messaging apps, StealthNet is entirely free from invasive tracking and telemetry, ensuring that your conversations remain confidential and your data is not harvested for any purpose.
 
 ## Tech Stack
 StealthNet is built using Node.js and Express.js for the backend, and vanilla JavaScript for the frontend. It uses [sqlite3](https://www.sqlite.org/index.html) for secure data storage.
@@ -9,9 +9,8 @@ The codebase is organized into several directories and files:
 
 - [api](https://github.com/stealth-net/server/tree/main/api): Contains the routes and logic for user-related operations such as authentication, friend management, and messaging.
 - [utils](https://github.com/stealth-net/server/tree/main/utils): Contains utility functions for user and message management, analytics, and logging.
-- [public](https://github.com/stealth-net/server/tree/main/public): Contains the frontend code for the application, including HTML, CSS, and JavaScript files.
 - [components](https://github.com/stealth-net/server/tree/main/components): Contains essential classes that play a crucial role in the functionality of StealthNet. These classes are responsible for managing and organizing core elements of the application.
-- [react](https://github.com/stealth-net/client/tree/main/react): Contains the React components and hooks used to build the frontend of StealthNet.
+- [frontend](https://github.com/stealth-net/server/tree/main/frontend): Contains the React components and hooks used to build the frontend of StealthNet.
 
 ## Getting Started
 Getting started with StealthNet is a straightforward process, ensuring that you can quickly set up and enjoy a secure messaging experience. Follow these steps to get up and running:
@@ -43,7 +42,7 @@ node index.js
 ```
 
 ### Access StealthNet Locally
-Open your web browser and go to http://localhost:3000. You should see the StealthNet login page.
+Open your web browser and go to http://localhost:443. You should see the StealthNet login page.
 
 ## Hosting Flexibility with StealthNet
 One of the standout features of StealthNet is its exceptional hosting flexibility, allowing users to deploy and host the application effortlessly. Unlike many messaging apps that tie users to specific hosting platforms, StealthNet's architecture is designed for universal compatibility.
@@ -69,7 +68,6 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
       - [ ] Change password
       - [ ] Change email
       - [ ] Change username
-      - [ ] Change language
   - [ ] Guilds
     - [ ] Create guild
     - [ ] Edit guild
@@ -87,6 +85,7 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
   - [ ] Chat
     - [ ] Emoji picker
     - [ ] Chat color formatting
+    - [ ] Basic chat formatting
 - [ ] Admin portal
   - [ ] Analytics
   - [ ] User management
@@ -107,7 +106,6 @@ StealthNet thrives on collaboration and welcomes contributions from the open-sou
   - [ ] System Logs
     - [ ] Clear logs
     - [ ] Run command
-  - [/] Remove XSS vulnerabilities
 
 ## Logo
-#### Currently we are using a logo similar to the old [Linkin Park](https://en.wikipedia.org/wiki/Linkin_Park) logo. If you are a member of the rock band, please contact us by mail with a request to change the logo: scar17off@gmail.com.
+Currently we are using a logo similar to the old [Linkin Park](https://en.wikipedia.org/wiki/Linkin_Park) logo. If you are a member of the rock band, please contact us by mail with a request to change the logo: scar17off@gmail.com.
