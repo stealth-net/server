@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import Home from "./Content/Home/Home";
-import Settings from "./Content/Settings/Settings";
+import Settings from "./Content/Settings";
 import DirectMessages from "./Content/Home/Direct/DirectMessages";
 
 function Content({ activeTab }) {

@@ -2,9 +2,9 @@
 	background-color: var(--left-menu-background);
 	color: var(--left-menu-color);
 	text-align: left;
-	height: 33px;
-	width: 356px;
-	padding-left: 25px;
+	height: 2rem;
+	width: 350px;
+	padding-left: 1rem;
 	border-radius: 0;
 }
 

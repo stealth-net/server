@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Checkbox from "../../../Components/Checkbox";
-import Slider from "../../../Components/Slider";
-import Dropdown from "../../../Components/Dropdown";
-import { t, setLanguage, getCurrentLanguage, getSupportedLanguages } from "../../../../../localization/i18n";
+import Checkbox from "../../Components/Checkbox";
+import Slider from "../../Components/Slider";
+import Dropdown from "../../Components/Dropdown";
+import { t, setLanguage, getCurrentLanguage, getSupportedLanguages } from "../../../../localization/i18n";
 
 function Settings() {
     const [language, setLanguageState] = useState(getCurrentLanguage());
