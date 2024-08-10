@@ -137,7 +137,9 @@ hr {
 label,
 a,
 span,
-dialog {
+dialog,
+p,
+h2 {
 	font-family: "Inria Sans", Helvetica;
 	color: var(--active-color);
 }

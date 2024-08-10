@@ -24,5 +24,12 @@ export default {
   "Loading": "Loading",
   "Online": "Online",
   "Pin DM": "Pin DM",
-  "Close DM": "Close DM"
+  "Close DM": "Close DM",
+  "Create or Join Guild": "Create guild or Join guild",
+  "Create a guild to bring together a community.": "Create a guild to bring together a community.",
+  "Guild name": "Guild name",
+  "Create": "Create",
+  "Looking to join a community?": "Looking to join a community?",
+  "Invite code": "Invite code",
+  "Join": "Join"
 }
