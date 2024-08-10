@@ -4,10 +4,10 @@
 }
 
 .message-actions.animated {
-    animation: slide-in 0.3s ease forwards;
+    animation: slide-in-right 0.3s ease forwards;
 }
 
-@keyframes slide-in {
+@keyframes slide-in-right {
     from {
         transform: translateX(100%);
         opacity: 0;

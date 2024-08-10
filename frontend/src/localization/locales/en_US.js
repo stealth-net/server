@@ -22,5 +22,7 @@ export default {
   "Add": "Add",
   "Direct Messages": "Direct Messages",
   "Loading": "Loading",
-  "Online": "Online"
+  "Online": "Online",
+  "Pin DM": "Pin DM",
+  "Close DM": "Close DM"
 }
