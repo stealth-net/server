@@ -47,7 +47,6 @@ let db = new sqlite3.Database(config.databasePath, sqlite3.OPEN_READWRITE, err =
  * @property {Function} log - Logging function
  * @property {Object} sockets - Object to store sockets
 */
-
 global.stealth = {
     events: new EventEmitter(),
     app,

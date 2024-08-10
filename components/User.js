@@ -255,10 +255,19 @@ class User {
         return true;
     }
 
+    /**
+     * Get the socket associated with this user.
+     * @returns {Object|null} The socket object if found, or null if not found.
+     */
     getSocket() {
         return stealth.sockets[this.id] || null;
     }
 
+    /**
+     * Set the user's status and optionally broadcast the change to friends.
+     * @param {string} type - The new status type.
+     * @param {boolean} [broadcast=true] - Whether to broadcast the status change to friends.
+     */
     setStatus(type, broadcast = true) {
         this.status = type;
         this.set("status", type);
