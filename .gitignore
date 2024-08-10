@@ -1,6 +1,5 @@
 node_modules/
 database/
-public/mainpage
 package-lock.json
 .env
 public/
