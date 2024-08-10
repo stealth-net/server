@@ -3,7 +3,6 @@
 	align-items: center;
 	cursor: pointer;
 	margin-bottom: 5px;
-	/* Add space below each checkbox */
 }
 
 .checkbox-input {
@@ -19,7 +18,13 @@
 	border: 1px solid var(--checkbox-custom-border);
 	position: relative;
 	margin-right: 5px;
-	/* Adds some space between the checkbox and the text*/
+	/* Adds an animation to the checkbox */
+	transition: background-color 0.2s, border-color 0.2s;
+}
+/* Hover and focus styles */
+.checkbox-custom:hover, .checkbox-custom:focus {
+	background-color: var(--placeholder-color);
+	border-color: var(--active-color);
 }
 
 .checkbox-input:checked+.checkbox-custom::after {

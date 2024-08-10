@@ -3,6 +3,7 @@ import { postData } from "../../../../Utils"
 import events from "../../../../events"
 import socket from "../../../../Network/socket"
 import { useFriends } from "../Friends/FriendsContext";
+import { t } from "../../.././../../../localization/i18n"
 
 function PendingRequests() {
     const [pendingRequests, setPendingRequests] = useState([]);
@@ -88,7 +89,7 @@ function PendingRequests() {
 
                 if (userData)
                     setPendingRequests([...pendingRequests, { ...userData, ownRequest: true }]);
-            }}>Add</button>
+            }}>{t("Add")}</button>
             <div>
                 <ul id="pending-list" style={{ padding: "0" }}>
                     {pendingRequests.map((userData, index) => {

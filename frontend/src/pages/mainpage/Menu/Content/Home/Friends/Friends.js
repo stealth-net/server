@@ -7,6 +7,7 @@ import { postData } from "../../../../Utils";
 import socket from "../../../../Network/socket";
 import { useDM } from '../Direct/DMContext';
 import Avatar from '../../../../Components/Avatar';
+import { t } from "../../../../../../localization/i18n";
 
 function Friends() {
     const { friends = [], setFriends } = useFriends(); // Default to an empty array
@@ -94,7 +95,7 @@ function Friends() {
 
     return (
         <>
-            <label>Online: </label><span id="online-count">{Array.isArray(friends) ? friends.filter(friend => friend.status === "online").length : 0}</span>
+            <label>{t("Online")}: </label><span id="online-count">{Array.isArray(friends) ? friends.filter(friend => friend.status === "online").length : 0}</span>
             <div id="friend-list">
                 {Array.isArray(friends) ? friends.map((friend, index) => (
                     <div key={index} id={"friend-" + friend.id} className="friend-container" style={{ position: 'relative' }}

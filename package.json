@@ -21,9 +21,9 @@
 	},
 	"scripts": {
 		"start": "node index.js",
-		"build": "cd react && npm run build",
+		"build": "cd frontend && npm run build",
 		"serve": "npm run build && npm run start",
-		"dev": "concurrently \"cd react && npm run start\" \"node index.js\""
+		"dev": "concurrently \"cd frontend && npm run start\" \"node index.js\""
 	},
 	"keywords": [
 		"stealthnet",

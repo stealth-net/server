@@ -4,6 +4,7 @@ import TabButton from "./TabButton";
 import { useDM } from '../Content/Home/Direct/DMContext';
 import Avatar from "../../Components/Avatar";
 import config from "../../Components/Config";
+import { t } from "../../../../localization/i18n"
 
 function LeftMenu({ setActiveTab, activeTab }) {
 	const { dmList } = useDM();
@@ -19,19 +20,19 @@ function LeftMenu({ setActiveTab, activeTab }) {
 	return (
 		<div className="side-menu-left">
 			<TabButton
-				name="Home"
+				name={t("Home")}
 				state={activeTab.tab === "Home" ? 'active' : ''}
 				onClick={() => handleTabChange("Home")}
 				className={reducedAnimations ? '' : 'animated'}
 			/>
 			<TabButton
-				name="Settings"
+				name={t("Settings")}
 				state={activeTab.tab === "Settings" ? 'active' : ''}
 				onClick={() => handleTabChange("Settings")}
 				className={reducedAnimations ? '' : 'animated'}
 			/>
 			<div className="menu-separator">
-				<label>Direct Messages</label>
+				<label>{t("Direct Messages")}</label>
 			</div>
 			<div id="dm-list">
 				{dmList.map(dm => (

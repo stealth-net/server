@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import events from "../../events";
 import { formatTimestamp } from "../../Utils";
+import { t } from "../../../../localization/i18n"
 
 function Profile() {
     const [user, setUser] = useState(null);
@@ -47,7 +48,7 @@ function Profile() {
     };
 
     if (!user) {
-        return <div>Loading...</div>;
+        return <div>{t("Loading")}...</div>;
     }
 
     return (
@@ -60,7 +61,7 @@ function Profile() {
                 <input type="file" id="profile-pic-input" style={{ display: 'none' }} onChange={handleProfilePicChange} />
                 <img src={user.pfpURL} width="128" height="128" alt="Profile" onClick={() => document.getElementById('profile-pic-input').click()} />
                 <br />
-                <label>StealthNet member since:</label>
+                <label>{t("StealthNet member since")}:</label>
                 <br />
                 <label>{formatTimestamp(user.creationTime)}</label>
                 <hr />
@@ -69,7 +70,7 @@ function Profile() {
                         document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
                         window.location.reload();
                     }}
-                    id="profile-logout" style={{ width: '80%' }}>Log Out</button>
+                    id="profile-logout" style={{ width: '80%' }}>{t("Logout")}</button>
             </div>
         </div>
     );
