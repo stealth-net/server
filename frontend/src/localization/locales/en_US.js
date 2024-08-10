@@ -1,4 +1,4 @@
-export default {
+const translations = {
   "Friends": "Friends",
   "Pending requests": "Pending requests",
   "Show send message button": "Show send message button",
@@ -32,4 +32,6 @@ export default {
   "Looking to join a community?": "Looking to join a community?",
   "Invite code": "Invite code",
   "Join": "Join"
-}
+};
+
+export default translations;

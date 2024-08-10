@@ -1,4 +1,4 @@
-export default {
+const translations = {
   "Friends": "Сябры",
   "Pending requests": "Чакаючыя запыты",
   "Show send message button": "Паказаць кнопку адпраўкі паведамлення",
@@ -22,5 +22,16 @@ export default {
   "Add": "Дадаць",
   "Direct Messages": "Прыватныя паведамленні",
   "Loading": "Загрузка",
-  "Online": "У сетцы"
-}
+  "Online": "У сетцы",
+  "Pin DM": "Замацаваць ПП",
+  "Close DM": "Закрыць ПП",
+  "Create or Join Guild": "Стварыць або далучыцца да гільдыі",
+  "Create a guild to bring together a community.": "Стварыце гільдыю, каб аб'яднаць супольнасць.",
+  "Guild name": "Назва гільдыі",
+  "Create": "Стварыць",
+  "Looking to join a community?": "Хочаце далучыцца да супольнасці?",
+  "Invite code": "Код запрашэння",
+  "Join": "Далучыцца"
+};
+
+export default translations;

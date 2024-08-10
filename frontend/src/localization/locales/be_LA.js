@@ -1,4 +1,4 @@
-export default {
+const translations = {
   "Friends": "Syabry",
   "Pending requests": "Chakayuchyya zapyty",
   "Show send message button": "Pakazats' knopku adprawki pavyedamlyennya",
@@ -22,5 +22,16 @@ export default {
   "Add": "Dadats'",
   "Direct Messages": "Pryvatnyya pavyedamlyenni",
   "Loading": "Zahruzka",
-  "Online": "U syetsy"
-}
+  "Online": "U syetsy",
+  "Pin DM": "Zamatsavats' PP",
+  "Close DM": "Zakryts' PP",
+  "Create or Join Guild": "Stvaryts' abo daluchytstsa da hil'dyi",
+  "Create a guild to bring together a community.": "Stvarytsye hil'dyyu, kab ab'yadnats' supol'nasts'.",
+  "Guild name": "Nazva hil'dyi",
+  "Create": "Stvaryts'",
+  "Looking to join a community?": "Khochchatsye daluchytstsa da supol'nastsi?",
+  "Invite code": "Kod zaprashhennya",
+  "Join": "Daluchytstsa"
+};
+
+export default translations;

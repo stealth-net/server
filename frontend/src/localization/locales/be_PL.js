@@ -1,4 +1,4 @@
-export default {
+const translations = {
   "Friends": "Przyjaciele",
   "Pending requests": "Oczekujące prośby",
   "Show send message button": "Pokaż przycisk wysyłania wiadomości",
@@ -21,6 +21,17 @@ export default {
   "StealthNet member since": "Członek StealthNet od",
   "Add": "Dodaj",
   "Direct Messages": "Wiadomości bezpośrednie",
-  "Loading": "Ładowanie",
-  "Online": "Online"
-}
+  "Loading": "Zahruzka",
+  "Online": "U sietcy",
+  "Pin DM": "Zamacavać PP",
+  "Close DM": "Zakryć PP",
+  "Create or Join Guild": "Stvaryć abo dalučycca da hildzii",
+  "Create a guild to bring together a community.": "Stvarycie hildziju, kab abjadnać supolnaść.",
+  "Guild name": "Nazva hildzii",
+  "Create": "Stvaryć",
+  "Looking to join a community?": "Chočacie dalučycca da supolnaści?",
+  "Invite code": "Kod zaprašennia",
+  "Join": "Dalučycca"
+};
+
+export default translations;
