@@ -36,7 +36,7 @@ function LeftMenu({ setActiveTab, activeTab }) {
 			</div>
 			<div id="dm-list">
 				{dmList.map(dm => (
-					<div key={dm.id} className="friend-container" onClick={() => handleTabChange("DirectMessages", { userId: dm.id })}>
+					<div key={dm.id} className="friend-container" onClick={() => handleTabChange("DirectMessages", { userId: dm.id })} state={activeTab.tab === "DirectMessages" && activeTab.params.userId === dm.id ? 'active' : ''}>
 						<Avatar pfpURL={dm.pfpURL} status={dm.status} width="46" height="46" />
 						<label>{dm.username}</label>
 					</div>

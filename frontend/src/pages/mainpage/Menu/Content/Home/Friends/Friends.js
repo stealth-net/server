@@ -10,7 +10,7 @@ import Avatar from '../../../../Components/Avatar';
 import { t } from "../../../../../../localization/i18n";
 
 function Friends() {
-    const { friends = [], setFriends } = useFriends(); // Default to an empty array
+    const { friends = [], setFriends } = useFriends();
     const { dmList, setDmList } = useDM();
 
     const removeFriend = useCallback((id) => {

@@ -1,14 +1,16 @@
 .friend-container {
     display: flex;
     align-items: center;
+    padding: 5px;
 }
 
-.friend-container:hover {
-    background-color: var(--lside-button-background)
+.friend-container:hover, .friend-container[state="active"] {
+    background-color: rgba(29, 29, 48, 0.5);
 }
 
 .friend-container>label {
     color: var(--active-color);
+    margin-left: 5px;
 }
 
 .friend-container[state="active"]>label {
