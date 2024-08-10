@@ -74,9 +74,8 @@ function PendingRequests() {
             await handleCancelOrDenyRequest(userData, ownRequest);
             removeFriendRequest(userData.id);
         }}>
-            <svg width="24" height="24" viewBox="0 0 28 22">
-                <line x1="2.41421" y1="1.88596" x2="21.114" y2="20.5858" stroke="#6A4040" strokeWidth="4" />
-                <line x1="2.23007" y1="20.3978" x2="21.0421" y2="1.58577" stroke="#6A4040" strokeWidth="4" />
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.80761 1.80761L20.1924 20.1924M20.1924 1.80761L1.80761 20.1924" stroke="#6A4040" stroke-width="4"/>
             </svg>
         </button>
     );

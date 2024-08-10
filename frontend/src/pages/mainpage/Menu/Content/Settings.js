@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Checkbox from "../../Components/Checkbox";
 import Slider from "../../Components/Slider";
 import Dropdown from "../../Components/Dropdown";

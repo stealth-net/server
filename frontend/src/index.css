@@ -32,6 +32,7 @@
 	/* Status Colors */
 	--online-status: #66c02f;
 	--dnd-status: #c02f2f;
+	--idle-status: #FFB800;
 	--offline-status: #333333;
 
 	/* Scrollbar Colors */
@@ -218,13 +219,6 @@ label {
 .spoiler:hover {
 	color: var(--text-color);
 	text-shadow: none;
-}
-
-.avatar {
-	display: flex;
-	align-items: center;
-	position: relative;
-	border-radius: 5px;
 }
 
 .status {
