@@ -69,7 +69,7 @@ function DirectMessages({ userId }) {
     const addMessage = (messageData, onTop = false) => {
         const messageContainer = document.getElementById("dm-messages");
         const messageWrapper = document.createElement('div');
-        const messageElement = React.createElement(Message, { messageData, className: "message-container", style: { marginBottom: config.getValue("space-between-messages") + "px" } });
+        const messageElement = React.createElement(Message, { messageData, className: "message-container" });
         ReactDOM.createRoot(messageWrapper).render(messageElement);
         
         if (onTop) {
@@ -159,7 +159,7 @@ function DirectMessages({ userId }) {
 
     return (
         <>
-            <div id="dm-messages" style={{ display: 'flex', flexDirection: 'column' }}></div>
+            <div id="dm-messages" style={{ display: 'flex', flexDirection: 'column', gap: config.getValue("space-between-messages") + "px" }}></div>
             <div className="dm-bottom-bar">
                 <AttachFileButton getRecipientId={() => recipientId} onFileUpload={handleFileUpload} />
                 <ChatInput

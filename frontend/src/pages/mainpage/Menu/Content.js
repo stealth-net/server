@@ -5,7 +5,7 @@ import DirectMessages from "./Content/Home/Direct/DirectMessages";
 
 function Content({ activeTab }) {
     return (
-        <div className="menu-content" style={{ padding: '10px' }}>
+        <div className="menu-content">
             {activeTab.tab === 'Home' && <Home />}
             {activeTab.tab === 'Settings' && <Settings />}
             {activeTab.tab === 'DirectMessages' && <DirectMessages userId={activeTab.params.userId} />}

@@ -14,7 +14,7 @@ function Settings() {
     };
 
     return (
-        <>
+        <div style={{ padding: '0.5rem' }}>
             <Checkbox title={t("Enable this option to show the send message button")} dataSetting="show-send-message-button" dataDefault="true" label={t("Show send message button")} />
             <Checkbox title={t("Enable this option to save your messages")} dataSetting="save-messages" dataDefault="true" label={t("Save messages")} />
             <Checkbox title={t("Enable this option to save your attachments")} dataSetting="save-attachments" dataDefault="true" label={t("Save attachments")} />
@@ -23,7 +23,7 @@ function Settings() {
             <Checkbox title={t("Enable this option to enable animations for message actions")} dataSetting="message-action-animations" dataDefault="true" label={t("Enable animations for message actions")} />
             <Checkbox title={t("Enable this option to reduce animations")} dataSetting="reduced-animations" dataDefault="false" label={t("Reduced animations")} />
             <Dropdown title={t("Language")} dataSetting="language" dataDefault={language} label={t("Language")} options={getSupportedLanguages()} handleChange={handleLanguageChange} />
-        </>
+        </div>
     );
 }
 

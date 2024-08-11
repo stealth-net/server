@@ -11,8 +11,8 @@ function Home() {
 
     return (
         <FriendsProvider>
-            <>
-                <div className="menucontent-tablist" style={{ paddingBottom: '10px' }}>
+            <div style={{ padding: '0.5rem' }}>
+                <div className="menucontent-tablist" style={{ paddingBottom: '0.5rem' }}>
                     <TabButton name={t("Friends")} active={activeTab === "Friends"} onClick={() => setActiveTab("Friends")} />
                     <TabButton name={t("Pending requests")} active={activeTab === "Pending requests"} onClick={() => setActiveTab("Pending requests")} />
                 </div>
@@ -21,7 +21,7 @@ function Home() {
                     {activeTab === "Pending requests" && <PendingRequests />}
                     {activeTab === "Direct" && <Direct />}
                 </div>
-            </>
+            </div>
         </FriendsProvider>
     );
 }
