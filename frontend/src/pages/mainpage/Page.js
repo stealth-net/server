@@ -1,4 +1,4 @@
-import GuildList from './Menu/GuildList/GuildList';
+import GuildSidebar from './Menu/GuildSidebar/GuildSidebar';
 import LeftMenu from './Menu/LeftMenu/LeftMenu';
 import Content from './Menu/Content';
 import RightMenu from './Menu/RightMenu/RightMenu';
@@ -22,7 +22,7 @@ function App() {
 	return (
 		<DMProvider>
 			<>
-				<GuildList />
+				<GuildSidebar />
 				<LeftMenu activeTab={activeTab} setActiveTab={setActiveTab} />
 				{activeTab.tab === "DirectMessages" ? <Content activeTab={activeTab} userId={activeTab.params.userId} /> : <Content activeTab={activeTab} />}
 				<RightMenu rightMenuContent={rightMenuContent} />
