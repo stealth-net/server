@@ -4,6 +4,7 @@ import uk_GA from './locales/uk_GA';
 import be_BY from './locales/be_BY';
 import be_LA from './locales/be_LA';
 import be_PL from './locales/be_PL';
+import ru_RU from './locales/ru_RU';
 
 const translations = {
   en_US,
@@ -11,7 +12,8 @@ const translations = {
   uk_GA,
   be_BY,
   be_LA,
-  be_PL
+  be_PL,
+  ru_RU
 }
 
 let currentLanguage = localStorage.getItem('language');

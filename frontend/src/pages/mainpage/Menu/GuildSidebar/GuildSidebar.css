@@ -1,4 +1,4 @@
-.guild-list {
+.guild-sidebar {
 	background-color: var(--guildlist-background);
 	text-align: center;
 	width: 64px;
@@ -10,7 +10,7 @@
 	flex-direction: column;
 }
 
-.guildlist-logo {
+.guild-sidebar-home {
 	background-color: transparent;
 	transition: filter 0.5s;
 	object-fit: cover;
@@ -18,7 +18,7 @@
 	width: 62px;
 }
 
-.guildlist-logo:hover {
+.guild-sidebar-home:hover {
 	filter: brightness(1.5);
 }
 

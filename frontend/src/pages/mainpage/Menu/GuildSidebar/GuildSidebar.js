@@ -26,7 +26,7 @@ function GuildSidebar() {
 
 	return (
 		<div className="guild-sidebar">
-			<img className="guildsidebar-home" src="/static/img/logo_transparent.png" alt="Guild Logo" />
+			<img className="guild-sidebar-home" src="/static/img/logo_transparent.png" alt="Guild Logo" />
 			<hr />
 			<div id="guild-list"></div>
 			<AddServerButton onClick={handleAddServerClick} />
