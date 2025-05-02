@@ -1,62 +1,30 @@
 @import url("https://fonts.googleapis.com/css?family=Inria+Sans:400");
 
 :root {
-	/* Background Colors */
-	--background-dark: rgb(17, 15, 26);
-	--input-background: #11111a;
-	--guildlist-background: #171724;
-	--menu-background: #13121f;
-	--menu-content-background: #191929;
-	--dm-bottombar-background: #131320;
-	--modal-window-background: #171724;
+	/* Theme Colors */
+	--theme-background-primary: rgb(17, 15, 26);
+	--theme-input-background: #11111a;
 
-	/* Button Colors */
-	--button-background: #1d1d2f;
-	--button-hover-background: #2828419c;
-	--button-active-background: #252546;
-	--action-background: #1D1D2F;
+	/* Typography Colors */
+	--text-primary: #9EA4D6;
+	--text-secondary: #40446a;
+	--text-accent: #8B91C3;
 
-	/* Left Menu Colors */
-	--left-menu-active-background: #1D1D30;
-	--left-menu-active-color: #8B91C3;
-	--left-menu-hover-background: #26263b;
-	--left-menu-hover-color: #26263b;
-	--left-menu-background: #1D1D3080;
-	--left-menu-color: #40446A;
-
-	/* Text Colors */
-	--text-color: #9EA4D6;
-	--placeholder-color: #40446a;
-	--active-color: #8B91C3;
-
-	/* Status Colors */
-	--online-status: #66c02f;
-	--dnd-status: #c02f2f;
-	--idle-status: #FFB800;
-	--offline-status: #333333;
-
-	/* Scrollbar Colors */
+	/* UI Element Colors */
 	--scrollbar-thumb: #8B91C3;
 	--scrollbar-thumb-hover: #9EA4D6;
+	--divider-color: #40446a;
+	--checkbox-border: #131320;
 
-	/* Border Colors */
-	--hr-background: #40446a;
-	--action-border: #131320;
-	--checkbox-custom-border: #131320;
-
-	/* Checkbox Colors */
-	--checkbox-custom-background: #1D1D2F;
-	--checkbox-checked: #5e8a48;
-
-	/* Vector */
-	--vector: #51567C;
+	/* Vector Graphics Colors */
+	--vector-primary: #51567C;
 	--vector-background: #1D1D2F;
 	--vector-border: #131320;
 }
 
 html,
 body {
-	background-color: var(--background-dark);
+	background-color: var(--theme-background-primary);
 	overflow-x: hidden;
 	width: 100%;
 	height: 100%;
@@ -83,8 +51,8 @@ span {
 
 button {
 	transition: background-color 0.15s linear;
-	background-color: var(--button-background);
-	color: var(--active-color);
+	background-color: var(--theme-input-background);
+	color: var(--text-accent);
 	font-weight: Regular;
 	font-size: 18px;
 	border: none;
@@ -94,8 +62,8 @@ button {
 
 input,
 textarea {
-	background-color: var(--input-background);
-	color: var(--text-color);
+	background-color: var(--theme-input-background);
+	color: var(--text-primary);
 	font-weight: Regular;
 	font-size: 18px;
 	border: none;
@@ -106,42 +74,21 @@ textarea {
 
 input::placeholder,
 textarea::placeholder {
-	color: var(--placeholder-color);
+	color: var(--text-secondary);
 }
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
-	background-color: var(--input-background) !important;
+	background-color: var(--theme-input-background) !important;
 }
 
 hr {
-	background-color: var(--hr-background);
+	background-color: var(--divider-color);
 	border-radius: 1px;
 	height: 2px;
 	margin: 0 2 0 2;
 	border: none;
-}
-
-.centered>hr {
-	margin: 5 10 5 10;
-}
-
-.menu-content {
-	background-color: var(--menu-content-background);
-	width: 100%;
-	max-height: 100%;
-	overflow: auto;
-	overflow-x: hidden;
-}
-
-.menu-separator {
-	text-align: center;
-	color: var(--active-color);
-}
-
-.centered {
-	text-align: center;
 }
 
 label,
@@ -150,11 +97,7 @@ span,
 dialog,
 p,
 h2 {
-	color: var(--active-color);
-}
-
-div[class^="midsubtab-"]>label {
-	margin-left: 10px;
+	color: var(--text-accent);
 }
 
 ::-webkit-scrollbar {
@@ -171,11 +114,11 @@ div[class^="midsubtab-"]>label {
 	background-color: var(--scrollbar-thumb-hover);
 }
 
-.brightness-effect {
+.hover-brightness {
 	transition: 0.4s;
 }
 
-.brightness-effect:hover {
+.hover-brightness:hover {
 	filter: brightness(1.5);
 	transition: 0.4s;
 }
@@ -187,54 +130,4 @@ textarea,
 button,
 label {
 	cursor: url('data:image/svg+xml;utf8,<svg width="26" height="27" viewBox="0 0 26 27" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M23.5 12.5L16 16L12.5 24L3 3L23.5 12.5Z" stroke="%2351567C" stroke-width="2"/></svg>'), auto;
-}
-
-.guild-name {
-	display: none;
-	position: absolute;
-	background: var(--menu-background);
-	color: var(--text-color);
-	z-index: 2;
-}
-
-.modal-window {
-	width: 37%;
-	height: 42%;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(calc(-50% - 42% / 2), -50%);
-	border: none;
-	border-radius: 10px;
-	padding: 20px;
-	background-color: var(--modal-window-background);
-	box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5);
-}
-
-.spoiler {
-	color: transparent;
-	text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-}
-
-.spoiler:hover {
-	color: var(--text-color);
-	text-shadow: none;
-}
-
-.status {
-	border-radius: 50%;
-	position: absolute;
-	border: 2px solid var(--menu-content-background);
-}
-
-.status[state="online"] {
-	background-color: var(--online-status);
-}
-
-.status[state="dnd"] {
-	background-color: var(--dnd-status);
-}
-
-.status[state="offline"] {
-	background-color: var(--offline-status);
 }
