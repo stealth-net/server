@@ -7,7 +7,7 @@ input[type="password"] {
 	font-size: 1rem;
 }
 
-.auth-container {
+.authContainer {
 	background-color: rgba(23, 20, 35);
 	width: 800px;
 	position: absolute;
@@ -21,31 +21,31 @@ input[type="password"] {
 	box-sizing: border-box;
 }
 
-.auth-submit-button {
+.authSubmitButton {
 	margin-bottom: 20px;
 }
 
-.auth-header {
+.authHeader {
 	margin-bottom: 20px;
 	text-align: center;
 }
 
-.auth-content {
+.authContent {
 	display: flex;
 	width: 100%;
 	height: 100%;
 }
 
-.auth-form-title {
+.authFormTitle {
 	display: block;
 	margin-bottom: 15px;
 }
 
-.auth-form-container {
+.authFormContainer {
 	flex: 1;
 }
 
-.auth-button {
+.authButton {
 	width: 390px;
 	height: 50px;
 	background-color: rgba(33, 28, 48);
@@ -58,7 +58,7 @@ input[type="password"] {
 	border: none;
 }
 
-.auth-input {
+.authInput {
 	color: rgba(158, 164, 214, 1);
 	width: 390px;
 	height: 50px;
@@ -74,49 +74,49 @@ input[type="password"] {
 	align-items: center;
 }
 
-.auth-input::placeholder {
+.authInput::placeholder {
 	font-family: Inria Sans;
 	font-weight: Regular;
 	font-size: 1rem;
 	color: #40446A;
 }
 
-.text-center {
+.textCenter {
 	text-align: center;
 }
 
-.auth-logo {
+.authLogo {
 	background: url("./images/icon.png");
 	background-size: cover;
 }
 
-.auth-logo-container {
+.authLogoContainer {
 	text-align: center;
 	margin: 4rem 8rem 0 8rem;
 }
 
-.auth-logo-label {
+.authLogoLabel {
 	font-weight: 400;
 	line-height: 100%;
 	letter-spacing: -0.06em;
 	text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
-.auth-text {
+.authText {
 	color: rgba(158, 164, 214);
 	font-family: Inria Sans;
 	font-weight: Regular;
 	font-size: 20px;
 }
 
-.auth-title {
+.authTitle {
 	color: rgba(139, 145, 195);
 	font-family: Inria Sans;
 	font-weight: Regular;
 	font-size: 1.5rem;
 }
 
-.fade-in {
+.fadeIn {
 	opacity: 0;
 	animation: fadeInAnimation ease 1s;
 	animation-fill-mode: forwards;

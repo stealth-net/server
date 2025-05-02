@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import './index.css';
-import MainPage from './pages/mainpage/Page';
-import SignUpPage from './pages/sign-up/Page';
-import SignInPage from './pages/sign-in/Page';
+import MainPage from './pages/Mainpage_View';
+import SignUpPage from './pages/SignUp_View';
+import SignInPage from './pages/SignIn_View';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

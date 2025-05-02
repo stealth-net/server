@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../Auth.css';
+import styles from '../Auth.module.css';
 
 const SignInPage = () => {
 	const [email, setEmail] = useState('');
@@ -26,34 +26,34 @@ const SignInPage = () => {
 	};
 
 	return (
-		<div className="auth-container fade-in">
-			<div className="auth-header">
-				<span className="auth-title">Welcome back! Sign in to your account</span>
+		<div className={`${styles.authContainer} ${styles.fadeIn}`}>
+			<div className={styles.authHeader}>
+				<span className={styles.authTitle}>Welcome back! Sign in to your account</span>
 			</div>
-			<div className="auth-content">
-				<div className="auth-form-container text-center">
-					<span style={{ fontSize: '1.25rem' }} className="auth-form-title">Enter your credentials</span>
+			<div className={styles.authContent}>
+				<div className={`${styles.authFormContainer} ${styles.textCenter}`}>
+					<span style={{ fontSize: '1.25rem' }} className={styles.authFormTitle}>Enter your credentials</span>
 					<input
-						className="auth-input"
+						className={styles.authInput}
 						placeholder="Email"
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 					/>
 					<input
-						className="auth-input"
+						className={styles.authInput}
 						placeholder="Password"
 						type="password"
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
 					/>
-					<button className="auth-button auth-submit-button" onClick={handleSignIn}>Sign in</button>
-					<div className="text-center">
-						<span className="auth-text">Don't have an account? <a href="/sign-up">Sign up</a></span>
+					<button className={`${styles.authButton} ${styles.authSubmitButton}`} onClick={handleSignIn}>Sign in</button>
+					<div className={styles.textCenter}>
+						<span className={styles.authText}>Don't have an account? <a href="/sign-up">Sign up</a></span>
 					</div>
 				</div>
-				<div className="auth-logo-container">
-					<div className="auth-logo" style={{ width: '128px', height: '128px' }}></div>
-					<span className="auth-logo-label">StealthNet</span>
+				<div className={styles.authLogoContainer}>
+					<div className={styles.authLogo} style={{ width: '128px', height: '128px' }}></div>
+					<span className={styles.authLogoLabel}>StealthNet</span>
 				</div>
 			</div>
 		</div>
