@@ -20,13 +20,6 @@ cd frontend
 npm install
 ```
 
-### Set Up Environment Variables
-Create a .env file in the root directory to store environment variables. These variables include sensitive information like the database key. Open the .env file in a text editor and add the following:
-```plaintext
-databaseKey=yourSecretKey
-```
-Replace yourSecretKey with a strong and secure key for database encryption.
-
 ### Start the Server
 Run the following command to start the StealthNet server:
 ```bash

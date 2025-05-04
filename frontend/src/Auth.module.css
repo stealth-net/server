@@ -131,3 +131,19 @@ input[type="password"] {
 		opacity: 1;
 	}
 }
+
+.errorMessage {
+	color: #ff6b6b;
+	background-color: rgba(255, 107, 107, 0.1);
+	border: 1px solid rgba(255, 107, 107, 0.2);
+	padding: 12px 16px;
+	border-radius: 4px;
+	margin-bottom: 20px;
+	font-size: 14px;
+	font-family: Inria Sans;
+	font-weight: Regular;
+	text-align: center;
+	backdrop-filter: blur(4px);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	animation: fadeInAnimation ease 0.3s;
+}
